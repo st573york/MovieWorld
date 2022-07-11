@@ -12,7 +12,7 @@ FILES
 	- Route all requests to index.php
 
 index.php
-	- Handles user's $_SESSION, login, logout requests etc
+	- Handles users $_SESSION, login, logout requests etc
 
 login.php
 	- Displays login page with ability to register new user
@@ -20,8 +20,6 @@ login.php
 
 registration.php
 	- Ability to register new user, it uses md5 hash for password
-	  - The password encryption/hashing could be improved by using a nonce (sent to the client as a challenge) and server's public private keypair
-	    but that would require more work :)
 
 ajax/process-movie.php
 	- Ability to add, like, hate and sort movies on server side
@@ -40,8 +38,8 @@ modules/user-movies.php
 	- Ability to add New Movie
 	- Ability to sort by likes/hates/dates
 
-sql/create-db.sql
+database/create-db.sql
 	- Database structure
 
-sql/db.php
+database/db.php
 	- Database connection management
