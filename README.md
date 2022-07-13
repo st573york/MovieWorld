@@ -8,9 +8,6 @@
 FILES
 #####
 
-.htaccess
-	- Route all requests to index.php
-
 index.php
 	- Handles users $_SESSION, login, logout requests etc
 
