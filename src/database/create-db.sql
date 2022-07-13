@@ -5,7 +5,7 @@
 */
 CREATE TABLE users
 (
-    userid	   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    userid     BIGINT AUTO_INCREMENT PRIMARY KEY,
     username   VARCHAR(40) NOT NULL,
     password   VARCHAR(64) NOT NULL,
     email      VARCHAR(250) NOT NULL
@@ -20,7 +20,7 @@ CREATE UNIQUE INDEX users_username_idx ON users( username );
 */
 CREATE TABLE movies
 (
-	movieid		      BIGINT AUTO_INCREMENT PRIMARY KEY,
+	movieid		  BIGINT AUTO_INCREMENT PRIMARY KEY,
 	title             VARCHAR(64) NOT NULL,
 	description       TEXT,
 	userid            BIGINT NOT NULL REFERENCES users( userid ),
