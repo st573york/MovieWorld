@@ -9,9 +9,9 @@ function open_db()
     global $conn;
 
     $servername = "localhost";
-    $username = "root";
-    $password = "Milanezos7";
-    $dbname = "test";
+    $username = "";
+    $password = "";
+    $dbname = "";
     
     if( !$conn )
     {
