@@ -76,7 +76,7 @@ class Movie
 
             echo "</div>";
         }
-        echo "<div><h2>Posted by $posted_by</h2></div>";
+        echo "<div><h2>Posted by <span class=\"posted_by\">$posted_by</span></h2></div>";
         echo "</div>";
     }
 }
