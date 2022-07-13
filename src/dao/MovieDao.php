@@ -44,7 +44,7 @@ class MovieDao
                 }
             }
 
-            $query = "SELECT *, date_format( creation_date, '%d %M %Y %H:%i' ) AS posted, users.username AS posted_by
+            $query = "SELECT *, date_format( creation_date, '%d %M %Y %H:%i:%s' ) AS posted, users.username AS posted_by
                       FROM {$this->table}
                       LEFT JOIN users ON movies.userid = users.userid
                       ORDER BY $order_by DESC";
