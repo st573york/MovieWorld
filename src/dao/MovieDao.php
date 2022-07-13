@@ -24,7 +24,7 @@ class MovieDao
 
         try
         {            
-            $order_by = 'title';
+            $order_by = 'creation_date';
             if( $order )
             {
                 switch( $order )
