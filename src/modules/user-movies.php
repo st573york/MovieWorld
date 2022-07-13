@@ -66,7 +66,7 @@
 <body>
     <div>
         <h1>Movie World</h1>
-        <p>Welcome Back <b><?php echo $_SESSION['username'] ?></b></p>
+        <p>Welcome Back <span class="loggedin_user"><?php echo $_SESSION['username'] ?></span></p>
         <p><a href="/logout">Logout</a></p>
     </div>
     <!-- Movie Form -->
