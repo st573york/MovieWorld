@@ -13,9 +13,7 @@
         <div class="field"><input type="text" name="email" placeholder="Email Address"></div>
         <div class="field"><input type="submit" name="submit" value="Register"></div>
     </form>
-<?php
-    require('index.php');
-            
+<?php            
     if( isset( $_POST['username'] ) )
     {
         $values = array();
