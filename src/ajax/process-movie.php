@@ -23,9 +23,8 @@ switch( $action )
 {
 case 'add':    
     $movie_values = array();
-    $movie_values['userid'] = $_SESSION['userid'];
-
     $popupDialogData = array();
+
     parse_str( $_POST['popupDialogData'], $popupDialogData );
     
     foreach( $popupDialogData as $key => $val ) {
@@ -44,7 +43,6 @@ case 'like':
     $movie_values['movieid'] = $_POST['movieid'];
 
     $movie_vote_values = array();
-    $movie_vote_values['userid'] = $_SESSION['userid'];
     $movie_vote_values['movieid'] = $_POST['movieid'];
     $movie_vote_values['vote_like'] = true;
     
@@ -82,7 +80,6 @@ case 'hate':
     $movie_values['movieid'] = $_POST['movieid'];
 
     $movie_vote_values = array();
-    $movie_vote_values['userid'] = $_SESSION['userid'];
     $movie_vote_values['movieid'] = $_POST['movieid'];
     $movie_vote_values['vote_hate'] = true;
         
@@ -115,6 +112,7 @@ case 'hate':
     echo json_encode( $obj );
 
     break;
+case 'sort_by_user':
 case 'sort_by_likes':
 case 'sort_by_hates':
 case 'sort_by_dates':
