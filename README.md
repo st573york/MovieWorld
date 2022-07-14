@@ -18,10 +18,10 @@ logout.php
 * Handles logout request
 
 registration.php
-* New registration page
+* Handles new users
 
 ajax/process-movie.php
-* Ajax page
+* Handles AJAX requests
 
 css/main.css
 css/movie.css
