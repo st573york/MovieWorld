@@ -17,12 +17,12 @@ $action = $_POST['action'];
 
 $obj = array( 'resp' => true );
 
-$movie_values = array();
 $movie_dao = new MovieDao;
 
 switch( $action )
 {
 case 'add':    
+    $movie_values = array();
     $movie_values['userid'] = $_SESSION['userid'];
 
     $popupDialogData = array();
@@ -40,6 +40,8 @@ case 'add':
 
     break;
 case 'like':
+    $ret = true;
+
     $movie_vote_values = array();
     $movie_vote_values['userid'] = $_SESSION['userid'];
     $movie_vote_values['movieid'] = $_POST['movieid'];
@@ -57,16 +59,24 @@ case 'like':
         $movie_vote_dao->insert( $movie_vote_values );
     }
 
+    $movie_values = array();
     $movie_values['movieid'] = $_POST['movieid'];
         
-    if( !$movie_dao->updateVoteLike( $movie_values ) ) {
-        $obj['resp'] = false;
-    }
+    $ret &= $movie_dao->updateVoteLike( $movie_values );
+
+    $movie_values = array();
+    $ret &= $movie_dao->get( $_POST['movieid'], $movie_values );
+
+    $obj['resp'] = $ret;
+    $obj['like_votes'] = $movie_values['number_of_likes'];
+    $obj['hate_votes'] = $movie_values['number_of_hates'];
 
     echo json_encode( $obj );
 
     break;
 case 'hate':
+    $ret = true;
+
     $movie_vote_values = array();
     $movie_vote_values['userid'] = $_SESSION['userid'];
     $movie_vote_values['movieid'] = $_POST['movieid'];
@@ -84,11 +94,17 @@ case 'hate':
         $movie_vote_dao->insert( $movie_vote_values );
     }
 
+    $movie_values = array();
     $movie_values['movieid'] = $_POST['movieid'];
     
-    if( !$movie_dao->updateVoteHate( $movie_values ) ) {
-        $obj['resp'] = false;
-    }
+    $ret &= $movie_dao->updateVoteHate( $movie_values );
+   
+    $movie_values = array();
+    $ret &= $movie_dao->get( $_POST['movieid'], $movie_values );
+
+    $obj['resp'] = $ret;
+    $obj['like_votes'] = $movie_values['number_of_likes'];
+    $obj['hate_votes'] = $movie_values['number_of_hates'];
 
     echo json_encode( $obj );
 
