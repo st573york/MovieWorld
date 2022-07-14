@@ -65,7 +65,11 @@
 <body>
     <div>
         <h1>Movie World</h1>
-        <p>Welcome Back <span class="loggedin_user"><?php echo $_SESSION['username'] ?></span></p>
+        <p>Welcome Back 
+            <span class="loggedin_user">
+                <a href="javascript:sortMovies( 'sort_by_user', 0 )"><?php echo $_SESSION['username'] ?></a>
+            </span>
+        </p>
         <p><a href="logout.php">Logout</a></p>
     </div>
     <!-- Movie Form -->
