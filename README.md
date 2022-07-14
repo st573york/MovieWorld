@@ -34,7 +34,7 @@ dao/UserDao.php
 * Data access objects 
 
 database/create-db.sql
-* Database structure
+* Database schema
 
 database/db.php
 * Database connection management
