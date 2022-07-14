@@ -27,7 +27,7 @@ class MovieVoteDao
 
 			$stmt = $conn->prepare( $query );
 			$stmt->bindParam( ':movieid', $values['movieid'], PDO::PARAM_INT );
-            $stmt->bindParam( ':userid', $values['userid'], PDO::PARAM_INT );
+            $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
 			$stmt->execute();
 			
 			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
@@ -54,7 +54,7 @@ class MovieVoteDao
 
 			$stmt = $conn->prepare( $query );
 			$stmt->bindParam( ':movieid', $values['movieid'], PDO::PARAM_INT );
-            $stmt->bindParam( ':userid', $values['userid'], PDO::PARAM_INT );
+            $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
 			$stmt->execute();
 			
 			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
@@ -92,7 +92,7 @@ class MovieVoteDao
                         
 			$stmt = $conn->prepare( $query );
             $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT );
-            $stmt->bindParam( ':userid', $this->data['userid'], PDO::PARAM_INT );
+            $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
             $stmt->bindParam( ':vote_like', $this->data['vote_like'], PDO::PARAM_BOOL );
             $stmt->bindParam( ':vote_hate', $this->data['vote_hate'], PDO::PARAM_BOOL );
 			$stmt->execute();
@@ -139,7 +139,7 @@ class MovieVoteDao
 
 			$stmt = $conn->prepare( $query );
             $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT );
-            $stmt->bindParam( ':userid', $this->data['userid'], PDO::PARAM_INT );
+            $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
 			$stmt->execute();
             
 			return TRUE;
