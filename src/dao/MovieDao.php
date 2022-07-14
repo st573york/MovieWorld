@@ -53,11 +53,17 @@ class MovieDao
 
         try
         {            
+            $where = '';
             $order_by = 'creation_date';
+
             if( $order )
             {
                 switch( $order )
                 {
+                    case 'sort_by_user':
+                        $where .= ' WHERE movies.userid = :userid ';
+
+                        break;
                     case 'sort_by_likes':
                         $order_by = 'number_of_likes';
 
@@ -74,11 +80,15 @@ class MovieDao
             }
 
             $query = "SELECT *, date_format( creation_date, '%d %M %Y %H:%i:%s' ) AS posted, users.username AS posted_by
-                      FROM {$this->table}
+                      FROM {$this->table} 
                       LEFT JOIN users ON movies.userid = users.userid
+                      $where
                       ORDER BY $order_by DESC";
-
+        
             $stmt = $conn->prepare( $query );
+            if( $where ) {
+                $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+            }
             $stmt->execute();
 
             while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
@@ -117,7 +127,7 @@ class MovieDao
 			$stmt = $conn->prepare( $query );
 			$stmt->bindParam( ':title', $this->data['title'], PDO::PARAM_STR );
 			$stmt->bindParam( ':description', $this->data['description'], PDO::PARAM_STR );
-            $stmt->bindParam( ':userid', $this->data['userid'], PDO::PARAM_INT );                                                
+            $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );                                                
 			$stmt->execute();
             
 			return TRUE;
