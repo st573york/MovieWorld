@@ -93,7 +93,7 @@
     $movie_dao->getAll( $movies );
 
     $count = count( $movies );
-    echo "<div><h2>Found $count movies</h2></div>";
+    echo "<div><h2>Found <span class=\"found_movies\">$count</span> movies</h2></div>";
 
     // Movie Container
     echo "<div class=\"movie_container\">";
