@@ -11,27 +11,24 @@ function voteMovie( action, movieid )
         cache: false,
         success: function( data )
         {
-            if( data.resp )
-            {
-                // Update vote number
-                $( 'span#like_votes_' + movieid ).html( data.like_votes + ' likes' );
-                $( 'span#hate_votes_' + movieid ).html( data.hate_votes + ' hates' );
+            // Update vote number
+            $( 'span#like_votes_' + movieid ).html( data.like_votes + ' likes' );
+            $( 'span#hate_votes_' + movieid ).html( data.hate_votes + ' hates' );
 
-                // Toggle vote link
-                if( action == 'like' ) 
-                {
-                    $( 'span#like_link_' + movieid ).html( 'Like' );
-                    $( 'span#hate_link_' + movieid ).html(
-                        "<a href='javascript:voteMovie( \"hate\", \"" + movieid + "\" )'>Hate</a>"
-                    );
-                }
-                else if( action == 'hate' )
-                {
-                    $( 'span#hate_link_' + movieid ).html( 'Hate' );
-                    $( 'span#like_link_' + movieid ).html(
-                        "<a href='javascript:voteMovie( \"like\", \"" + movieid + "\" )'>Like</a>"
-                    );
-                }
+            // Toggle vote link
+            if( action == 'like' ) 
+            {
+                $( 'span#like_link_' + movieid ).html( 'Like' );
+                $( 'span#hate_link_' + movieid ).html(
+                    "<a href='javascript:voteMovie( \"hate\", \"" + movieid + "\" )'>Hate</a>"
+                );
+            }
+            else if( action == 'hate' )
+            {
+                $( 'span#hate_link_' + movieid ).html( 'Hate' );
+                $( 'span#like_link_' + movieid ).html(
+                    "<a href='javascript:voteMovie( \"like\", \"" + movieid + "\" )'>Like</a>"
+                );
             }
     	}             
     });
