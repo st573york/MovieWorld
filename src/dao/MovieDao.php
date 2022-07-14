@@ -145,6 +145,38 @@ class MovieDao
 	   		}            
 
 			$query = "UPDATE {$this->table}
+			          SET number_of_likes = number_of_likes + 1
+			          WHERE movieid = :movieid";
+
+			$stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT );
+			$stmt->execute();
+            
+			return TRUE;
+		}
+		catch( PDOException $e )
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}    
+
+    function toggleVoteLike( $values )
+	{
+        global $conn;
+        
+		try
+		{
+            $this->data = self::$defaults;
+            
+            foreach( array_keys( $this->data ) as $key )
+			{
+				if( isset( $values[ $key ] ) ) {
+                    $this->data[ $key ] = $values[ $key ];
+				}
+	   		}            
+
+			$query = "UPDATE {$this->table}
 			          SET number_of_likes = number_of_likes + 1, number_of_hates = (
                         CASE WHEN number_of_hates > 0
                         THEN ( number_of_hates - 1 )
@@ -166,6 +198,38 @@ class MovieDao
 	}    
 
     function updateVoteHate( $values )
+	{
+        global $conn;
+        
+		try
+		{
+            $this->data = self::$defaults;
+            
+            foreach( array_keys( $this->data ) as $key )
+			{
+				if( isset( $values[ $key ] ) ) {
+                    $this->data[ $key ] = $values[ $key ];
+				}
+	   		}            
+
+			$query = "UPDATE {$this->table}
+			          SET number_of_hates = number_of_hates + 1
+			          WHERE movieid = :movieid";
+
+			$stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT );
+			$stmt->execute();
+            
+			return TRUE;
+		}
+		catch( PDOException $e )
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}    
+
+    function toggleVoteHate( $values )
 	{
         global $conn;
         
