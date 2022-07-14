@@ -49,7 +49,10 @@ function sortMovies( action, can_vote )
         {                 
             // Update movie list
             $( '.movie_list' ).empty();
-            $( '.movie_list' ).append( data );               
+            $( '.movie_list' ).append( data ); 
+            
+            // Update found movies
+            $( '.found_movies' ).html( $( '.movie_data' ).length );
         }        
     });
 }
