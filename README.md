@@ -9,10 +9,13 @@ Files and Directories
 ---------------------
 
 index.php
-* Handles users session, login, logout requests etc
+* Handles users session, login requests etc
 
 login.php
 * Login page
+
+logout.php
+* Handles logout request
 
 registration.php
 * New registration page
