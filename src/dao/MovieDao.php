@@ -18,6 +18,35 @@ class MovieDao
         'number_of_hates' => 0
         );
     
+    function get( $movieid, &$values )
+    {
+        global $conn;
+    
+        try
+        {            
+            $query = "SELECT * FROM {$this->table}
+                      WHERE movieid = :movieid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT ); 
+            $stmt->execute();
+    
+            if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) 
+            {
+                $values = $row;
+
+                return TRUE;
+            }
+    
+            return FALSE;
+        }
+        catch( PDOException $e )
+        {
+            echo $e->getMessage();
+            return FALSE;
+        }
+    }
+
     function getAll( &$values, $order = NULL )
     {
         global $conn;
