@@ -1,7 +1,6 @@
 Task
 
-Your objective is to build a small project named MovieWorld.
-The application is a social sharing platform where users can share their favorite movies of all time.
+The application named MovieWorld is a social sharing platform where users can share their favorite movies of all time.
 
 Each movie has a title and a small description as well as a date that corresponds to the date it was added to the database.
 
@@ -27,12 +26,7 @@ In addition, authorized users are able to add their own movies and express their
 
 Voting is performed by clicking on the respective links that are displayed for each movie.
 
-Requirements
-
-You will need to provide a basic working prototype of the application. 
-
 The minimum requirements are:
-
 * Users should be able to log into their account or sign up for a new one .
 * Users should be able to add movies by completing a form. Movies should be saved and reference the user that submitted them.
 * Users should be able to express their opinion for any movie by either liking/hating it. Users can vote only once for each movie and can change their vote at any time by switching to the opposite vote or by retracting their vote .
