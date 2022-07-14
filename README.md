@@ -6,7 +6,7 @@
 
 
 Files and Directories
-#####################
+---------------------
 
 index.php
 * Handles users session, login, logout requests etc
