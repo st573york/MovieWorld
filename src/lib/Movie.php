@@ -53,17 +53,17 @@ class Movie
         // Num of Likes | Hates
         $votes_container_class = ( $can_vote )? "class=\"votes_container\"" : "";
         echo "<div $votes_container_class>";
-        echo "<span class=\"votes\">$likes likes</span>";
+        echo "<span id=\"like_votes_{$movieid}\" class=\"votes\">$likes likes</span>";
         echo "<span class=\"votes\">|</span>";
-        echo "<span class=\"votes\">$hates hates</span>";
+        echo "<span id=\"hate_votes_{$movieid}\" class=\"votes\">$hates hates</span>";
         echo "</div>";
         // Like | Hate
         if( $can_vote )
         {            
             echo "<div>";
-            echo "<span class=\"vote_link\">".$this->data['like']."</span>";
+            echo "<span id=\"like_link_{$movieid}\" class=\"vote_link\">".$this->data['like']."</span>";
             echo "<span>|</span>";
-            echo "<span class=\"vote_link\">".$this->data['hate']."</span>";
+            echo "<span id=\"hate_link_{$movieid}\" class=\"vote_link\">".$this->data['hate']."</span>";
 
             echo "</div>";
         }
