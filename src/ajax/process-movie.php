@@ -40,7 +40,8 @@ case 'add':
 
     break;
 case 'like':
-    $ret = true;
+    $movie_values = array();
+    $movie_values['movieid'] = $_POST['movieid'];
 
     $movie_vote_values = array();
     $movie_vote_values['userid'] = $_SESSION['userid'];
@@ -50,24 +51,26 @@ case 'like':
     $movie_vote_dao = new MovieVoteDao;
 
     // check if movie has got hate voted already
-    if( $movie_vote_dao->getVoteHate( $movie_vote_values ) ) {
+    if( $movie_vote_dao->getVoteHate( $movie_vote_values ) ) 
+    {
         // update vote to like        
         $movie_vote_dao->update( $movie_vote_values );
+
+        // toggle total like vote
+        $movie_dao->toggleVoteLike( $movie_values );
     }
-    else {
+    else 
+    {
         // insert like vote
         $movie_vote_dao->insert( $movie_vote_values );
+
+        // update total like votes
+        $movie_dao->updateVoteLike( $movie_values );
     }
 
     $movie_values = array();
-    $movie_values['movieid'] = $_POST['movieid'];
-        
-    $ret &= $movie_dao->updateVoteLike( $movie_values );
+    $movie_dao->get( $_POST['movieid'], $movie_values );
 
-    $movie_values = array();
-    $ret &= $movie_dao->get( $_POST['movieid'], $movie_values );
-
-    $obj['resp'] = $ret;
     $obj['like_votes'] = $movie_values['number_of_likes'];
     $obj['hate_votes'] = $movie_values['number_of_hates'];
 
@@ -75,7 +78,8 @@ case 'like':
 
     break;
 case 'hate':
-    $ret = true;
+    $movie_values = array();
+    $movie_values['movieid'] = $_POST['movieid'];
 
     $movie_vote_values = array();
     $movie_vote_values['userid'] = $_SESSION['userid'];
@@ -85,24 +89,26 @@ case 'hate':
     $movie_vote_dao = new MovieVoteDao;
 
     // check if movie has got like voted already 
-    if( $movie_vote_dao->getVoteLike( $movie_vote_values ) ) {
+    if( $movie_vote_dao->getVoteLike( $movie_vote_values ) ) 
+    {
         // update vote to hate
         $movie_vote_dao->update( $movie_vote_values );
+
+        // toggle total hate vote
+        $movie_dao->toggleVoteHate( $movie_values );
     }
-    else {
+    else 
+    {
         // insert hate vote
         $movie_vote_dao->insert( $movie_vote_values );
-    }
 
-    $movie_values = array();
-    $movie_values['movieid'] = $_POST['movieid'];
-    
-    $ret &= $movie_dao->updateVoteHate( $movie_values );
+        // update total hate votes
+        $movie_dao->updateVoteHate( $movie_values );
+    }
    
     $movie_values = array();
-    $ret &= $movie_dao->get( $_POST['movieid'], $movie_values );
+    $movie_dao->get( $_POST['movieid'], $movie_values );
 
-    $obj['resp'] = $ret;
     $obj['like_votes'] = $movie_values['number_of_likes'];
     $obj['hate_votes'] = $movie_values['number_of_hates'];
 
