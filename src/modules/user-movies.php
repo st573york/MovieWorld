@@ -22,8 +22,7 @@
         [ 
             { 'text': 'OK',
               'click': function ()
-		  	            {					
-                            console.log($( '#popup-dialog-form' ).serialize());
+		  	            {
 					        $.ajax({
 						        type: "POST",
 						        url: "/ajax/process-movie.php",
@@ -85,7 +84,6 @@
     require('dao/MovieVoteDao.php');
       
     $movies = array();
-    
     $movie_dao = new MovieDao;
 
     $movie_dao->getAll( $movies );
