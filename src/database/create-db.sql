@@ -1,3 +1,5 @@
+CREATE DATABASE MovieWorld;
+
 /*
 <table name="users">
  <desc>Table stores list of users.</desc>
@@ -20,7 +22,7 @@ CREATE UNIQUE INDEX users_username_idx ON users( username );
 */
 CREATE TABLE movies
 (
-	movieid		      BIGINT AUTO_INCREMENT PRIMARY KEY,
+	movieid		  BIGINT AUTO_INCREMENT PRIMARY KEY,
 	title             VARCHAR(64) NOT NULL,
 	description       TEXT,
 	userid            BIGINT NOT NULL REFERENCES users( userid ),
