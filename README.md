@@ -58,7 +58,7 @@ How to run the application on a local php server:
 * Checkout the src folder
 * Open terminal on that folder and run <php -S localhost:9000>
 * Run mysql server
-* Connect to mysql server and run the create-db.sql
+* Connect to mysql server and run the database/create-db.sql
 * Add mysql username/password in database/db.php
 * Browse to localhost:9000
 
