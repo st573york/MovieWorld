@@ -8,7 +8,8 @@ In addition it holds a reference to the user that submitted it.
 
 Users can also express their opinion about a movie by liking or hating each one.
 
-When an unauthorized user visits the application, he see the list of movies that have been added to the database, as well as links for log in/ sign up.
+When an unauthorized user visits the application, a list of movies that have been added to the database is displayed, as well as links for log in / sign up.
+
 Each movie contains the following information:
 
 ● Title
@@ -22,13 +23,6 @@ The name of the user is a link that, when clicked, filters the movies down to th
 
 The list can also be sorted by the number of likes, number of hates or the publication date.
 
-In addition, authorized users are able to add their own movies and express their opinion for other movies by either liking or hating a movie.
+In addition, authorized users are able to add / delete their own movies and express their opinion for other movies by either liking or hating a movie.
 
 Voting is performed by clicking on the respective links that are displayed for each movie.
-
-The minimum requirements are:
-* Users should be able to log into their account or sign up for a new one .
-* Users should be able to add movies by completing a form. Movies should be saved and reference the user that submitted them.
-* Users should be able to express their opinion for any movie by either liking/hating it. Users can vote only once for each movie and can change their vote at any time by switching to the opposite vote or by retracting their vote .
-* Users should not be able to vote for the movies they have submitted.
-* Users should be able to view the list of movies and sort them by number of likes, number of hates or date added.
