@@ -12,13 +12,13 @@ index.php
 * Handles user session, login request etc
 
 login.php
-* Login user
+* Ability to login user
 
 logout.php
 * Handles logout request
 
 registration.php
-* Register new user
+* Ability to register new user
 
 ajax/process-movie.php
 * Handles AJAX requests
