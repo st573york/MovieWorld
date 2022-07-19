@@ -82,7 +82,7 @@
 	    <div id="popup-dialog-new_movie" style="display: none;">
 	        <form id="popup-dialog-form">
                 <div class="field"><input type="text" name="title" placeholder="Name"/></div>
-                <div class="field"><input type="text" name="description" placeholder="Description"/></div>
+                <div class="field"><textarea name="description" placeholder="Description" rows="5" cols="30"></textarea></div>
 	        </form>
 	    </div>
       
