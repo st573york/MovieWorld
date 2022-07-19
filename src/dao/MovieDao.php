@@ -274,6 +274,28 @@ class MovieDao
 			return FALSE;
 		}
 	}
+
+    function delete( $movieid )
+    {
+        global $conn;
+    
+        try
+        {            
+            $query = "DELETE FROM {$this->table}
+                      WHERE movieid = :movieid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT ); 
+            $stmt->execute();
+    
+            return TRUE;
+        }
+        catch( PDOException $e )
+        {
+            echo $e->getMessage();
+            return FALSE;
+        }
+    }
 }
 
 ?>

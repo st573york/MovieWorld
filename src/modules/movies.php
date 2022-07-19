@@ -16,7 +16,7 @@
                 <span class="actions_panel">
                 <span><a href="/login.php">Log in</a></span>
                 <span>or</span>
-                <span class="register"><a href="/registration.php">Sign up</a></span>
+                <span class="register_link"><a href="/registration.php">Sign up</a></span>
             </span>
         </div>
 

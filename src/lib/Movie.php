@@ -17,7 +17,7 @@ class Movie
 
         $movie_vote_dao = new MovieVoteDao;
 
-        $href = 'javascript:voteMovie( "like", "'.$this->data['movieid'].'" )';
+        $href = 'javascript:processMovie( "like", "'.$this->data['movieid'].'" )';
         $this->data['like'] = "<a href='{$href}'>Like</a>";
 
         if( $this->data['liked'] = $movie_vote_dao->getVoteLike( $movie_vote_values ) ) {
@@ -33,7 +33,7 @@ class Movie
 
         $movie_vote_dao = new MovieVoteDao;
 
-        $href = 'javascript:voteMovie( "hate", "'.$this->data['movieid'].'" )';
+        $href = 'javascript:processMovie( "hate", "'.$this->data['movieid'].'" )';
         $this->data['hate'] = "<a href='{$href}'>Hate</a>";
 
         if( $this->data['hated'] = $movie_vote_dao->getVoteHate( $movie_vote_values ) ) {
@@ -57,7 +57,7 @@ class Movie
         $can_vote = ( !$myself && isset( $this->data['like'] ) && isset( $this->data['hate'] ) );
 
         // Movie Data
-        echo "<div class=\"movie_data\">";
+        echo "<div id=\"movie_{$movieid}\" class=\"movie_data\">";
         echo "<div class=\"movie_header\">";
         echo "<span class=\"movie_title\">$title</span>";
         echo "<span class=\"movie_posted\">Posted $posted</span>"; 
@@ -83,6 +83,9 @@ class Movie
         }
         echo "<span class=\"movie_posted_by\">Posted by <span class=\"movie_posted_by_user\">$posted_by</span>";
         echo "</div>";
+        if( $myself ){
+            echo "<div class=\"movie_delete\"><input id=\"delete_movie\" type=\"button\" value=\"Delete\" onclick=\"processMovie( 'delete', $movieid )\"/></div>";
+        }
         echo "</div>";
     }
 }

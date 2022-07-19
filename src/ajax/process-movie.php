@@ -112,6 +112,14 @@ case 'hate':
     echo json_encode( $obj );
 
     break;
+case 'delete':
+    if( !$movie_dao->delete( $_POST['movieid'] ) ) {
+        $obj['resp'] = false;
+    }
+
+    echo json_encode( $obj );
+
+    break;
 case 'sort_by_user':
 case 'sort_by_likes':
 case 'sort_by_hates':

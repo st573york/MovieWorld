@@ -26,14 +26,23 @@ input {
     border-radius: 3px;
 }
 
+input[type=submit]:hover {
+    background-color: #666;
+    color: #ffffff;
+}
+
 .field { 
     padding: 5px;
 }
 
-a, a:visited, a:hover, a:active {
+a {
     background: transparent;
     color: deepskyblue;
     text-decoration: none;
+}
+
+a:hover {
+    color: darkblue;
 }
 
 .action_message {

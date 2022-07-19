@@ -1,4 +1,4 @@
-function voteMovie( action, movieid )
+function processMovie( action, movieid )
 {			
     $.ajax({
         type: "POST",
@@ -11,35 +11,46 @@ function voteMovie( action, movieid )
         cache: false,
         success: function( data )
         {               
-            // Update vote count           
-            $( 'span#like_votes_' + movieid ).html( data.like_votes + ' likes' )
-            $( 'span#hate_votes_' + movieid ).html( data.hate_votes + ' hates' )
-
-            if( action == 'like' ) 
+            if( action == 'like' || 
+                action == 'hate' )
             {
-                // Toggle vote count
-                $( 'span#like_votes_' + movieid ).addClass( 'liked' );
-                $( 'span#hate_votes_' + movieid ).removeClass( 'hated' );
+                // Update vote count           
+                $( 'span#like_votes_' + movieid ).html( data.like_votes + ' likes' )
+                $( 'span#hate_votes_' + movieid ).html( data.hate_votes + ' hates' )
 
-                // Update vote link
-                $( 'span#like_link_' + movieid ).html( '<span class="movie_voted">Like</span>' );
-                $( 'span#hate_link_' + movieid ).html(
-                    "<a href='javascript:voteMovie( \"hate\", \"" + movieid + "\" )'>Hate</a>"
-                );
-            }
-            else if( action == 'hate' )
+                if( action == 'like' ) 
+                {
+                    // Toggle vote count
+                    $( 'span#like_votes_' + movieid ).addClass( 'liked' );
+                    $( 'span#hate_votes_' + movieid ).removeClass( 'hated' );
+
+                    // Update vote link
+                    $( 'span#like_link_' + movieid ).html( '<span class="movie_voted">Like</span>' );
+                    $( 'span#hate_link_' + movieid ).html(
+                        "<a href='javascript:processMovie( \"hate\", \"" + movieid + "\" )'>Hate</a>"
+                    );
+                }
+                else if( action == 'hate' )
+                {
+                    // Toggle vote count
+                    $( 'span#hate_votes_' + movieid ).addClass( 'hated' );
+                    $( 'span#like_votes_' + movieid ).removeClass( 'liked' );
+
+                    // Update vote link
+                    $( 'span#hate_link_' + movieid ).html( '<span class="movie_voted">Hate</span>' );
+                    $( 'span#like_link_' + movieid ).html(
+                        "<a href='javascript:processMovie( \"like\", \"" + movieid + "\" )'>Like</a>"
+                    );
+                }   
+        	}
+            else if( action == 'delete' ) 
             {
-                // Toggle vote count
-                $( 'span#hate_votes_' + movieid ).addClass( 'hated' );
-                $( 'span#like_votes_' + movieid ).removeClass( 'liked' );
+                $( 'div#movie_' + movieid ).remove();
 
-                // Update vote link
-                $( 'span#hate_link_' + movieid ).html( '<span class="movie_voted">Hate</span>' );
-                $( 'span#like_link_' + movieid ).html(
-                    "<a href='javascript:voteMovie( \"like\", \"" + movieid + "\" )'>Like</a>"
-                );
+                // Update found movies
+                $( '.found_movies_count' ).html( $( '.movie_data' ).length );
             }
-    	}             
+        }
     });
 }
 
