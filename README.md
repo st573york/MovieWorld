@@ -49,7 +49,7 @@ modules/***
 
 ----------------------------------
 
-How to run the application on a local php server:
+How to run the application on a local web server:
 * Checkout the src folder
 * Open terminal on that folder and run <php -S localhost:9000>
 * Run mysql server
