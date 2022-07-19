@@ -9,28 +9,24 @@ Files and Directories
 ---------------------
 
 index.php
-* Handles users session, login requests etc
+* Handles user session, login request etc
 
 login.php
-* Login page
+* Login user
 
 logout.php
 * Handles logout request
 
 registration.php
-* Handles new users
+* Register new user
 
 ajax/process-movie.php
 * Handles AJAX requests
 
-css/main.css
-css/movie.css
-css/popup-dialog.css
+css/***
 * The style of the interface
 
-dao/MovieDao.php
-dao/MovieVoteDao.php
-dao/UserDao.php
+dao/***
 * Data access objects 
 
 database/create-db.sql
@@ -40,17 +36,16 @@ database/db.php
 * Database connection management
 
 js/movie.js
-* Javascript functions to vote / sort movie
+* JS functions to process (vote, delete) and sort movies
  
 js/popup-dialog-widget.js
-* Javascript library to open pop up dialog
+* JS library to open pop up dialog
 
-lib/Movie.php
-lib/MovieSort.php
+lib/***
 * Libraries to render HTML elements for movie / sort
 
-modules/user-movies.php
-* Page controller
+modules/***
+* Page controllers
 
 ----------------------------------
 
