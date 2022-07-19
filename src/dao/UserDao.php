@@ -16,7 +16,7 @@ class UserDao
         'email' => ''
         );
 
-    function get( &$values )
+	function get( &$values )
 	{
         global $conn;
         
@@ -34,6 +34,58 @@ class UserDao
 			{
 				$values = $row;
 				
+                return TRUE;
+            }
+            
+			return FALSE;
+		}
+		catch( PDOException $e )
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
+
+	function getByUsername( $values )
+	{
+        global $conn;
+        
+   		try
+		{			
+			$query = "SELECT * FROM {$this->table}
+                      WHERE username = :username";
+
+            $stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':username', $values['username'], PDO::PARAM_STR );
+            $stmt->execute();				
+
+			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
+                return TRUE;
+            }
+            
+			return FALSE;
+		}
+		catch( PDOException $e )
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
+
+    function getByEmail( $values )
+	{
+        global $conn;
+        
+   		try
+		{			
+			$query = "SELECT * FROM {$this->table}
+                      WHERE email = :email";
+
+            $stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':email', $values['email'], PDO::PARAM_STR );
+            $stmt->execute();				
+
+			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {				
                 return TRUE;
             }
             

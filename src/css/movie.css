@@ -1,11 +1,94 @@
-.movie_container {  display: flex; }
-.movie_list, .movie_actions { flex: 1; }
-.movie_list { margin-right: 20px; }
-.movie_data { margin-bottom: 5px; padding: 5px; border: 1px solid; background-color: #eee; }
-.posted_by { color: blue; }
-.movie_add { margin-bottom: 10px; }
-.movie_sort { text-align: center; border: 1px solid; padding: 5px; width: fit-content; background-color: #eee; }
+.movie_container {  
+    display: flex; 
+}
 
-.votes_container { padding-bottom: 10px; }
-.votes { padding: 5px; }
-.vote_link { padding: 5px; }
+.movie_list, .movie_actions { 
+    flex: 1; 
+}
+
+.movie_list { 
+    margin-right: 20px; 
+}
+
+.movie_data { 
+    margin-bottom: 5px; 
+    padding: 10px; 
+    border: 1px solid; 
+    border-radius: 5px;
+    background-color: #eee;
+    overflow: auto;
+    max-height: 300px;
+}
+
+.movie_header,
+.movie_content,
+.movie_footer {
+    clear: both;
+}
+
+.movie_content {
+    padding: 10px 0 10px 0;
+}
+
+.movie_footer {
+    text-align: center;
+}
+
+.movie_title {
+    float: left;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.movie_posted,
+.movie_posted_by {
+    float: right;
+    font-size: 20px;
+}
+
+.movie_votes {
+    float: left;
+}
+
+.movie_posted_by_user { 
+    color: deepskyblue; 
+}
+
+.movie_add { 
+    margin-bottom: 10px; 
+}
+
+.movie_sort { 
+    text-align: center; 
+    border: 1px solid; 
+    border-radius: 5px;
+    margin-left: 9px;
+    padding: 5px; 
+    width: fit-content; 
+    background-color: #eee; 
+}
+
+.like_votes,
+.like_link { 
+    padding-right: 5px; 
+}
+
+.hate_votes,
+.hate_link { 
+    padding-left: 5px; 
+}
+
+.movie_voted {    
+    color: #ffffff;
+    background-color: deepskyblue;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.liked {
+    color: green;
+}
+
+.hated {
+    color: red;
+}

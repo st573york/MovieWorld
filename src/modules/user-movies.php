@@ -51,6 +51,8 @@
             }
         ];
 
+        $( '#popup-dialog-form' )[0].reset();
+
         popupDialog( {
 		    'id': 'new_movie',
             'title': 'New Movie',
@@ -63,22 +65,26 @@
     </script>
 </head>
 <body>
-    <div>
-        <h1>Movie World</h1>
-        <p>Welcome Back 
-            <span class="loggedin_user">
-                <a href="javascript:sortMovies( 'sort_by_user', 0 )"><?php echo $_SESSION['username'] ?></a>
+    <div class="main">    
+        <div class="top_panel">
+            <span class="title_panel">Movie World</span>
+            <span class="message_panel">Welcome Back 
+                <span class="loggedin_user">
+                    <a href="javascript:sortMovies( 'sort_by_user', 0 )"><?php echo $_SESSION['username'] ?></a>
+                </span>
             </span>
-        </p>
-        <p><a href="logout.php">Logout</a></p>
-    </div>
-    <!-- Movie Form -->
-	<div id="popup-dialog-new_movie" style="display: none;">
-	    <form id="popup-dialog-form">
-            <div class="field"><input type="text" name="title" placeholder="Name"/></div>
-            <div class="field"><input type="text" name="description" placeholder="Description"/></div>
-	    </form>
-	</div>
+        </div>
+        <div class="bottom_panel">
+            <span class="logout_panel"><a href="logout.php">Logout</a></span>
+        </div>
+   
+        <!-- Movie Form -->
+	    <div id="popup-dialog-new_movie" style="display: none;">
+	        <form id="popup-dialog-form">
+                <div class="field"><input type="text" name="title" placeholder="Name"/></div>
+                <div class="field"><input type="text" name="description" placeholder="Description"/></div>
+	        </form>
+	    </div>
       
 <?php
     require('lib/Movie.php');
@@ -93,7 +99,7 @@
     $movie_dao->getAll( $movies );
 
     $count = count( $movies );
-    echo "<div><h2>Found <span class=\"found_movies\">$count</span> movies</h2></div>";
+    echo "<div class=\"found_movies\">Found <span class=\"found_movies_count\">$count</span> movies</div>";
 
     // Movie Container
     echo "<div class=\"movie_container\">";
@@ -129,6 +135,6 @@
 
     echo "</div>";
 ?>
-
-  </body>
+    </div>
+</body>
 </html>

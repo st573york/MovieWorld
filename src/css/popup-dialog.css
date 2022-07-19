@@ -1,3 +1,12 @@
-.ui-dialog-titlebar { background: #6495ED !important; }
-.ui-dialog-title { color: #ffffff !important; }
+.ui-dialog-titlebar { 
+    background: #6495ED !important; 
+}
+
+.ui-dialog-title { 
+    color: #ffffff !important; 
+}
+
+.field { 
+    padding: 5px;
+}
 

@@ -57,7 +57,7 @@ function login()
 	}
 	else
 	{
-		require( 'login.php' );
+		require( 'modules/movies.php' );
 		exit;
 	}
 }

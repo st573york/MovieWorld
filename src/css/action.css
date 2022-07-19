@@ -1,0 +1,46 @@
+.main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 20px;
+    width: 290px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    text-align: center;
+    border: solid 4px #678;
+    background: #ccd6e0;
+}
+
+.action {
+    font-size: 30px;
+}
+
+.movies {
+    padding: 10px 0 10px 0;
+}
+
+input {
+    border-radius: 3px;
+}
+
+.field { 
+    padding: 5px;
+}
+
+a, a:visited, a:hover, a:active {
+    background: transparent;
+    color: deepskyblue;
+    text-decoration: none;
+}
+
+.action_message {
+    padding: 10px 5px 5px 5px;
+}
+
+.message {
+    color: #666;
+    font-weight: bold;
+}
