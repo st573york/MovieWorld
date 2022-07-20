@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>Movie World</title>
+    <link rel="icon" type="image/x-icon" href="/images/movies-icon.jpeg">
+
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/movie.css">
     <link rel="stylesheet" href="/css/popup-dialog.css">
@@ -12,57 +14,6 @@
     <script type="text/javascript" src="/js/movie.js"></script>
     <script type="text/javascript" src="/js/popup-dialog-widget.js"></script>    
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-    <!--
-    var dialogs = [ 'new_movie' ];
-
-    function newMovie()
-    {
-        var buttons = 
-        [ 
-            { 'text': 'OK',
-              'click': function ()
-		  	            {
-					        $.ajax({
-						        type: "POST",
-						        url: "/ajax/process-movie.php",
-						        data: {
-						            'action': 'add',
-							        'popupDialogData': $( '#popup-dialog-form' ).serialize()
-						        },
-						        dataType: 'json',
-						        cache: false,
-						        success: function( data )
-						        {
-							        if( data.resp ) {
-                                        closePopupDialog( 'new_movie' );
-                                    }
-
-                                    window.location.reload();
-							    }
-                            });
-                        },
-            },
-            { 'text': 'Cancel',
-              'click': function () 
-                        {			          
-                            closePopupDialog( 'new_movie' );
-                        }
-            }
-        ];
-
-        $( '#popup-dialog-form' )[0].reset();
-
-        popupDialog( {
-		    'id': 'new_movie',
-            'title': 'New Movie',
-            'buttons': buttons,
-            'html': $( '#popup-dialog-form' )
-        } );
-      }
-
-    -->
-    </script>
 </head>
 <body>
     <div class="main">    
@@ -78,12 +29,22 @@
             <span class="logout_panel"><a href="logout.php">Logout</a></span>
         </div>
    
-        <!-- Movie Form -->
+        <!-- Dialog Movie Form -->
 	    <div id="popup-dialog-new_movie" style="display: none;">
-	        <form id="popup-dialog-form">
-                <div class="field"><input type="text" name="title" placeholder="Name"/></div>
-                <div class="field"><textarea name="description" placeholder="Description" rows="5" cols="30"></textarea></div>
-	        </form>
+            <div class="popup-dialog-container">
+	            <form id="popup-dialog-form">
+                    <div class="field"><input type="text" name="title" placeholder="Name"/></div>
+                    <div class="field"><textarea name="description" placeholder="Description" rows="5" cols="30"></textarea></div>
+                    <div class="error_message"></div>
+                </form>
+            </div>
+	    </div>
+
+        <!-- Dialog Confirm -->
+        <div id="popup-dialog-confirm" style="display: none;">
+            <div class="popup-dialog-container">
+                <div class="confirm_message"></div>
+            </div>
 	    </div>
       
 <?php
@@ -125,7 +86,7 @@
     // Movie Actions
     echo "<div class=\"movie_actions\">";
     // Open dialog to add new movie
-    echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" onclick=\"newMovie()\"/></div>";
+    echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" onclick=\"resetMovieDialog(); showMovieDialog();\"/></div>";
     if( $count )
     {
         $movie_sort = new MovieSort;

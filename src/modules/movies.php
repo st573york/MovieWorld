@@ -3,9 +3,11 @@
 <head>
     <meta charset="utf-8"/>
     <title>Movie World</title>
+    <link rel="icon" type="image/x-icon" href="/images/movies-icon.jpeg">    
+
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/movie.css">
-
+    
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
     <script type="text/javascript" src="/js/movie.js"></script>
 </head>
@@ -21,18 +23,6 @@
         </div>
 
 <?php
-    $warning_msg = '';
-    if( isset( $login_denied ) && $login_denied ) {
-        $warning_msg = 'The credentials you entered were invalid<br />Please re-enter them and try again';
-    }
-
-    if( $warning_msg )
-    {   
-        echo "<div>";
-        echo "<span class='message'>$warning_msg</span>";
-        echo "</div>";
-    }
-
     require('lib/Movie.php');
     require('lib/MovieSort.php');
     

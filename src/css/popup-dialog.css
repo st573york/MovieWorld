@@ -1,12 +1,22 @@
-.ui-dialog-titlebar { 
-    background: #6495ED !important; 
-}
-
 .ui-dialog-title { 
     color: #ffffff !important; 
 }
 
-.field { 
-    padding: 5px;
+.popup-dialog-container {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    max-height: 290px;
+    padding-top: 10px;
+}
+
+.field,
+.error_message { 
+    padding: 3px;
+}
+
+.confirm_message {
+    max-width: 500px;
 }
 

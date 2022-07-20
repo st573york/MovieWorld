@@ -1,6 +1,6 @@
 /**
  * Popup-Dialog Widget
-*/
+ */
 
 var popupDialogPrefix = 'popup-dialog-';
 
@@ -36,7 +36,7 @@ function popupDialog( settings )
     var options = $.extend({
         id: '',
         title: '',
-        html: '',
+        html: $( '#' + popupDialogPrefix + settings.id + ' .popup-dialog-container' ),
         buttons: []
         }, settings );
 

@@ -84,7 +84,7 @@ class Movie
         echo "<span class=\"movie_posted_by\">Posted by <span class=\"movie_posted_by_user\">$posted_by</span>";
         echo "</div>";
         if( $myself ){
-            echo "<div class=\"movie_delete\"><input id=\"delete_movie\" type=\"button\" value=\"Delete\" onclick=\"processMovie( 'delete', $movieid )\"/></div>";
+            echo "<div class=\"movie_delete\"><input id=\"delete_movie\" type=\"button\" value=\"Delete\" onclick=\"confirmMovieDeletion( '$movieid', '$title' );\"/></div>";
         }
         echo "</div>";
     }

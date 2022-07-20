@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="/images/movies-icon.jpeg">
+    
     <link rel="stylesheet" href="css/action.css">
 </head>
 <body>

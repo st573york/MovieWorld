@@ -1,3 +1,125 @@
+/**
+ * Movie JS functions
+ */
+
+var dialogs = [ 'new_movie', 'confirm' ];
+var popupDialogData = '';
+
+function validateMovie()
+{
+    $.ajax({
+		type: "POST",
+		url: "/ajax/process-movie.php",
+		data: {
+				'action': 'validate',
+				'popupDialogData': popupDialogData
+        },
+		dataType: 'json',
+		cache: false,
+		success: function( data )
+		{
+			if( data.resp )  {
+                addMovie();
+            }
+            else {
+                $( '.popup-dialog-container .error_message' ).html( 'All the fields are required!' );
+            }
+		}
+    });
+}
+
+function addMovie()
+{
+    $.ajax({
+		type: "POST",
+		url: "/ajax/process-movie.php",
+		data: {
+			'action': 'add',
+            'popupDialogData': popupDialogData
+		},
+        cache: false,
+		dataType: 'json',
+		success: function( data )
+		{
+			if( data.resp ) {
+                closePopupDialog( 'new_movie' );
+            }
+
+            window.location.reload();
+		}
+    });
+}
+
+function showMovieDialog()
+{
+    var buttons = 
+    [ 
+        {   'text': 'OK',
+            'click': function ()
+		  	{
+                popupDialogData = $( '#popup-dialog-form' ).serialize();
+
+                validateMovie();
+            },
+        },
+        {   'text': 'Cancel',
+            'click': function () 
+            {			          
+                closePopupDialog( 'new_movie' );
+            }
+        }
+    ];
+
+    $( '#' + popupDialogPrefix + 'new_movie' )
+        .closest( '.ui-dialog' )
+        .children( '.ui-dialog-titlebar')
+        .css( 'background', '#6495ED' );
+
+    popupDialog( {
+	    'id': 'new_movie',
+        'title': 'New Movie',
+        'buttons': buttons
+    } );
+}
+
+function resetMovieDialog()
+{
+    $( '#popup-dialog-form' )[0].reset();
+    $( '.popup-dialog-container .error_message' ).html( '' );
+}
+
+function confirmMovieDeletion( movieid, title )
+{
+    var buttons = 
+    [ 
+        {   'text': 'OK',
+            'click': function ()
+		  	{
+                processMovie( 'delete', movieid );
+            },
+        },
+        {   'text': 'Cancel',
+            'click': function () 
+            {			          
+                closePopupDialog( 'confirm' );
+            }
+        }
+    ];
+
+    $( '#' + popupDialogPrefix + 'confirm' )
+        .closest( '.ui-dialog' )
+        .children( '.ui-dialog-titlebar')
+        .css( 'background', '#d92' );
+
+    $( '.popup-dialog-container .confirm_message' ).html( "Movie '" + title + "' will be deleted. Are you sure?" );
+
+    popupDialog( {
+		'id': 'confirm',
+        'title': 'Delete Movie',
+        'buttons': buttons
+    } );
+}
+
 function processMovie( action, movieid )
 {			
     $.ajax({
@@ -45,10 +167,11 @@ function processMovie( action, movieid )
         	}
             else if( action == 'delete' ) 
             {
-                $( 'div#movie_' + movieid ).remove();
-
-                // Update found movies
-                $( '.found_movies_count' ).html( $( '.movie_data' ).length );
+                if( data.resp ) {
+                    closePopupDialog( 'confirm' );
+                }
+    
+                window.location.reload();
             }
         }
     });

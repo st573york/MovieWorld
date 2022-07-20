@@ -43,6 +43,7 @@
 #new_movie {
     background-color: limegreen;
     color: #ffffff;
+    cursor: pointer;
 }
 
 #new_movie:hover {
@@ -53,6 +54,7 @@
 #delete_movie {
     background-color: red;
     color: #ffffff;
+    cursor: pointer;
 }
 
 #delete_movie:hover {

@@ -14,6 +14,11 @@ session_start();
 open_db();
 
 $action = $_POST['action'];
+if( isset( $_POST['popupDialogData'] ) )
+{
+    $popupDialogData = array();
+    parse_str( $_POST['popupDialogData'], $popupDialogData );
+}
 
 $obj = array( 'resp' => true );
 
@@ -21,11 +26,15 @@ $movie_dao = new MovieDao;
 
 switch( $action )
 {
+case 'validate':
+    $obj['resp'] = ( strlen( trim( $popupDialogData['title'] ) ) && 
+                     strlen( trim( $popupDialogData['description'] ) ) );
+
+    echo json_encode( $obj );
+
+    break;
 case 'add':    
     $movie_values = array();
-    $popupDialogData = array();
-
-    parse_str( $_POST['popupDialogData'], $popupDialogData );
     
     foreach( $popupDialogData as $key => $val ) {
         $movie_values[ $key ] = $val;
