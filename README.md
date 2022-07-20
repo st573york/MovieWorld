@@ -35,11 +35,14 @@ database/create-db.sql
 database/db.php
 * Database connection management
 
+images/***
+* Custom images
+
 js/movie.js
-* JS functions to process (vote, delete) and sort movies
+* JS movie functions
  
 js/popup-dialog-widget.js
-* JS library to open pop up dialog
+* JS popup dialog library
 
 lib/***
 * Libraries to render HTML elements for movie / sort
