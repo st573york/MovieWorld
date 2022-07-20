@@ -45,7 +45,7 @@ js/popup-dialog-widget.js
 * JS popup dialog library
 
 lib/***
-* Libraries to render HTML elements for movie / sort
+* Libraries to render HTML elements
 
 modules/***
 * Page controllers
