@@ -2,24 +2,24 @@
  * Movie JS functions
  */
 
-var dialogs = [ 'new_movie', 'confirm' ];
-var popupDialogData = '';
+var dialogs = [ 'process_movie', 'confirm' ];
+var sort_by = 'sort_by_dates';
 
-function validateMovie()
+function validateMovie( obj )
 {
     $.ajax({
 		type: "POST",
 		url: "/ajax/process-movie.php",
 		data: {
 				'action': 'validate',
-				'popupDialogData': popupDialogData
+				'popupDialogData': obj.popupDialogData
         },
 		dataType: 'json',
 		cache: false,
 		success: function( data )
 		{
-			if( data.resp )  {
-                addMovie();
+			if( data.resp ) {
+                processMovie( obj );
             }
             else {
                 $( '.popup-dialog-container .error_message' ).html( 'All the fields are required!' );
@@ -28,74 +28,58 @@ function validateMovie()
     });
 }
 
-function addMovie()
-{
-    $.ajax({
-		type: "POST",
-		url: "/ajax/process-movie.php",
-		data: {
-			'action': 'add',
-            'popupDialogData': popupDialogData
-		},
-        cache: false,
-		dataType: 'json',
-		success: function( data )
-		{
-			if( data.resp ) {
-                closePopupDialog( 'new_movie' );
-            }
-
-            window.location.reload();
-		}
-    });
-}
-
-function showMovieDialog()
-{
-    var buttons = 
-    [ 
-        {   'text': 'OK',
-            'click': function ()
-		  	{
-                popupDialogData = $( '#popup-dialog-form' ).serialize();
-
-                validateMovie();
-            },
-        },
-        {   'text': 'Cancel',
-            'click': function () 
-            {			          
-                closePopupDialog( 'new_movie' );
-            }
-        }
-    ];
-
-    $( '#' + popupDialogPrefix + 'new_movie' )
-        .closest( '.ui-dialog' )
-        .children( '.ui-dialog-titlebar')
-        .css( 'background', '#6495ED' );
-
-    popupDialog( {
-	    'id': 'new_movie',
-        'title': 'New Movie',
-        'buttons': buttons
-    } );
-}
-
 function resetMovieDialog()
 {
     $( '#popup-dialog-form' )[0].reset();
     $( '.popup-dialog-container .error_message' ).html( '' );
 }
 
-function confirmMovieDeletion( movieid, title )
+function setMovieDialogContent( $movie_content )
+{
+    $( '.popup-dialog-container #title' ).val( $movie_content.title );
+    $( '.popup-dialog-container #description' ).val( $movie_content.description );
+}
+
+function showMovieDialog( obj )
 {
     var buttons = 
     [ 
         {   'text': 'OK',
             'click': function ()
 		  	{
-                processMovie( 'delete', movieid );
+                obj.popupDialogData = $( '#popup-dialog-form' ).serialize();
+
+                validateMovie( obj );
+            },
+        },
+        {   'text': 'Cancel',
+            'click': function () 
+            {			          
+                closePopupDialog( 'process_movie' );
+            }
+        }
+    ];
+
+    $( '#' + popupDialogPrefix + 'process_movie' )
+        .closest( '.ui-dialog' )
+        .children( '.ui-dialog-titlebar')
+        .css( 'background', 'limegreen' );
+
+    popupDialog( {
+	    'id': 'process_movie',
+        'title': obj.title,
+        'buttons': buttons
+    } );
+}
+
+function confirmMovieDeletion( obj)
+{
+    var buttons = 
+    [ 
+        {   'text': 'OK',
+            'click': function ()
+		  	{
+                processMovie( obj );
             },
         },
         {   'text': 'Cancel',
@@ -111,7 +95,7 @@ function confirmMovieDeletion( movieid, title )
         .children( '.ui-dialog-titlebar')
         .css( 'background', '#d92' );
 
-    $( '.popup-dialog-container .confirm_message' ).html( "Movie '" + title + "' will be deleted. Are you sure?" );
+    $( '.popup-dialog-container .confirm_message' ).html( "Movie '" + obj.title + "' will be deleted. Are you sure?" );
 
     popupDialog( {
 		'id': 'confirm',
@@ -120,59 +104,73 @@ function confirmMovieDeletion( movieid, title )
     } );
 }
 
-function processMovie( action, movieid )
+function processMovie( obj )
 {			
     $.ajax({
         type: "POST",
         url: "/ajax/process-movie.php",
-        data: {
-            'action': action,
-            'movieid': movieid        
-        },
+        data: obj,
         dataType: 'json',
         cache: false,
         success: function( data )
-        {               
-            if( action == 'like' || 
-                action == 'hate' )
+        {           
+            if( data.resp )
             {
-                // Update vote count           
-                $( 'span#like_votes_' + movieid ).html( data.like_votes + ' likes' )
-                $( 'span#hate_votes_' + movieid ).html( data.hate_votes + ' hates' )
-
-                if( action == 'like' ) 
+                if( obj.action == 'like' || 
+                    obj.action == 'hate' )
                 {
-                    // Toggle vote count
-                    $( 'span#like_votes_' + movieid ).addClass( 'liked' );
-                    $( 'span#hate_votes_' + movieid ).removeClass( 'hated' );
+                    // Update votes           
+                    $( 'span#like_votes_' + obj.movieid ).html( data.like_votes + ' likes' )
+                    $( 'span#hate_votes_' + obj.movieid ).html( data.hate_votes + ' hates' )
 
-                    // Update vote link
-                    $( 'span#like_link_' + movieid ).html( '<span class="movie_voted">Like</span>' );
-                    $( 'span#hate_link_' + movieid ).html(
-                        "<a href='javascript:processMovie( \"hate\", \"" + movieid + "\" )'>Hate</a>"
-                    );
+                    if( obj.action == 'like' ) 
+                    {
+                        // Toggle votes
+                        $( 'span#like_votes_' + obj.movieid ).addClass( 'liked' );
+                        $( 'span#hate_votes_' + obj.movieid ).removeClass( 'hated' );
+
+                        // Update vote link
+                        obj.action = 'hate';
+                        $( 'span#like_link_' + obj.movieid ).html( '<span class="movie_voted">Like</span>' );
+                        $( 'span#hate_link_' + obj.movieid ).html(
+                            "<a href='javascript:processMovie( " + JSON.stringify( obj ) + " )'>Hate</a>"
+                        );
+                    }
+                    else if( obj.action == 'hate' )
+                    {
+                        // Toggle votes
+                        $( 'span#hate_votes_' + obj.movieid ).addClass( 'hated' );
+                        $( 'span#like_votes_' + obj.movieid ).removeClass( 'liked' );
+
+                        // Update vote link
+                        obj.action = 'like';
+                        $( 'span#hate_link_' + obj.movieid ).html( '<span class="movie_voted">Hate</span>' );
+                        $( 'span#like_link_' + obj.movieid ).html(
+                            "<a href='javascript:processMovie( " + JSON.stringify( obj ) + " )'>Like</a>"
+                        );
+                    }   
+        	    }
+                else if( obj.action == 'add' || 
+                         obj.action == 'edit' )
+                {
+                    closePopupDialog( 'process_movie' );
+
+                    sortMovies( sort_by, 1 );
                 }
-                else if( action == 'hate' )
+                else if( obj.action == 'delete' ) 
                 {
-                    // Toggle vote count
-                    $( 'span#hate_votes_' + movieid ).addClass( 'hated' );
-                    $( 'span#like_votes_' + movieid ).removeClass( 'liked' );
-
-                    // Update vote link
-                    $( 'span#hate_link_' + movieid ).html( '<span class="movie_voted">Hate</span>' );
-                    $( 'span#like_link_' + movieid ).html(
-                        "<a href='javascript:processMovie( \"like\", \"" + movieid + "\" )'>Like</a>"
-                    );
-                }   
-        	}
-            else if( action == 'delete' ) 
-            {
-                if( data.resp ) {
                     closePopupDialog( 'confirm' );
+
+                    sortMovies( sort_by, 1 );
                 }
-    
-                window.location.reload();
             }
+            else {
+                alert( 'Something went wrong!' );
+            }
+        },
+        error: function( e, jqxhr )
+        {
+            alert( 'An error occurred: ' + jqxhr );
         }
     });
 }
@@ -200,6 +198,8 @@ function sortMovies( action, can_vote )
             
             // Update found movies
             $( '.found_movies_count' ).html( $( '.movie_data' ).length );
+
+            sort_by = action;
         }        
     });
 }

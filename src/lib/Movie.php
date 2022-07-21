@@ -17,7 +17,11 @@ class Movie
 
         $movie_vote_dao = new MovieVoteDao;
 
-        $href = 'javascript:processMovie( "like", "'.$this->data['movieid'].'" )';
+        $obj = array();
+        $obj['action'] = 'like';
+        $obj['movieid'] = $this->data['movieid'];
+
+        $href = 'javascript:processMovie( '.json_encode( $obj ).' );';
         $this->data['like'] = "<a href='{$href}'>Like</a>";
 
         if( $this->data['liked'] = $movie_vote_dao->getVoteLike( $movie_vote_values ) ) {
@@ -33,7 +37,11 @@ class Movie
 
         $movie_vote_dao = new MovieVoteDao;
 
-        $href = 'javascript:processMovie( "hate", "'.$this->data['movieid'].'" )';
+        $obj = array();
+        $obj['action'] = 'hate';
+        $obj['movieid'] = $this->data['movieid'];
+
+        $href = 'javascript:processMovie( '.json_encode( $obj ).' );';
         $this->data['hate'] = "<a href='{$href}'>Hate</a>";
 
         if( $this->data['hated'] = $movie_vote_dao->getVoteHate( $movie_vote_values ) ) {
@@ -83,8 +91,33 @@ class Movie
         }
         echo "<span class=\"movie_posted_by\">Posted by <span class=\"movie_posted_by_user\">$posted_by</span>";
         echo "</div>";
-        if( $myself ){
-            echo "<div class=\"movie_delete\"><input id=\"delete_movie\" type=\"button\" value=\"Delete\" onclick=\"confirmMovieDeletion( '$movieid', '$title' );\"/></div>";
+        if( $myself ) 
+        {
+            echo "<div class=\"user_movie_actions\">";                                    
+
+            // Edit movie
+            $obj = array();
+            $obj['movieid'] = $movieid;
+            $obj['action'] = 'edit';
+            $obj['title'] = 'Edit Movie';
+
+            $movie_content = array();
+            $movie_content['title'] = $title;
+            $movie_content['description'] = $description;
+
+            $onclick = 'resetMovieDialog(); setMovieDialogContent( '.htmlspecialchars( json_encode( $movie_content ), ENT_QUOTES, 'UTF-8' ).' ); showMovieDialog( '.json_encode( $obj ).' );';
+            echo "<span class=\"movie_edit\"><input id=\"edit_movie\" type=\"button\" value=\"Edit\" onclick='{$onclick}'/></span>";
+            
+            // Delete movie
+            $obj = array();
+            $obj['movieid'] = $movieid;
+            $obj['action'] = 'delete';
+            $obj['title'] = $title;
+            
+            $onclick = 'confirmMovieDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
+            echo "<span class=\"movie_delete\"><input id=\"delete_movie\" type=\"button\" value=\"Delete\" onclick='{$onclick}'/></span>";
+            
+            echo "</div>";
         }
         echo "</div>";
     }

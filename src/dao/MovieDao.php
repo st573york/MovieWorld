@@ -79,7 +79,7 @@ class MovieDao
                 }
             }
 
-            $query = "SELECT *, date_format( creation_date, '%d %M %Y %H:%i:%s' ) AS posted, users.username AS posted_by
+            $query = "SELECT *, date_format( creation_date, '%d/%m/%Y' ) AS posted, users.username AS posted_by
                       FROM {$this->table} 
                       LEFT JOIN users ON movies.userid = users.userid
                       $where
@@ -128,6 +128,40 @@ class MovieDao
 			$stmt->bindParam( ':title', $this->data['title'], PDO::PARAM_STR );
 			$stmt->bindParam( ':description', $this->data['description'], PDO::PARAM_STR );
             $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );                                                
+			$stmt->execute();
+            
+			return TRUE;
+		}
+		catch( PDOException $e ) 
+		{	
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
+
+    function update( $values )
+	{
+        global $conn;
+        
+   		try 
+		{
+            $this->data = self::$defaults;
+            
+			foreach( array_keys( $this->data ) as $key ) 
+			{
+				if( isset( $values[ $key ] ) ) {				
+                    $this->data[ $key ] = $values[ $key ];
+				}
+	   		}
+            
+            $query = "UPDATE {$this->table}
+                      SET title = :title, description = :description
+                      WHERE movieid = :movieid";
+
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT ); 
+			$stmt->bindParam( ':title', $this->data['title'], PDO::PARAM_STR );
+			$stmt->bindParam( ':description', $this->data['description'], PDO::PARAM_STR );                                               
 			$stmt->execute();
             
 			return TRUE;

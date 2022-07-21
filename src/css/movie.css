@@ -23,7 +23,7 @@
 .movie_header,
 .movie_content,
 .movie_footer,
-.movie_delete {
+.user_movie_actions {
     clear: both;
 }
 
@@ -35,9 +35,13 @@
     text-align: center;
 }
 
-.movie_delete {
+.user_movie_actions {
     text-align: right;
     padding-top: 10px;
+}
+
+.movie_edit {
+    padding-right: 5px;
 }
 
 #new_movie {
@@ -47,6 +51,17 @@
 }
 
 #new_movie:hover {
+    background-color: green;
+    color: #ffffff;
+}
+
+#edit_movie {
+    background-color: limegreen;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+#edit_movie:hover {
     background-color: green;
     color: #ffffff;
 }

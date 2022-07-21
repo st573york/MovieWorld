@@ -34,18 +34,35 @@ case 'validate':
 
     break;
 case 'add':    
-    $movie_values = array();
-    
-    foreach( $popupDialogData as $key => $val ) {
-        $movie_values[ $key ] = $val;
-    }        
-    
-    if( !$movie_dao->insert( $movie_values ) ) {
+    if( !$movie_dao->insert( $popupDialogData ) ) {
         $obj['resp'] = false;
     }
 
     echo json_encode( $obj );
 
+    break;
+case 'edit':  
+    $movie_values = array();
+    $movie_values['movieid'] = $_POST['movieid'];
+
+    foreach( $popupDialogData as $key => $val ) {
+        $movie_values[ $key ] = $val;
+    }        
+
+    if( !$movie_dao->update( $movie_values ) ) {
+        $obj['resp'] = false;
+    }
+    
+    echo json_encode( $obj );
+    
+    break;
+case 'delete':
+    if( !$movie_dao->delete( $_POST['movieid'] ) ) {
+        $obj['resp'] = false;
+    }
+    
+    echo json_encode( $obj );
+    
     break;
 case 'like':
     $movie_values = array();
@@ -117,14 +134,6 @@ case 'hate':
 
     $obj['like_votes'] = $movie_values['number_of_likes'];
     $obj['hate_votes'] = $movie_values['number_of_hates'];
-
-    echo json_encode( $obj );
-
-    break;
-case 'delete':
-    if( !$movie_dao->delete( $_POST['movieid'] ) ) {
-        $obj['resp'] = false;
-    }
 
     echo json_encode( $obj );
 

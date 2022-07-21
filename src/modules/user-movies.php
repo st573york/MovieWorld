@@ -30,11 +30,11 @@
         </div>
    
         <!-- Dialog Movie Form -->
-	    <div id="popup-dialog-new_movie" style="display: none;">
+	    <div id="popup-dialog-process_movie" style="display: none;">
             <div class="popup-dialog-container">
 	            <form id="popup-dialog-form">
-                    <div class="field"><input type="text" name="title" placeholder="Name"/></div>
-                    <div class="field"><textarea name="description" placeholder="Description" rows="5" cols="30"></textarea></div>
+                    <div class="field"><input type="text" id="title" name="title" placeholder="Title"/></div>
+                    <div class="field"><textarea id="description" name="description" placeholder="Description" rows="5" cols="30"></textarea></div>
                     <div class="error_message"></div>
                 </form>
             </div>
@@ -85,13 +85,21 @@
 
     // Movie Actions
     echo "<div class=\"movie_actions\">";
-    // Open dialog to add new movie
-    echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" onclick=\"resetMovieDialog(); showMovieDialog();\"/></div>";
+
+    // Add new movie
+    $obj = array();
+    $obj['action'] = 'add';
+    $obj['title'] = 'Add Movie';
+
+    $onclick = 'resetMovieDialog(); showMovieDialog( '.json_encode( $obj ).' );';
+    echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" onclick='{$onclick}'/></div>";
+
     if( $count )
     {
         $movie_sort = new MovieSort;
         $movie_sort->renderHtml( 1 );
     }
+    
     echo "</div>";
 
     echo "</div>";
