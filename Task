@@ -23,6 +23,6 @@ The name of the user is a link that, when clicked, filters the movies down to th
 
 The list can also be sorted by the number of likes, number of hates or the publication date.
 
-In addition, authorized users are able to add / edit / delete their own movies and express their opinion for other movies by either liking or hating a movie.
+In addition, authorized users are able to add / edit / delete their own movies and express their opinion for other movies by either liking, hating a movie or by retracting their vote.
 
 Voting is performed by clicking on the respective links that are displayed for each movie.
