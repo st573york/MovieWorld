@@ -29,8 +29,11 @@ css/***
 dao/***
 * Data access objects 
 
-database/create-db.sql
+database/db-create.sql
 * Database schema
+
+database/db-data.sql
+* Database data
 
 database/db.php
 * Database connection management
