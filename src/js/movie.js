@@ -5,6 +5,51 @@
 var dialogs = [ 'process_movie', 'confirm' ];
 var sort_by = 'sort_by_dates';
 
+$( document ).ready( function() {
+        
+    // Hide users list when clicked outside of div
+    $( this ).on( 'click', function( e ) {
+        if( $( e.target ).closest( '.users_list' ).length === 0 ) {
+            $( '.users_list' ).hide();
+        }
+    });   
+
+    // Show users who liked a movie
+    $( this ).on( 'click', '.like_votes_text', function( e ) {
+        var parts = this.id.split( 'like_votes_text_' );
+
+        // Hide all users list other than the one clicked
+        $( '.users_list' ).not( '#users_like_' + parts[1] ).hide();
+
+        if( $( '#users_like_' + parts[1] ).is( ':visible' ) ) {
+            $( '#users_like_' + parts[1] ).hide();
+        }
+        else {
+            $( '#users_like_' + parts[1] ).show();
+        }
+
+        e.stopPropagation();
+    });   
+
+    // Show users who hated a movie
+    $( this ).on( 'click', '.hate_votes_text', function( e ) {
+        var parts = this.id.split( 'hate_votes_text_' );
+
+        // Hide all users list other than the one clicked
+        $( '.users_list' ).not( '#users_hate_' + parts[1] ).hide();
+
+        if( $( '#users_hate_' + parts[1] ).is( ':visible' ) ) {
+            $( '#users_hate_' + parts[1] ).hide();
+        }
+        else {
+            $( '#users_hate_' + parts[1] ).show();
+        }
+ 
+        e.stopPropagation();
+    });
+
+} );
+
 function validateMovie( obj )
 {
     $.ajax({
@@ -14,11 +59,10 @@ function validateMovie( obj )
 				'action': 'validate',
 				'popupDialogData': obj.popupDialogData
         },
-		dataType: 'json',
 		cache: false,
 		success: function( data )
 		{
-			if( data.resp ) {
+			if( data.indexOf( 'ERROR' ) == -1 ) {
                 processMovie( obj );
             }
             else {
@@ -110,62 +154,39 @@ function processMovie( obj )
         type: "POST",
         url: "/ajax/process-movie.php",
         data: obj,
-        dataType: 'json',
         cache: false,
         success: function( data )
-        {           
-            if( data.resp )
+        {                  
+            if( data.indexOf( 'ERROR' ) == -1 )
             {
                 if( obj.action == 'like' || 
                     obj.action == 'hate' )
-                {
-                    // Update votes           
-                    $( 'span#like_votes_' + obj.movieid ).html( data.like_votes + ' likes' )
-                    $( 'span#hate_votes_' + obj.movieid ).html( data.hate_votes + ' hates' )
+                {                    
+                    var movie_votes_num = $( $.parseHTML( data ) ).filter( '#movie_votes_num_' + obj.movieid );
+                    var movie_votes_btn = $( $.parseHTML( data ) ).filter( '#movie_votes_btn_' + obj.movieid );
 
-                    if( obj.action == 'like' ) 
-                    {
-                        // Toggle votes
-                        $( 'span#like_votes_' + obj.movieid ).addClass( 'liked' );
-                        $( 'span#hate_votes_' + obj.movieid ).removeClass( 'hated' );
+                    // Update movie votes num
+                    $( 'div#movie_votes_num_' + obj.movieid ).empty().append( movie_votes_num.html() );
 
-                        // Update vote link
-                        obj.action = 'hate';
-                        $( 'span#like_link_' + obj.movieid ).html( '<span class="movie_voted">Like</span>' );
-                        $( 'span#hate_link_' + obj.movieid ).html(
-                            "<a href='javascript:processMovie( " + JSON.stringify( obj ) + " )'>Hate</a>"
-                        );
-                    }
-                    else if( obj.action == 'hate' )
-                    {
-                        // Toggle votes
-                        $( 'span#hate_votes_' + obj.movieid ).addClass( 'hated' );
-                        $( 'span#like_votes_' + obj.movieid ).removeClass( 'liked' );
-
-                        // Update vote link
-                        obj.action = 'like';
-                        $( 'span#hate_link_' + obj.movieid ).html( '<span class="movie_voted">Hate</span>' );
-                        $( 'span#like_link_' + obj.movieid ).html(
-                            "<a href='javascript:processMovie( " + JSON.stringify( obj ) + " )'>Like</a>"
-                        );
-                    }   
+                    // Update movie votes btn 
+                    $( 'div#movie_votes_btn_' + obj.movieid ).empty().append( movie_votes_btn.html() );
         	    }
                 else if( obj.action == 'add' || 
                          obj.action == 'edit' )
                 {
                     closePopupDialog( 'process_movie' );
 
-                    sortMovies( sort_by, 1 );
+                    sortMovies( sort_by );
                 }
                 else if( obj.action == 'delete' ) 
                 {
                     closePopupDialog( 'confirm' );
 
-                    sortMovies( sort_by, 1 );
+                    sortMovies( sort_by );
                 }
             }
             else {
-                alert( 'Something went wrong!' );
+                alert( data );
             }
         },
         error: function( e, jqxhr )
@@ -175,25 +196,18 @@ function processMovie( obj )
     });
 }
 
-function sortMovies( action, can_vote )
+function sortMovies( action )
 {			
     $.ajax({
         type: "POST",
         url: "/ajax/process-movie.php",
-        data: { 
-            'action': action, 
-            'can_vote': can_vote 
-        },
-        dataType: 'html',
+        data: { 'action': action },
         cache: false,
         success: function( data )
         {               
-            // Remove movie list 
-            $( '.movie_list' ).remove();
-
-            // Add movie list
+            // Update movies
             if( data ) {
-                $( '.movie_container' ).prepend( '<div class="movie_list">' + data + '</div>' ); 
+                $( '.movie_list' ).empty().append( data ); 
             }
             
             // Update found movies

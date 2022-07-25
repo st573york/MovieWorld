@@ -6,7 +6,7 @@
 
 class MovieVoteDao
 {
-	var $table = 'vote_movies';
+	var $table = 'movie_votes';
 	var $data = array();
 
     static $defaults = array(
@@ -16,7 +16,34 @@ class MovieVoteDao
         'vote_hate' => false
         );
 
-    function getVoteLike( $values )
+	function hasUserVoted( $values )
+	{
+        global $conn;
+        
+   		try 
+		{                
+			$query = "SELECT * FROM {$this->table}
+                      WHERE movieid = :movieid AND userid = :userid";
+
+			$stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':movieid', $values['movieid'], PDO::PARAM_INT );
+            $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+			$stmt->execute();
+			
+			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
+				return TRUE;
+			}
+            
+			return FALSE;
+		}
+		catch( PDOException $e ) 
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
+
+    function hasUserLiked( $values )
 	{
         global $conn;
         
@@ -43,7 +70,7 @@ class MovieVoteDao
 		}
 	}
 
-    function getVoteHate( $values )
+	function hasUserHated( $values )
 	{
         global $conn;
         
@@ -62,6 +89,106 @@ class MovieVoteDao
 			}
             
 			return FALSE;
+		}
+		catch( PDOException $e ) 
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
+
+	function getLikeVotesNum( $movieid )
+	{
+        global $conn;
+        
+   		try 
+		{                
+			$query = "SELECT COUNT(*) FROM {$this->table}
+                      WHERE movieid = :movieid AND vote_like IS TRUE";
+			
+			$stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT );
+			$stmt->execute();
+
+			return $stmt->fetchColumn();
+		}
+		catch( PDOException $e ) 
+		{
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	function getHateVotesNum( $movieid )
+	{
+        global $conn;
+        
+   		try 
+		{                
+			$query = "SELECT COUNT(*) FROM {$this->table}
+                      WHERE movieid = :movieid AND vote_hate IS TRUE";
+			
+			$stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT );
+			$stmt->execute();
+
+			return $stmt->fetchColumn();
+		}
+		catch( PDOException $e ) 
+		{
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	function getUsersByLike( &$values )
+	{
+        global $conn;
+        
+   		try 
+		{                
+			$query = "SELECT * FROM {$this->table}
+					  LEFT JOIN users ON movie_votes.userid = users.userid
+                      WHERE movieid = :movieid AND vote_like IS TRUE 
+					  ORDER BY username";
+			
+			$stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':movieid', $values['movieid'], PDO::PARAM_INT );
+			$stmt->execute();
+			
+			while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
+                $values['users_like'][] = $row['username'];
+            }
+            
+			return TRUE;
+		}
+		catch( PDOException $e ) 
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
+
+	function getUsersByHate( &$values )
+	{
+        global $conn;
+        
+   		try 
+		{                
+			$query = "SELECT * FROM {$this->table}
+					  LEFT JOIN users ON movie_votes.userid = users.userid
+                      WHERE movieid = :movieid AND vote_hate IS TRUE 
+					  ORDER BY username";
+			
+			$stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':movieid', $values['movieid'], PDO::PARAM_INT );
+			$stmt->execute();
+			
+			while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
+                $values['users_hate'][] = $row['username'];
+            }
+            
+			return TRUE;
 		}
 		catch( PDOException $e ) 
 		{
@@ -106,7 +233,7 @@ class MovieVoteDao
 		}
 	}
 
-    function update( $values )
+	function updateVoteLike( $values )
 	{
         global $conn;
         
@@ -121,25 +248,17 @@ class MovieVoteDao
 				}
 	   		}            
 
-            $field = '';
-            if( isset( $values['vote_like'] ) &&
-                $values['vote_like'] )                
-            {
-                $field .= 'vote_like = true, vote_hate = false';
-            }
-            else if( isset( $values['vote_hate'] ) &&
-                     $values['vote_hate'] )                
-            {
-                $field .= 'vote_hate = true, vote_like = false';
-            }
-            
 			$query = "UPDATE {$this->table}
-			          SET $field
+			          SET vote_hate = false, vote_like = (
+                        CASE WHEN vote_like = true
+                        THEN false
+                        ELSE true
+                        END )
 			          WHERE movieid = :movieid AND userid = :userid";
 
 			$stmt = $conn->prepare( $query );
             $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT );
-            $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+			$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
 			$stmt->execute();
             
 			return TRUE;
@@ -149,7 +268,44 @@ class MovieVoteDao
 			echo $e->getMessage();
 			return FALSE;
 		}
-	}    
+	}
+
+	function updateVoteHate( $values )
+	{
+        global $conn;
+        
+		try
+		{
+            $this->data = self::$defaults;
+            
+            foreach( array_keys( $this->data ) as $key )
+			{
+				if( isset( $values[ $key ] ) ) {
+                    $this->data[ $key ] = $values[ $key ];
+				}
+	   		}            
+
+			$query = "UPDATE {$this->table}
+			          SET vote_like = false, vote_hate = (
+                        CASE WHEN vote_hate = true
+                        THEN false
+                        ELSE true
+                        END )
+			          WHERE movieid = :movieid AND userid = :userid";
+
+			$stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT );
+			$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+			$stmt->execute();
+            
+			return TRUE;
+		}
+		catch( PDOException $e )
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
 }
 
 ?>

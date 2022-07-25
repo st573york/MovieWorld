@@ -56,7 +56,7 @@
          echo "<div class=\"movie_actions\">";
 
         $movie_sort = new MovieSort;
-        $movie_sort->renderHtml( 0 );
+        $movie_sort->renderHtml();
 
         echo "</div>";
     }

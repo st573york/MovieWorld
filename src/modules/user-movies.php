@@ -7,10 +7,12 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/movie.css">
+    <link rel="stylesheet" href="/css/dropdownbutton.css">
     <link rel="stylesheet" href="/css/popup-dialog.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/movie.js"></script>
     <script type="text/javascript" src="/js/popup-dialog-widget.js"></script>    
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -21,7 +23,14 @@
             <span class="title_panel">Movie World</span>
             <span class="message_panel">Welcome Back 
                 <span class="loggedin_user">
-                    <a href="javascript:sortMovies( 'sort_by_user', 0 )"><?php echo $_SESSION['username'] ?></a>
+<?php 
+                    if( $_SESSION['username'] == 'admin' ) {   
+                        echo "<a href=\"\">".$_SESSION['username']."</a>";                
+                    }
+                    else {
+                        echo "<a href=\"javascript:sortMovies( 'sort_by_user' )\">".$_SESSION['username']."</a>";
+                    }
+?>
                 </span>
             </span>
         </div>
@@ -73,11 +82,9 @@
         foreach( $movies as $data )
         {         
             $movie = new Movie( $data );
-
-            $movie->setLike();
-            $movie->setHate();
-
             $movie->renderHtml();
+
+            $count++;
         }
 
         echo "</div>";
@@ -86,18 +93,21 @@
     // Movie Actions
     echo "<div class=\"movie_actions\">";
 
-    // Add new movie
-    $obj = array();
-    $obj['action'] = 'add';
-    $obj['title'] = 'Add Movie';
+    if( $_SESSION['username'] != 'admin' )
+    {
+        // Add new movie
+        $obj = array();
+        $obj['action'] = 'add';
+        $obj['title'] = 'Add Movie';
 
-    $onclick = 'resetMovieDialog(); showMovieDialog( '.json_encode( $obj ).' );';
-    echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" onclick='{$onclick}'/></div>";
+        $onclick = 'resetMovieDialog(); showMovieDialog( '.json_encode( $obj ).' );';
+        echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" title=\"Add New Movie\" onclick='{$onclick}'/></div>";
+    }
 
     if( $count )
     {
         $movie_sort = new MovieSort;
-        $movie_sort->renderHtml( 1 );
+        $movie_sort->renderHtml();
     }
     
     echo "</div>";
