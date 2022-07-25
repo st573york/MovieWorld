@@ -20,9 +20,12 @@ Each movie contains the following information:
 ● Number of hates
 
 The name of the user is a link that, when clicked, filters the movies down to the items that have been shared by this specific user.
+The number of votes is a link that, when clicked, it shows users who have voted a movie.
 
 The list can also be sorted by the number of likes, number of hates or the publication date.
 
 In addition, authorized users are able to add / edit / delete their own movies and express their opinion for other movies by either liking, hating a movie or by retracting their vote.
 
 Voting is performed by clicking on the respective links that are displayed for each movie.
+
+Admin user should also be created by default and should be able to edit / delete any movie or see users who have voted a movie.
