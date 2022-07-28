@@ -6,7 +6,7 @@ Each movie has a title and a small description as well as a date that correspond
 
 In addition it holds a reference to the user that submitted it.
 
-Users can also express their opinion about a movie by liking or hating each one.
+Users can also express their opinion about a movie by liking, hating or commenting each one.
 
 When an unauthorized user visits the application, a list of movies that have been added to the database is displayed, as well as links for log in / sign up.
 
@@ -18,14 +18,16 @@ Each movie contains the following information:
 ● Date of publication 
 ● Number of likes
 ● Number of hates
+● Number of comments
 
 The name of the user is a link that, when clicked, filters the movies down to the items that have been shared by this specific user.
-The number of votes is a link that, when clicked, it shows users who have voted a movie.
+The number of votes is a link that, when clicked, it shows list of users who have voted a movie.
+The number of comments is a link that, when clicked, it shows list of users who have commented a movie.
 
-The list can also be sorted by the number of likes, number of hates or the publication date.
+The list can also be sorted by the number of likes, number of hates, number of comments or the publication date.
 
-In addition, authorized users are able to add / edit / delete their own movies and express their opinion for other movies by either liking, hating a movie or by retracting their vote.
+In addition, authorized users are able to:
+  - Add, edit or delete their own movies and express their opinion for other movies by either liking, hating a movie or by retracting their vote. Voting is performed by clicking on the respective links that are displayed for each movie.
+  - Add a comment for other movies. Commenting is performed by clicking on the respective links that are displayed for each movie.
 
-Voting is performed by clicking on the respective links that are displayed for each movie.
-
-Admin user should also be created by default and should be able to edit / delete any movie or see users who have voted a movie.
+Admin user should also be created by default and should be able to edit / delete any movie or see list of users who have voted or commented a movie.
