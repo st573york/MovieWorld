@@ -63,11 +63,13 @@
     font-size: 20px;
 }
 
-.movie_votes_num {
+.movie_votes_num,
+.movie_comments_num {
     float: left;
 }
 
-.movie_votes_btn {
+.movie_votes_btn,
+.movie_comment_btn {
     display: inline-block;
 }
 
@@ -94,32 +96,28 @@
     text-align: center; 
     border: 1px solid; 
     border-radius: 5px;
-    margin-left: 9px;
     padding: 5px; 
     width: fit-content; 
     background-color: #eee; 
 }
 
-.like_votes,
-.like_btn { 
-    padding-right: 5px; 
+.separator {    
+    float: inherit;
+    padding: 0px 5px 0px 5px; 
 }
 
-.like_votes {
+.movie_likes {
     float: left;
 }
 
-.hate_votes,
-.hate_btn {
-    padding-left: 5px;
-}
-
-.hate_votes {
+.movie_hates,
+.movie_comments {
     float: right;
 }
 
-.like_votes_text:hover,
-.hate_votes_text:hover {
+.movie_likes_text:hover,
+.movie_hates_text:hover,
+.movie_comments_text:hover {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -132,7 +130,7 @@
     color: red;
 }
 
-.users_list {
+.items_list {
     display: none;
     border: 1px solid;
     z-index: 1000;
@@ -140,27 +138,87 @@
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 4px;
-    max-height: 200px;
-    max-width: 150px;
+    padding: 10px;
+    line-height: 25px;
+    max-height: 300px;
+    max-width: 500px;
     overflow: auto;
     -webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
 	-moz-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
 	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
 }
 
-.users_list_ul {
-    padding: 0px 10px 0px 10px;
-    line-height: 25px;
+table.list {
+    background-color: transparent;
+    _border-collapse: collapse;
+    border-spacing: 0;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
-.users_list_li {
-    list-style: none;
+table.list th {
+    background: #eee;
+    color: deepskyblue;
+    height: auto;
+    padding: 0px 0 0px 3px;
+    border-top: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 0 0 0.66em 0;
+    text-align: left;
+    vertical-align: top;
+    padding: 0.4em 0.5em 0.2em 0.5em;
+    white-space: nowrap;
+}
+
+table.list tr.even {
+    background-color: #fff;
+    color: #333;
+}
+
+table.list tr.odd {
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+table.list tr.even:hover, 
+table.list tr.odd:hover {
+    background-color: #e0e0d8;
+    color: #333;
+}
+
+table.list td {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    vertical-align: middle;
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    margin: 0;
+}
+
+table.list td.single_item {
+    border: none;
 }
 
 .like_btn a:hover, 
 .hate_btn a:hover,
 .sort_btn a:hover {
     color: darkblue;
+}
+
+.comment_btn {
+    float: right;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    margin-top: 8px;
+    background-image: url('/images/comment-deepskyblue.png');
+}
+
+.comment_btn:hover {
+    background-image: url('/images/comment-darkblue.png');
 }
 
 .movie_voted {    

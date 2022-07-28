@@ -22,11 +22,11 @@ CREATE UNIQUE INDEX users_username_idx ON users( username );
 --
 CREATE TABLE movies
 (
-	movieid		      BIGINT AUTO_INCREMENT PRIMARY KEY,
-	title             VARCHAR(64) NOT NULL,
-	description       TEXT,
-	userid            BIGINT NOT NULL REFERENCES users( userid ),
-	creation_date     TIMESTAMP NOT NULL DEFAULT NOW()
+	movieid		    BIGINT AUTO_INCREMENT PRIMARY KEY,
+	title           VARCHAR(64) NOT NULL,
+	description     TEXT,
+	userid          BIGINT NOT NULL REFERENCES users( userid ),
+	creation_date   TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE UNIQUE INDEX movies_title_idx ON movies( title );
@@ -42,4 +42,17 @@ CREATE TABLE movie_votes
 	userid      BIGINT NOT NULL REFERENCES users( userid ),
 	vote_like   BOOLEAN NOT NULL DEFAULT FALSE,
 	vote_hate   BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+--
+-- <table name="movie_comments">
+--  <desc>Table stores list of movies that users have commented.</desc>
+-- </table>
+--
+CREATE TABLE movie_comments
+(
+	movieid         BIGINT NOT NULL REFERENCES movies( movieid ),
+	userid          BIGINT NOT NULL REFERENCES users( userid ),
+	comment         TEXT,
+	creation_date   TIMESTAMP NOT NULL DEFAULT NOW()
 );

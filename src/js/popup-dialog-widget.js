@@ -36,7 +36,7 @@ function popupDialog( settings )
     var options = $.extend({
         id: '',
         title: '',
-        html: $( '#' + popupDialogPrefix + settings.id + ' .popup-dialog-container' ),
+        html: '',
         buttons: []
         }, settings );
 

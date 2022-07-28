@@ -52,32 +52,38 @@ class MovieDao
         try
         {            
             $count = '';
-            $and = '';
-            $where = '';            
-            $order_by = 'creation_date';
+            $left_join = '';
+            $where = '';
+            $order_by = 'movies.creation_date';
 
             if( $order )
             {
                 switch( $order )
                 {
                     case 'sort_by_user':
-                        $where .= ' WHERE movies.userid = :userid ';
+                        $where .= 'WHERE movies.userid = :userid';
 
                         break;
                     case 'sort_by_likes':
                         $count .= 'COUNT( movie_votes.movieid ) AS total_likes,';
-                        $and .= 'AND movie_votes.vote_like IS TRUE';
+                        $left_join .= 'LEFT JOIN movie_votes ON movies.movieid = movie_votes.movieid AND movie_votes.vote_like IS TRUE';
                         $order_by = 'total_likes';
 
                         break;
                     case 'sort_by_hates':
                         $count .= 'COUNT( movie_votes.movieid ) AS total_hates,';
-                        $and .= 'AND movie_votes.vote_hate IS TRUE';
+                        $left_join .= 'LEFT JOIN movie_votes ON movies.movieid = movie_votes.movieid AND movie_votes.vote_hate IS TRUE';
                         $order_by = 'total_hates';
     
                         break;
+                    case 'sort_by_comments':
+                        $count .= 'COUNT( movie_comments.movieid ) AS total_comments,';
+                        $left_join .= 'LEFT JOIN movie_comments ON movies.movieid = movie_comments.movieid';
+                        $order_by = 'total_comments';
+        
+                        break;
                     case 'sort_by_dates':
-                        $order_by = 'creation_date';
+                        $order_by = 'movies.creation_date';
         
                         break;
                 }
@@ -85,13 +91,13 @@ class MovieDao
 
             $query = "SELECT $count movies.movieid, movies.title, movies.description, 
                              date_format( movies.creation_date, '%d/%m/%Y' ) AS posted, users.username AS posted_by
-                      FROM {$this->table} 
-                      LEFT JOIN movie_votes ON movies.movieid = movie_votes.movieid $and
+                      FROM {$this->table}
+                      $left_join
                       LEFT JOIN users ON movies.userid = users.userid
                       $where
                       GROUP BY movies.movieid
                       ORDER BY $order_by DESC";
-        
+
             $stmt = $conn->prepare( $query );
             if( $where ) {
                 $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );

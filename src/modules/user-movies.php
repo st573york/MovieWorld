@@ -38,23 +38,11 @@
             <span class="logout_panel"><a href="logout.php">Logout</a></span>
         </div>
    
-        <!-- Dialog Movie Form -->
-	    <div id="popup-dialog-process_movie" style="display: none;">
-            <div class="popup-dialog-container">
-	            <form id="popup-dialog-form">
-                    <div class="field"><input type="text" id="title" name="title" placeholder="Title"/></div>
-                    <div class="field"><textarea id="description" name="description" placeholder="Description" rows="5" cols="30"></textarea></div>
-                    <div class="error_message"></div>
-                </form>
-            </div>
-	    </div>
+        <!-- Dialog Process Movie -->
+	    <div id="popup-dialog-process_movie" style="display: none;"></div>
 
         <!-- Dialog Confirm -->
-        <div id="popup-dialog-confirm" style="display: none;">
-            <div class="popup-dialog-container">
-                <div class="confirm_message"></div>
-            </div>
-	    </div>
+        <div id="popup-dialog-confirm" style="display: none;"></div>
       
 <?php
     require('lib/Movie.php');
@@ -62,6 +50,7 @@
 
     require('dao/MovieDao.php');
     require('dao/MovieVoteDao.php');
+    require('dao/MovieCommentDao.php');
       
     $movies = array();
     $movie_dao = new MovieDao;
@@ -98,9 +87,11 @@
         // Add new movie
         $obj = array();
         $obj['action'] = 'add';
+        $obj['type'] = 'movie';
         $obj['title'] = 'Add Movie';
+        $obj['html'] = Movie::getMovieDialogHtml();
 
-        $onclick = 'resetMovieDialog(); showMovieDialog( '.json_encode( $obj ).' );';
+        $onclick = 'showDialog( '.json_encode( $obj ).' );';
         echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" title=\"Add New Movie\" onclick='{$onclick}'/></div>";
     }
 

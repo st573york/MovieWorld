@@ -141,23 +141,23 @@ class MovieVoteDao
 		}
 	}
 
-	function getUsersByLike( &$values )
+	function getUsersByLike( $movieid, &$values )
 	{
         global $conn;
         
    		try 
 		{                
-			$query = "SELECT * FROM {$this->table}
+			$query = "SELECT username FROM {$this->table}
 					  LEFT JOIN users ON movie_votes.userid = users.userid
                       WHERE movieid = :movieid AND vote_like IS TRUE 
 					  ORDER BY username";
 			
 			$stmt = $conn->prepare( $query );
-			$stmt->bindParam( ':movieid', $values['movieid'], PDO::PARAM_INT );
+			$stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT );
 			$stmt->execute();
 			
 			while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
-                $values['users_like'][] = $row['username'];
+                $values[] = $row;
             }
             
 			return TRUE;
@@ -169,23 +169,23 @@ class MovieVoteDao
 		}
 	}
 
-	function getUsersByHate( &$values )
+	function getUsersByHate( $movieid, &$values )
 	{
         global $conn;
         
    		try 
 		{                
-			$query = "SELECT * FROM {$this->table}
+			$query = "SELECT username FROM {$this->table}
 					  LEFT JOIN users ON movie_votes.userid = users.userid
                       WHERE movieid = :movieid AND vote_hate IS TRUE 
 					  ORDER BY username";
 			
 			$stmt = $conn->prepare( $query );
-			$stmt->bindParam( ':movieid', $values['movieid'], PDO::PARAM_INT );
+			$stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT );
 			$stmt->execute();
 			
 			while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
-                $values['users_hate'][] = $row['username'];
+                $values[] = $row;
             }
             
 			return TRUE;

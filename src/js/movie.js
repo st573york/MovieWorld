@@ -7,19 +7,19 @@ var sort_by = 'sort_by_dates';
 
 $( document ).ready( function() {
         
-    // Hide users list when clicked outside of div
+    // Hide items list when clicked outside of div
     $( this ).on( 'click', function( e ) {
-        if( $( e.target ).closest( '.users_list' ).length === 0 ) {
-            $( '.users_list' ).hide();
+        if( $( e.target ).closest( '.items_list' ).length === 0 ) {
+            $( '.items_list' ).hide();
         }
     });   
 
     // Show users who liked a movie
-    $( this ).on( 'click', '.like_votes_text', function( e ) {
-        var parts = this.id.split( 'like_votes_text_' );
+    $( this ).on( 'click', '.movie_likes_text', function( e ) {
+        var parts = this.id.split( 'movie_likes_text_' );
 
         // Hide all users list other than the one clicked
-        $( '.users_list' ).not( '#users_like_' + parts[1] ).hide();
+        $( '.items_list' ).not( '#users_like_' + parts[1] ).hide();
 
         if( $( '#users_like_' + parts[1] ).is( ':visible' ) ) {
             $( '#users_like_' + parts[1] ).hide();
@@ -32,11 +32,11 @@ $( document ).ready( function() {
     });   
 
     // Show users who hated a movie
-    $( this ).on( 'click', '.hate_votes_text', function( e ) {
-        var parts = this.id.split( 'hate_votes_text_' );
+    $( this ).on( 'click', '.movie_hates_text', function( e ) {
+        var parts = this.id.split( 'movie_hates_text_' );
 
         // Hide all users list other than the one clicked
-        $( '.users_list' ).not( '#users_hate_' + parts[1] ).hide();
+        $( '.items_list' ).not( '#users_hate_' + parts[1] ).hide();
 
         if( $( '#users_hate_' + parts[1] ).is( ':visible' ) ) {
             $( '#users_hate_' + parts[1] ).hide();
@@ -48,15 +48,33 @@ $( document ).ready( function() {
         e.stopPropagation();
     });
 
+    // Show users who commented a movie
+    $( this ).on( 'click', '.movie_comments_text', function( e ) {
+        var parts = this.id.split( 'movie_comments_text_' );
+
+        // Hide all users list other than the one clicked
+        $( '.items_list' ).not( '#comments_' + parts[1] ).hide();
+
+        if( $( '#comments_' + parts[1] ).is( ':visible' ) ) {
+            $( '#comments_' + parts[1] ).hide();
+        }
+        else {
+            $( '#comments_' + parts[1] ).show();
+        }
+ 
+        e.stopPropagation();
+    });
+
 } );
 
-function validateMovie( obj )
+function validateDialog( obj )
 {
     $.ajax({
 		type: "POST",
 		url: "/ajax/process-movie.php",
 		data: {
 				'action': 'validate',
+                'type': obj.type,
 				'popupDialogData': obj.popupDialogData
         },
 		cache: false,
@@ -72,19 +90,7 @@ function validateMovie( obj )
     });
 }
 
-function resetMovieDialog()
-{
-    $( '#popup-dialog-form' )[0].reset();
-    $( '.popup-dialog-container .error_message' ).html( '' );
-}
-
-function setMovieDialogContent( $movie_content )
-{
-    $( '.popup-dialog-container #title' ).val( $movie_content.title );
-    $( '.popup-dialog-container #description' ).val( $movie_content.description );
-}
-
-function showMovieDialog( obj )
+function showDialog( obj )
 {
     var buttons = 
     [ 
@@ -93,7 +99,7 @@ function showMovieDialog( obj )
 		  	{
                 obj.popupDialogData = $( '#popup-dialog-form' ).serialize();
 
-                validateMovie( obj );
+                validateDialog( obj );
             },
         },
         {   'text': 'Cancel',
@@ -112,11 +118,12 @@ function showMovieDialog( obj )
     popupDialog( {
 	    'id': 'process_movie',
         'title': obj.title,
+        'html': obj.html,
         'buttons': buttons
     } );
 }
 
-function confirmMovieDeletion( obj)
+function confirmDeletion( obj)
 {
     var buttons = 
     [ 
@@ -139,11 +146,10 @@ function confirmMovieDeletion( obj)
         .children( '.ui-dialog-titlebar')
         .css( 'background', '#d92' );
 
-    $( '.popup-dialog-container .confirm_message' ).html( "Movie '" + obj.title + "' will be deleted. Are you sure?" );
-
     popupDialog( {
 		'id': 'confirm',
-        'title': 'Delete Movie',
+        'title': obj.title,
+        'html': obj.html,
         'buttons': buttons
     } );
 }
@@ -171,7 +177,8 @@ function processMovie( obj )
                     // Update movie votes btn 
                     $( 'div#movie_votes_btn_' + obj.movieid ).empty().append( movie_votes_btn.html() );
         	    }
-                else if( obj.action == 'add' || 
+                else if( obj.action == 'comment' || 
+                         obj.action == 'add' || 
                          obj.action == 'edit' )
                 {
                     closePopupDialog( 'process_movie' );

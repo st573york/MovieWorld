@@ -28,6 +28,7 @@
     
     require('dao/MovieDao.php');
     require('dao/MovieVoteDao.php');
+    require('dao/MovieCommentDao.php');
    
     $movies = array();
     $movie_dao = new MovieDao;
