@@ -42,7 +42,7 @@ images/***
 * Custom images
 
 js/movie.js
-* JS movie functions
+* JS movie events, functions
  
 js/popup-dialog-widget.js
 * JS popup dialog library
