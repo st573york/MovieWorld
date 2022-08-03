@@ -7,7 +7,7 @@
 }
 
 .movie_actions {
-    padding-left: 10px;
+    padding: 0px 0px 0px 10px;
 }
 
 .movie_list { 
@@ -37,9 +37,11 @@
 }
 
 .movie_content {
-    padding: 10px 0 10px 0;
+    padding: 10px 0px 10px 0px;
     overflow: auto;
     max-height: 300px;
+    -ms-overflow-style: none;  /* Hide scrollbar IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar Firefox */
 }
 
 .movie_footer {
@@ -146,6 +148,8 @@
     -webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
 	-moz-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
 	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
+    -ms-overflow-style: none;  /* Hide scrollbar IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar Firefox */
 }
 
 table.list {
@@ -162,7 +166,7 @@ table.list th {
     background: #eee;
     color: deepskyblue;
     height: auto;
-    padding: 0px 0 0px 3px;
+    padding: 0px 0px 0px 3px;
     border-top: 2px solid #ccc;
     border-bottom: 1px solid #ccc;
     margin: 0 0 0.66em 0;
@@ -231,3 +235,8 @@ table.list td.single_item {
     color: #ffffff;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.movie_content::-webkit-scrollbar,
+.items_list::-webkit-scrollbar {
+    display: none;
+}

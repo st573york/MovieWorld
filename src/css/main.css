@@ -17,17 +17,22 @@
 .message_panel,
 .logout_panel {
     float: right;
-    padding: 10px 10px 0 0;
+    padding: 10px 10px 0px 0px;
+}
+
+.actions_panel_separator {
+    padding: 0px 5px 0px 5px;
 }
 
 .loggedin_user { 
-    font-weight: bold; 
+    font-weight: bold;
+    padding: 0px 0px 0px 5px;
 }
 
 .found_movies {
     clear: both;
     font-size: 20px;
-    padding: 10px 0 10px 0;
+    padding: 10px 0px 10px 0px;
 }
 
 a {

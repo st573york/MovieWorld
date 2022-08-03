@@ -3,7 +3,7 @@
  */
 
 var dialogs = [ 'process_movie', 'confirm' ];
-var sort_by = 'sort_by_dates';
+var sort_by = 'sort_by_date';
 
 $( document ).ready( function() {
         

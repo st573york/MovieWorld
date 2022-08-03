@@ -1,10 +1,11 @@
 <?php
 
 require_once('database/db.php');
+
 require_once('dao/UserDao.php');
 
 /*
- * Clear the session vars
+ * clear the session vars
  */
 function session_clear()
 {    
@@ -15,7 +16,7 @@ function session_clear()
 }
 
 /*
- * Initialise a new session
+ * initialise a new session
  */
 function session_init( $userid, $username, $password )
 {        
@@ -28,7 +29,7 @@ function session_init( $userid, $username, $password )
 }
 
 /*
- * Process a login request. 
+ * process a login request
  */
 function login()
 {
@@ -48,16 +49,21 @@ function login()
 		// login failed?
 		if( !$_SESSION['logged_in'] )
 		{            
-			/* login.php checks this var */
-            $login_denied = 1;
-
 			require( 'login.php' );
+
+			$login = new Login( 1 );
+			$login->renderHtml();
+
 			exit;
 		}
 	}
 	else
 	{
 		require( 'modules/movies.php' );
+
+		$movies = new Movies;
+		$movies->renderHtml();
+
 		exit;
 	}
 }
@@ -80,6 +86,32 @@ if( !isset( $_SESSION['last_activity'] ) ) {
 open_db();
 
 /*
+ * login request?
+ */
+if( isset( $_GET['login'] )  )
+{
+	require( 'login.php' );
+
+	$login = new Login( 0 );
+	$login->renderHtml();
+
+	exit;
+}
+
+/*
+ * registration request?
+ */
+if( isset( $_GET['registrer'] )  )
+{
+	require( 'registration.php' );
+
+	$registration = new Registration;
+	$registration->renderHtml();
+
+	exit;
+}
+
+/*
  * ensure we're logged in
  */
 if( !isset( $_SESSION['logged_in'] ) ||
@@ -89,5 +121,8 @@ if( !isset( $_SESSION['logged_in'] ) ||
 }
 
 require_once( 'modules/user-movies.php' );
+
+$user_movies = new UserMovies;
+$user_movies->renderHtml();
 
 ?>

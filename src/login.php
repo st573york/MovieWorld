@@ -1,36 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Login</title>
-    <link rel="icon" type="image/x-icon" href="/images/movies-icon.jpeg">
-    
-    <link rel="stylesheet" href="css/action.css">
-</head>
-<body>
-    <div class="main">
-        <form action="/" method="POST">
-            <div class="action">Login</div>
-            <div class="movies"><a href='/'>Movies</a></div>
-            <div class="field"><input type="text" name="username" placeholder="Username"/></div>
-            <div class="field"><input type="password" name="password" placeholder="Password"></div>
-            <div class="field"><input type="submit" name="submit" value="Login"></div>
-        </form>
-
 <?php
-    $warning_msg = '';
-    if( isset( $login_denied ) && $login_denied ) {
-        $warning_msg = "The credentials you entered were invalid<br />Please re-enter them and try again";
+
+require_once('lib/Page.php');
+
+class Login extends Page
+{
+    var $login_denied = 0;
+
+    function __construct( $login_denied )
+    {
+        parent::__construct( _("Login") );
+
+        $this->login_denied = $login_denied;
     }
 
-    if( $warning_msg )
-    {   
-        echo "<div class=\"action_message\">";
-        echo "<span class='message'>$warning_msg</span>";
+    function head()
+    {
+        echo "<link rel=\"stylesheet\" href=\"/css/action.css\">";
+    }
+
+    function body()
+    {
+        echo "<div class=\"main\">";
+        echo "<form action=\"/\" method=\"POST\">";
+        echo "<div class=\"action\">Login</div>";
+        echo "<div class=\"movies\"><a href='/'>Movies</a></div>";
+        echo "<div class=\"field\"><input type=\"text\" name=\"username\" placeholder=\"Username\"/></div>";
+        echo "<div class=\"field\"><input type=\"password\" name=\"password\" placeholder=\"Password\"></div>";
+        echo "<div class=\"field\"><input type=\"submit\" name=\"submit\" value=\"Login\"></div>";
+        echo "</form>";
+        
+        $warning_msg = '';
+        if( $this->login_denied ) {
+            $warning_msg = "The credentials you entered were invalid<br />Please re-enter them and try again";
+        }
+
+        if( $warning_msg )
+        {   
+            echo "<div class=\"action_message\">";
+            echo "<span class='message'>$warning_msg</span>";
+            echo "</div>";
+        }
+
         echo "</div>";
     }
-?>
-
-    </div>
-</body>
-</html>
+}

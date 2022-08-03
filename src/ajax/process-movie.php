@@ -132,7 +132,7 @@ case 'sort_by_user':
 case 'sort_by_likes':
 case 'sort_by_hates':
 case 'sort_by_comments':
-case 'sort_by_dates':
+case 'sort_by_date':
     $movies = array();
     $movie_dao = new MovieDao;
 

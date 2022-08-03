@@ -82,7 +82,7 @@ class MovieDao
                         $order_by = 'total_comments';
         
                         break;
-                    case 'sort_by_dates':
+                    case 'sort_by_date':
                         $order_by = 'movies.creation_date';
         
                         break;
