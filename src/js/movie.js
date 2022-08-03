@@ -172,10 +172,10 @@ function processMovie( obj )
                     var movie_votes_btn = $( $.parseHTML( data ) ).filter( '#movie_votes_btn_' + obj.movieid );
 
                     // Update movie votes num
-                    $( 'div#movie_votes_num_' + obj.movieid ).empty().append( movie_votes_num.html() );
+                    $( 'div#movie_votes_num_' + obj.movieid ).empty().append( movie_votes_num );
 
                     // Update movie votes btn 
-                    $( 'div#movie_votes_btn_' + obj.movieid ).empty().append( movie_votes_btn.html() );
+                    $( 'div#movie_votes_btn_' + obj.movieid ).empty().append( movie_votes_btn );
         	    }
                 else if( obj.action == 'comment' || 
                          obj.action == 'add' || 
@@ -212,9 +212,22 @@ function sortMovies( action )
         cache: false,
         success: function( data )
         {               
-            // Update movies
-            if( data ) {
-                $( '.movie_list' ).empty().append( data ); 
+            var movie_list = $( $.parseHTML( data ) ).filter( '.movie_list' );
+            var movie_sort = $( $.parseHTML( data ) ).filter( '.movie_sort' );
+
+            $( '.movie_list' ).remove();
+
+            // Update movies / sort
+            if( movie_list.html() ) 
+            {
+                $( '.movie_container' ).prepend( movie_list ); 
+
+                if( !$( '.movie_sort' ).length ) {
+                    $( '.movie_actions' ).append( movie_sort );
+                }
+            }
+            else {
+                $( '.movie_sort' ).remove();
             }
             
             // Update found movies

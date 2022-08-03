@@ -78,8 +78,6 @@ class UserMovies extends Page
             {         
                 $movie = new Movie( $data );
                 $movie->renderHtml();
-
-                $count++;
             }
 
             echo "</div>";
