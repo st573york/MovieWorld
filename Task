@@ -8,7 +8,7 @@ In addition it holds a reference to the user that submitted it.
 
 Users can also express their opinion by liking, hating or commenting a movie.
 
-When an unauthorized user visits the application, a list of movies that have been added to the database is displayed, as well as links for log in / sign up.
+When an unauthorized user visits the application, a list of movies that have been added to the database is displayed, as well as links for log in / sign up. User is able to search/filter for any movie by using the search bar.
 
 Each movie contains the following information:
 
@@ -20,14 +20,12 @@ Each movie contains the following information:
 ● Number of hates
 ● Number of comments
 
-The name of the user is a link that, when clicked, filters the movies down to the items that have been shared by this specific user.
 The number of votes is a link that, when clicked, it shows list of users who have voted a movie.
 The number of comments is a link that, when clicked, it shows list of users who have commented a movie.
 
-The list can also be sorted by the number of likes, number of hates, number of comments or the publication date.
+The list of movies can also be sorted by the number of likes, number of hates, number of comments or the publication date.
 
 In addition, authorized users are able to:
+  - Edit their own profiles i.e. username, email etc by clicking on their username.
   - Add, edit or delete their own movies and express their opinion for other movies by either liking, hating a movie or by retracting their vote. Voting is performed by clicking on the respective links that are displayed for each movie.
   - Add a comment for other movies. Commenting is performed by clicking on the respective links that are displayed for each movie.
-
-Admin user is created by default and is able to edit / delete any movie or see list of users who have voted or commented a movie.
