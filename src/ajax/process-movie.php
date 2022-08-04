@@ -129,6 +129,7 @@ case 'hate':
     $movie->renderVotesBtn();
 
     break;
+case 'sort_by_text':
 case 'sort_by_user':
 case 'sort_by_likes':
 case 'sort_by_hates':
@@ -137,7 +138,7 @@ case 'sort_by_date':
     $movies = array();
     $movie_dao = new MovieDao;
 
-    $movie_dao->getAll( $movies, $action );
+    $movie_dao->getAll( $movies, $_POST );
 
     // Movie List
     echo "<div class=\"movie_list\">";

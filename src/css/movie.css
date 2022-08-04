@@ -84,8 +84,8 @@
 }
 
 #new_movie {
-    background-color: limegreen;
-    color: #ffffff;
+    border: 1px solid #484848;
+    border-radius: 3px;
     cursor: pointer;
 }
 

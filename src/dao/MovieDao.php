@@ -45,7 +45,7 @@ class MovieDao
         }
     }
 
-    function getAll( &$values, $order = NULL )
+    function getAll( &$values, $obj = array() )
     {
         global $conn;
 
@@ -56,10 +56,14 @@ class MovieDao
             $where = '';
             $order_by = 'movies.creation_date';
 
-            if( $order )
+            if( isset( $obj['action'] ) )
             {
-                switch( $order )
+                switch( $obj['action'] )
                 {
+                    case 'sort_by_text':
+                        $where .= 'WHERE movies.title LIKE :searchtext OR movies.description LIKE :searchtext OR users.username LIKE :searchtext';
+
+                        break;
                     case 'sort_by_user':
                         $where .= 'WHERE movies.userid = :userid';
 
@@ -99,8 +103,16 @@ class MovieDao
                       ORDER BY $order_by DESC";
 
             $stmt = $conn->prepare( $query );
-            if( $where ) {
-                $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+            if( isset( $obj['action'] ) )
+            {            
+                if( $obj['action'] == 'sort_by_text' ) 
+                {
+                    $searchtext = '%'.$obj['searchtext'].'%';
+                    $stmt->bindParam( ':searchtext', $searchtext, PDO::PARAM_STR );
+                }
+                else if( $obj['action'] == 'sort_by_user' ) {
+                    $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+                }
             }
             $stmt->execute();
 

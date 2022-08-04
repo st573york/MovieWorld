@@ -30,12 +30,16 @@ class Movies extends Page
         echo "<div class=\"main\">";
         // Top panel
         echo "<div class=\"top_panel\">";
-        echo "<span class=\"title_panel\">Movie World</span>";
-        echo "<span class=\"actions_panel\">";
+        echo "<div class=\"title_panel\">Movie World</div>";
+        echo "<div class=\"searchtext_panel\"><input type=\"text\" id=\"searchtext\" name=\"searchtext\" placeholder=\"Search...\"/></div>";
+        echo "<div class=\"actions_panel\">";
         echo "<span><a href=\"/?login\">Log in</a></span>";
         echo "<span class=\"actions_panel_separator\">or</span>";
-        echo "<span class=\"register_link\"><a href=\"/?registrer\">Sign up</a></span>";
-        echo "</span>";
+        echo "<span class=\"register_link\"><a href=\"/?register\">Sign up</a></span>";
+        echo "</div>";
+        echo "</div>";
+        echo "<div class=\"bottom_panel\">";
+        echo "<span class=\"empty_panel\">&nbsp;</span>";
         echo "</div>";
    
         $movies = array();
@@ -44,7 +48,7 @@ class Movies extends Page
         $movie_dao->getAll( $movies );
 
         $count = count( $movies );
-        echo "<div class=\"found_movies\">Found $count movies</div>";
+        echo "<div class=\"found_movies\">Found <span class=\"found_movies_count\">$count</span> movies</div>";
 
         // Movie Container
         echo "<div class=\"movie_container\">";

@@ -46,16 +46,50 @@ class UserDao
 		}
 	}
 
-	function getByUsername( $values )
+	function getByID( &$values )
 	{
         global $conn;
         
    		try
 		{			
 			$query = "SELECT * FROM {$this->table}
-                      WHERE username = :username";
+                      WHERE userid = :userid";
 
             $stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+            $stmt->execute();				
+
+			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) 
+			{
+				$values = $row;
+				
+                return TRUE;
+            }
+            
+			return FALSE;
+		}
+		catch( PDOException $e )
+		{
+			echo $e->getMessage();
+			return FALSE;
+		}
+	}
+
+	function getByUsername( $values )
+	{
+        global $conn;
+        
+   		try
+		{
+			$where = ( $_SESSION['userid'] )? 'userid != :userid AND' : '';
+
+			$query = "SELECT * FROM {$this->table}
+                      WHERE $where username = :username";
+
+            $stmt = $conn->prepare( $query );
+			if( $_SESSION['userid'] ) {
+				$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+			}
 			$stmt->bindParam( ':username', $values['username'], PDO::PARAM_STR );
             $stmt->execute();				
 
@@ -78,10 +112,15 @@ class UserDao
         
    		try
 		{			
+			$where = ( $_SESSION['userid'] )? 'userid != :userid AND' : '';
+
 			$query = "SELECT * FROM {$this->table}
-                      WHERE email = :email";
+                      WHERE $where email = :email";
 
             $stmt = $conn->prepare( $query );
+			if( $_SESSION['userid'] ) {
+				$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
+			}
 			$stmt->bindParam( ':email', $values['email'], PDO::PARAM_STR );
             $stmt->execute();				
 
@@ -149,12 +188,15 @@ class UserDao
 	   		}            
 
 			$query = "UPDATE {$this->table}
-			          SET username = :username, password = :password, email = :email
+			          SET username = :username, ".( $values['password']? 'password = :password, ' : '' )." email = :email
 			          WHERE userid = :userid";
 
 			$stmt = $conn->prepare( $query );
+			$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
 			$stmt->bindParam( ':username', $this->data['username'], PDO::PARAM_STR );
-            $stmt->bindParam( ':password', $this->data['password'], PDO::PARAM_STR );            
+			if( $values['password'] ) {
+				$stmt->bindParam( ':password', $values['password'], PDO::PARAM_STR );
+			}
 			$stmt->bindParam( ':email', $this->data['email'], PDO::PARAM_STR );            
 			$stmt->execute();
             

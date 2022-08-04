@@ -2,10 +2,36 @@
  * Movie JS functions
  */
 
+var requestTimer = false;
 var dialogs = [ 'process_movie', 'confirm' ];
 var sort_by = 'sort_by_date';
 
 $( document ).ready( function() {
+
+    // Show loader when ajax request begins
+    $( this ).ajaxStart( function() { 
+        $( '#loader' ).show(); 
+    });
+
+    // Hide loader when ajax request has completed
+    $( this ).ajaxStop( function() { 
+        $( '#loader' ).hide(); 
+    });
+
+    // Trigger ajax on search input change                                                                                                                                                                               
+    $( 'input#searchtext' ).on( 'input propertychange', function() {
+        if( requestTimer )
+        {
+            window.clearTimeout( requestTimer );
+            requestTimer = false;
+        }
+
+        var obj = {};
+        obj['action'] = 'sort_by_text';
+        obj['searchtext'] = this.value;
+
+        requestTimer = setTimeout( function () { sortMovies( obj ); }, 500 );
+    });
         
     // Hide items list when clicked outside of div
     $( this ).on( 'click', function( e ) {
@@ -155,14 +181,14 @@ function confirmDeletion( obj)
 }
 
 function processMovie( obj )
-{			
+{		
     $.ajax({
         type: "POST",
         url: "/ajax/process-movie.php",
         data: obj,
         cache: false,
         success: function( data )
-        {                  
+        {                              
             if( data.indexOf( 'ERROR' ) == -1 )
             {
                 if( obj.action == 'like' || 
@@ -183,13 +209,13 @@ function processMovie( obj )
                 {
                     closePopupDialog( 'process_movie' );
 
-                    sortMovies( sort_by );
+                    sortMovies( { 'action': sort_by } );
                 }
                 else if( obj.action == 'delete' ) 
                 {
                     closePopupDialog( 'confirm' );
 
-                    sortMovies( sort_by );
+                    sortMovies( { 'action': sort_by } );
                 }
             }
             else {
@@ -203,15 +229,15 @@ function processMovie( obj )
     });
 }
 
-function sortMovies( action )
-{			
+function sortMovies( obj )
+{		    	
     $.ajax({
         type: "POST",
         url: "/ajax/process-movie.php",
-        data: { 'action': action },
+        data: obj,
         cache: false,
         success: function( data )
-        {               
+        {             
             var movie_list = $( $.parseHTML( data ) ).filter( '.movie_list' );
             var movie_sort = $( $.parseHTML( data ) ).filter( '.movie_sort' );
 
@@ -233,7 +259,7 @@ function sortMovies( action )
             // Update found movies
             $( '.found_movies_count' ).html( $( '.movie_data' ).length );
 
-            sort_by = action;
-        }        
+            sort_by = obj.action;
+        }
     });
 }

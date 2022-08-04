@@ -36,17 +36,18 @@ class UserMovies extends Page
         echo "<div class=\"main\">";
         // Top panel
         echo "<div class=\"top_panel\">";
-        echo "<span class=\"title_panel\">Movie World</span>";
-        echo "<span class=\"message_panel\">Welcome Back";
+        echo "<div class=\"title_panel\">Movie World</div>";
+        echo "<div class=\"searchtext_panel\"><input type=\"text\" id=\"searchtext\" name=\"searchtext\" placeholder=\"Search...\"/></div>";
+        echo "<div class=\"message_panel\">Welcome Back";
         echo "<span class=\"loggedin_user\">";
         if( $_SESSION['username'] == 'admin' ) {   
             echo "<a href=\"\">".$_SESSION['username']."</a>";                
         }
         else {
-            echo "<a href=\"javascript:sortMovies( 'sort_by_user' )\">".$_SESSION['username']."</a>";
+            echo "<a href=\"/?profile\">".$_SESSION['username']."</a>";
         }
         echo "</span>";
-        echo "</span>";
+        echo "</div>";
         echo "</div>";
         echo "<div class=\"bottom_panel\">";
         echo "<span class=\"logout_panel\"><a href=\"logout.php\">Logout</a></span>";
@@ -73,7 +74,7 @@ class UserMovies extends Page
         {
             // Movie List
             echo "<div class=\"movie_list\">";
-
+            
             foreach( $movies as $data )
             {         
                 $movie = new Movie( $data );

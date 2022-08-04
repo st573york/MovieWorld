@@ -23,6 +23,7 @@
 }
 
 input {
+    border: 1px solid #484848;
     border-radius: 3px;
 }
 

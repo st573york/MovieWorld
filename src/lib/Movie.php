@@ -32,7 +32,7 @@ class Movie
         $html .= '<div class="popup-dialog-container">';
         $html .= '<form id="popup-dialog-form">';
         $html .= '<div class="field"><input type="text" id="title" name="title" placeholder="Title" value="'.$title.'"/></div>';
-        $html .= '<div class="field"><textarea id="description" name="description" placeholder="Description" rows="5" cols="30">'.htmlspecialchars( $description, ENT_QUOTES, 'UTF-8' ).'</textarea></div>';
+        $html .= '<div class="field"><textarea id="description" name="description" placeholder="Description" rows="5" cols="30">'.$description.'</textarea></div>';
         $html .= '<div class="error_message"></div>';
         $html .= '</form>';
         $html .= '</div>';
@@ -248,10 +248,10 @@ class Movie
     {
         $movieid = $this->data['movieid'];
         $isadmin = ( $_SESSION['username'] == 'admin' );
-        $myself = ( $this->data['posted_by'] == $_SESSION['username'] );          
-        $title = $this->data['title'];
+        $myself = ( $this->data['posted_by'] == $_SESSION['username'] );  
+        $title = htmlspecialchars( $this->data['title'], ENT_QUOTES, 'UTF-8' );
         $posted = $this->data['posted'];
-        $description = $this->data['description'];
+        $description = htmlspecialchars( $this->data['description'], ENT_QUOTES, 'UTF-8' );
         $posted_by = ( $myself )? "You" : $this->data['posted_by'];
 
         $can_vote_comment = ( !$isadmin && !$myself && $_SESSION['logged_in'] );

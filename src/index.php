@@ -99,14 +99,27 @@ if( isset( $_GET['login'] )  )
 }
 
 /*
- * registration request?
+ * register request?
  */
-if( isset( $_GET['registrer'] )  )
+if( isset( $_GET['register'] )  )
 {
 	require( 'registration.php' );
 
 	$registration = new Registration;
 	$registration->renderHtml();
+
+	exit;
+}
+
+/*
+ * profile request?
+ */
+if( isset( $_GET['profile'] )  )
+{
+	require( 'profile.php' );
+
+	$profile = new Profile;
+	$profile->renderHtml();
 
 	exit;
 }

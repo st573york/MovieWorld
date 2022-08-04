@@ -6,6 +6,8 @@
 .bottom_panel {
     width: 50%;
     clear: both;
+    text-align: center;
+    min-width: 650px;
 }
 
 .title_panel {
@@ -13,11 +15,17 @@
     font-size: 30px;
 }
 
+.searchtext_panel {
+    display: inline-block;
+    padding: 4px 0px 0px 0px;
+}
+
 .actions_panel,
 .message_panel,
+.empty_panel,
 .logout_panel {
     float: right;
-    padding: 10px 10px 0px 0px;
+    padding: 8px 10px 0px 0px;
 }
 
 .actions_panel_separator {
@@ -60,6 +68,35 @@ a:hover {
     color: #ffffff;
 }
 
-input[type=button] {
+input[id=searchtext] {
+    width: 300px;
+    height: 23px;
+    border: 1px solid #484848;
     border-radius: 3px;
 }
+
+#loader {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1000;
+    width: 80px;
+    height: 80px;
+    margin: -76px 0 0 -76px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

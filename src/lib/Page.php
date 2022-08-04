@@ -31,6 +31,7 @@ class Page
         $this->head();   /* Include header code from the subclass */
         echo "</head>";
         echo "<body>";
+        echo "<div id=\"loader\"></div>";
         $this->body();   /* Implemented by subclass */
         echo "</body>";
         echo "</html>";
