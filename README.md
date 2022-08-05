@@ -9,7 +9,7 @@ Files and Directories
 ---------------------
 
 index.php
-* Handles user session, login request etc
+* Handles user session, login/register/profile requests etc
 
 login.php
 * Ability to login user
@@ -19,6 +19,9 @@ logout.php
 
 registration.php
 * Ability to register new user
+
+profile.php
+* Ability to edit user profile
 
 ajax/process-movie.php
 * Handles AJAX requests
