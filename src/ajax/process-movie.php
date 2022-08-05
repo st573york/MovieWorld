@@ -130,7 +130,6 @@ case 'hate':
 
     break;
 case 'sort_by_text':
-case 'sort_by_user':
 case 'sort_by_likes':
 case 'sort_by_hates':
 case 'sort_by_comments':

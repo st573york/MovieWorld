@@ -64,10 +64,6 @@ class MovieDao
                         $where .= 'WHERE movies.title LIKE :searchtext OR movies.description LIKE :searchtext OR users.username LIKE :searchtext';
 
                         break;
-                    case 'sort_by_user':
-                        $where .= 'WHERE movies.userid = :userid';
-
-                        break;
                     case 'sort_by_likes':
                         $count .= 'COUNT( movie_votes.movieid ) AS total_likes,';
                         $left_join .= 'LEFT JOIN movie_votes ON movies.movieid = movie_votes.movieid AND movie_votes.vote_like IS TRUE';
@@ -109,9 +105,6 @@ class MovieDao
                 {
                     $searchtext = '%'.$obj['searchtext'].'%';
                     $stmt->bindParam( ':searchtext', $searchtext, PDO::PARAM_STR );
-                }
-                else if( $obj['action'] == 'sort_by_user' ) {
-                    $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
                 }
             }
             $stmt->execute();
