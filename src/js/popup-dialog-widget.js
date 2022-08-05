@@ -7,7 +7,11 @@ var popupDialogPrefix = 'popup-dialog-';
 $( document ).ready( function() {
 
     initPopupDialogs();
-                    				
+
+    $( window ).resize( function() {
+        centerPopupDialogs();
+    });
+              				
 } );
 
 function getPopupDialogs()
@@ -26,7 +30,12 @@ function initPopupDialogs()
 		draggable: false,
 		resizable: false,
         modal: true,
-		width: 'auto'
+		width: 'auto',
+        open: function()
+        {
+            // Remove focus from dialog inputs
+            $( this ).parent().focus();
+        }
     });
 }
 
@@ -60,4 +69,9 @@ function processPopupDialog( options )
 function closePopupDialog( id )
 {
     $( '#' + popupDialogPrefix + id ).dialog( 'close' );
+}
+
+function centerPopupDialogs()
+{   
+    $( getPopupDialogs() ).dialog( 'option', 'position', { my: 'center', at: 'center', of: window } );
 }
