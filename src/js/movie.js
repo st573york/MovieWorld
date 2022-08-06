@@ -1,21 +1,29 @@
 /**
- * Movie JS functions
+ * Movie events, functions
  */
 
-var requestTimer = false;
 var dialogs = [ 'process_movie', 'confirm' ];
 var sort_by = 'sort_by_date';
+var requestTimer = false;
+var loader = false;
 
 $( document ).ready( function() {
 
     // Show loader when ajax request begins
-    $( this ).ajaxStart( function() { 
-        $( '#loader' ).show(); 
+    $( this ).ajaxStart( function() {
+        if( loader ) { 
+            $( '#loader' ).show();
+        }
     });
 
     // Hide loader when ajax request has completed
     $( this ).ajaxStop( function() { 
-        $( '#loader' ).hide(); 
+        if( loader ) 
+        { 
+            $( '#loader' ).hide();
+            
+            loader = false;
+        }
     });
 
     // Trigger ajax on search input change                                                                                                                                                                               
@@ -30,7 +38,7 @@ $( document ).ready( function() {
         obj['action'] = 'sort_by_text';
         obj['searchtext'] = this.value;
 
-        requestTimer = setTimeout( function () { sortMovies( obj ); }, 500 );
+        requestTimer = setTimeout( function () { loader = true; sortMovies( obj ); }, 500 );
     });
         
     // Hide items list when clicked outside of div
