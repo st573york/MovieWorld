@@ -50,7 +50,7 @@ class UserMovies extends Page
         echo "</div>";
         echo "</div>";
         echo "<div class=\"bottom_panel\">";
-        echo "<span class=\"logout_panel\"><a href=\"logout.php\">Logout</a></span>";
+        echo "<span class=\"logout_panel\"><a href=\"php/logout.php\">Logout</a></span>";
         echo "</div>";
    
         // Dialog Process Movie 

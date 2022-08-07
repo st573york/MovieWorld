@@ -49,7 +49,7 @@ function login()
 		// login failed?
 		if( !$_SESSION['logged_in'] )
 		{            
-			require( 'login.php' );
+			require( 'php/login.php' );
 
 			$login = new Login( 1 );
 			$login->renderHtml();
@@ -90,7 +90,7 @@ open_db();
  */
 if( isset( $_GET['login'] )  )
 {
-	require( 'login.php' );
+	require( 'php/login.php' );
 
 	$login = new Login( 0 );
 	$login->renderHtml();
@@ -103,7 +103,7 @@ if( isset( $_GET['login'] )  )
  */
 if( isset( $_GET['register'] )  )
 {
-	require( 'registration.php' );
+	require( 'php/registration.php' );
 
 	$registration = new Registration;
 	$registration->renderHtml();
@@ -116,7 +116,7 @@ if( isset( $_GET['register'] )  )
  */
 if( isset( $_GET['profile'] )  )
 {
-	require( 'profile.php' );
+	require( 'php/profile.php' );
 
 	$profile = new Profile;
 	$profile->renderHtml();
