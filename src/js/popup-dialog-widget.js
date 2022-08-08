@@ -6,8 +6,6 @@ var popupDialogPrefix = 'popup-dialog-';
 
 $( document ).ready( function() {
 
-    initPopupDialogs();
-
     $( window ).resize( function() {
         centerPopupDialogs();
     });

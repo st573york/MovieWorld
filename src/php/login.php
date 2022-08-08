@@ -15,19 +15,19 @@ class Login extends Page
 
     function head()
     {
-        echo "<link rel=\"stylesheet\" href=\"/css/action.css\">";
+        echo "<link rel=\"stylesheet\" href=\"/css/action.css\">\n";
     }
 
     function body()
     {
-        echo "<div class=\"main\">";
-        echo "<form action=\"/\" method=\"POST\">";
-        echo "<div class=\"action\">Login</div>";
-        echo "<div class=\"movies\"><a href='/'>Movies</a></div>";
-        echo "<div class=\"field\"><input type=\"text\" name=\"username\" placeholder=\"Username\"/></div>";
-        echo "<div class=\"field\"><input type=\"password\" name=\"password\" placeholder=\"Password\"></div>";
-        echo "<div class=\"field\"><input type=\"submit\" name=\"submit\" value=\"Login\"></div>";
-        echo "</form>";
+        echo "<div class=\"main\">\n";
+        echo "<form action=\"/\" method=\"POST\">\n";
+        echo "<div class=\"action\">Login</div>\n";
+        echo "<div class=\"movies\"><a href='/'>Movies</a></div>\n";
+        echo "<div class=\"field\"><input type=\"text\" name=\"username\" placeholder=\"Username\"/></div>\n";
+        echo "<div class=\"field\"><input type=\"password\" name=\"password\" placeholder=\"Password\"></div>\n";
+        echo "<div class=\"field\"><input type=\"submit\" name=\"submit\" value=\"Login\"></div>\n";
+        echo "</form>\n";
         
         $warning_msg = '';
         if( $this->login_denied ) {
@@ -41,6 +41,6 @@ class Login extends Page
             echo "</div>";
         }
 
-        echo "</div>";
+        echo "</div>\n";
     }
 }

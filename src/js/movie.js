@@ -2,7 +2,6 @@
  * Movie events, functions
  */
 
-var dialogs = [ 'process_movie', 'confirm' ];
 var sort_by = 'sort_by_date';
 var requestTimer = false;
 var loader = false;

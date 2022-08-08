@@ -13,32 +13,28 @@ class UserMovies extends Page
     function __construct()
     {
         parent::__construct( _("Movie World") );
+        $this->setPopupDialogs( array( 'process_movie', 'confirm' ) );
+        $this->setBootstrap();
     }
 
     function head()
     {
-        echo "<link rel=\"stylesheet\" href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\">";
-        echo "<link rel=\"stylesheet\" href=\"/css/main.css\">";
-        echo "<link rel=\"stylesheet\" href=\"/css/movie.css\">";
-        echo "<link rel=\"stylesheet\" href=\"/css/dropdownbutton.css\">";
-        echo "<link rel=\"stylesheet\" href=\"/css/popup-dialog.css\">";        
+        echo "<link rel=\"stylesheet\" href=\"/css/main.css\">\n";
+        echo "<link rel=\"stylesheet\" href=\"/css/movie.css\">\n";
+        echo "<link rel=\"stylesheet\" href=\"/css/dropdownbutton.css\">\n";
 
-        echo "<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js\"></script>";
-        echo "<script type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>";
-        echo "<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js\"></script>";
-        echo "<script type=\"text/javascript\" src=\"/js/movie.js\"></script>";
-        echo "<script type=\"text/javascript\" src=\"/js/popup-dialog-widget.js\"></script>";
+        echo "<script type=\"text/javascript\" src=\"/js/movie.js\"></script>\n";
     }
 
     function body()
     {
         // Main
-        echo "<div class=\"main\">";
+        echo "<div class=\"main\">\n";
         // Top panel
-        echo "<div class=\"top_panel\">";
-        echo "<div class=\"title_panel\">Movie World</div>";
-        echo "<div class=\"searchtext_panel\"><input type=\"text\" id=\"searchtext\" name=\"searchtext\" placeholder=\"Search...\"/></div>";
-        echo "<div class=\"message_panel\">Welcome Back";
+        echo "<div class=\"top_panel\">\n";
+        echo "<div class=\"title_panel\">Movie World</div>\n";
+        echo "<div class=\"searchtext_panel\"><input type=\"text\" id=\"searchtext\" name=\"searchtext\" placeholder=\"Search...\"/></div>\n";
+        echo "<div class=\"message_panel\">Welcome Back\n";
         echo "<span class=\"loggedin_user\">";
         if( $_SESSION['username'] == 'admin' ) {   
             echo "<a href=\"\">".$_SESSION['username']."</a>";                
@@ -46,18 +42,12 @@ class UserMovies extends Page
         else {
             echo "<a href=\"/?profile\">".$_SESSION['username']."</a>";
         }
-        echo "</span>";
-        echo "</div>";
-        echo "</div>";
-        echo "<div class=\"bottom_panel\">";
-        echo "<span class=\"logout_panel\"><a href=\"php/logout.php\">Logout</a></span>";
-        echo "</div>";
-   
-        // Dialog Process Movie 
-	    echo "<div id=\"popup-dialog-process_movie\" style=\"display: none;\"></div>";
-
-        // Dialog Confirm
-        echo "<div id=\"popup-dialog-confirm\" style=\"display: none;\"></div>";
+        echo "</span>\n";
+        echo "</div>\n";
+        echo "</div>\n";
+        echo "<div class=\"bottom_panel\">\n";
+        echo "<span class=\"logout_panel\"><a href=\"php/logout.php\">Logout</a></span>\n";
+        echo "</div>\n";
       
         $movies = array();
         $movie_dao = new MovieDao;
@@ -65,15 +55,15 @@ class UserMovies extends Page
         $movie_dao->getAll( $movies );
 
         $count = count( $movies );
-        echo "<div class=\"found_movies\">Found <span class=\"found_movies_count\">$count</span> movies</div>";
+        echo "<div class=\"found_movies\">Found <span class=\"found_movies_count\">$count</span> movies</div>\n";
 
         // Movie Container
-        echo "<div class=\"movie_container\">";
+        echo "<div class=\"movie_container\">\n";
 
         if( $count )
         {
             // Movie List
-            echo "<div class=\"movie_list\">";
+            echo "<div class=\"movie_list\">\n";
             
             foreach( $movies as $data )
             {         
@@ -81,11 +71,11 @@ class UserMovies extends Page
                 $movie->renderHtml();
             }
 
-            echo "</div>";
+            echo "</div>\n";
         }
 
         // Movie Actions
-        echo "<div class=\"movie_actions\">";
+        echo "<div class=\"movie_actions\">\n";
 
         if( $_SESSION['username'] != 'admin' )
         {
@@ -97,7 +87,7 @@ class UserMovies extends Page
             $obj['html'] = Movie::getMovieDialogHtml();
 
             $onclick = 'showDialog( '.json_encode( $obj ).' );';
-            echo "<div class=\"movie_add\"><input id=\"new_movie\" type=\"button\" value=\"New Movie\" title=\"Add New Movie\" onclick='{$onclick}'/></div>";
+            echo "<div class=\"movie_add\">\n<input id=\"new_movie\" type=\"button\" value=\"New Movie\" title=\"Add New Movie\" onclick='{$onclick}'/>\n</div>\n";
         }
 
         if( $count )
@@ -106,10 +96,10 @@ class UserMovies extends Page
             $movie_sort->renderHtml();
         }
     
-        echo "</div>";
+        echo "</div>\n";
 
-        echo "</div>";
+        echo "</div>\n";
 
-        echo "</div>";
+        echo "</div>\n";
     }
 }
