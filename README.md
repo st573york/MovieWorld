@@ -11,8 +11,11 @@ Files and Directories
 index.php
 * Handles user session, login/register/profile requests etc
 
-ajax/process-movie.php
-* Handles AJAX requests
+ajax/***
+* AJAX pages
+
+conf/***
+* Configuration
 
 css/***
 * The style of the interface
@@ -32,11 +35,8 @@ database/db.php
 images/***
 * Custom images
 
-js/movie.js
-* JS movie events, functions
- 
-js/popup-dialog-widget.js
-* JS popup dialog library
+js/***
+* JS movie events, functions, libraries
 
 lib/***
 * Libraries to render HTML elements
