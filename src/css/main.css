@@ -1,13 +1,51 @@
-.main {
-    padding: 20px;
+body {
+    background: aliceblue;
 }
 
-.top_panel,
-.bottom_panel {
-    width: 50%;
-    clear: both;
+.fixed_left_panel,
+.fixed_right_panel {
+    position: fixed;
+    z-index: 1000;
+    top: 47px;
+    bottom: 34px;
+    width: 400px;
+    background: aliceblue;
+}
+
+.fixed_left_panel {
+    left: 0;
+}
+
+.fixed_right_panel {
+    right: 0;
+}
+
+.fixed_top_panel {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: aliceblue;
+    padding: 10px 400px 10px 400px;
     text-align: center;
     min-width: 650px;
+}
+
+.fixed_bottom_panel {
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 46px;
+    background: aliceblue;
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px 0px 10px 0px;
 }
 
 .title_panel {
@@ -20,15 +58,25 @@
     padding: 4px 0px 0px 0px;
 }
 
-.actions_panel,
+.user_actions_panel,
 .message_panel,
-.empty_panel,
-.logout_panel {
+.logout_panel,
+.movie_actions_panel {
     float: right;
-    padding: 8px 10px 0px 0px;
 }
 
-.actions_panel_separator {
+.user_actions_panel,
+.empty_panel,
+.logout_panel,
+.movie_actions_panel {
+    padding: 8px 0px 8px 0px;
+}
+
+.message_panel {
+    padding: 10px 0px 0px 0px;
+}
+
+.user_actions_panel_separator {
     padding: 0px 5px 0px 5px;
 }
 
@@ -37,10 +85,10 @@
     padding: 0px 0px 0px 5px;
 }
 
-.found_movies {
+.empty_panel,
+.logout_panel,
+.movie_actions_panel {
     clear: both;
-    font-size: 20px;
-    padding: 10px 0px 10px 0px;
 }
 
 a {
@@ -69,10 +117,41 @@ a:hover {
 }
 
 input[id=searchtext] {
-    width: 300px;
+    width: 500px;
     height: 23px;
     border: 1px solid #484848;
     border-radius: 3px;
+}
+
+.fade-top {
+    position: fixed;
+    left: 400px;
+    right: 400px;
+    top: 129px;
+    height: 1em;
+    margin-bottom: -1em;
+    background: -moz-linear-gradient(top,  rgba(240,248,255,1) 0%, rgba(240,248,255,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(240,248,255,1)), color-stop(100%,rgba(240,248,255,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(240,248,255,1) 0%,rgba(240,248,255,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(240,248,255,1) 0%,rgba(240,248,255,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(240,248,255,1) 0%,rgba(240,248,255,0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(240,248,255,1) 0%,rgba(240,248,255,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+.fade-bottom {
+    position: fixed;
+    left: 400px;
+    right: 400px;
+    height: 1em;
+    margin-top: -1em;
+    background: -moz-linear-gradient(top,  rgba(240,248,255,0) 0%, rgba(240,248,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(240,248,255,0)), color-stop(100%,rgba(240,248,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(240,248,255,0) 0%,rgba(240,248,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(240,248,255,0) 0%,rgba(240,248,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(240,248,255,0) 0%,rgba(240,248,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(240,248,255,0) 0%,rgba(240,248,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }
 
 #loader {

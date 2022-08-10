@@ -2,11 +2,14 @@
  * Movie events, functions
  */
 
-var sort_by = 'sort_by_date';
+var sort_by = 'sort_by_date_most_recent';
 var requestTimer = false;
 var loader = false;
 
 $( document ).ready( function() {
+
+    // Highlight default date most recent sort by option
+    $( '.movie_actions_panel .dropdown-menu' ).find( 'li#date_most_recent' ).addClass( 'active' );
 
     // Show loader when ajax request begins
     $( this ).ajaxStart( function() {
@@ -38,6 +41,12 @@ $( document ).ready( function() {
         obj['searchtext'] = this.value;
 
         requestTimer = setTimeout( function () { loader = true; sortMovies( obj ); }, 500 );
+    });
+
+    // Highlight sort by option
+    $( '.movie_actions_panel .dropdown-menu li' ).click( function() {
+        $( this ).parent().find( 'li' ).removeClass( 'active' );
+        $( this ).addClass( 'active' );
     });
         
     // Hide items list when clicked outside of div
@@ -245,23 +254,8 @@ function sortMovies( obj )
         cache: false,
         success: function( data )
         {             
-            var movie_list = $( $.parseHTML( data ) ).filter( '.movie_list' );
-            var movie_sort = $( $.parseHTML( data ) ).filter( '.movie_sort' );
-
-            $( '.movie_list' ).remove();
-
-            // Update movies / sort
-            if( movie_list.html() ) 
-            {
-                $( '.movie_container' ).prepend( movie_list ); 
-
-                if( !$( '.movie_sort' ).length ) {
-                    $( '.movie_actions' ).append( movie_sort );
-                }
-            }
-            else {
-                $( '.movie_sort' ).remove();
-            }
+            // Update movies
+            $( '.movie_content' ).empty().append( data );
             
             // Update found movies
             $( '.found_movies_count' ).html( $( '.movie_data' ).length );

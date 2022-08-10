@@ -1,5 +1,8 @@
 <?php
 
+require_once('conf/config.php');
+require_once('conf/version.php');
+
 require_once('database/db.php');
 
 require_once('dao/UserDao.php');
@@ -56,15 +59,6 @@ function login()
 
 			exit;
 		}
-	}
-	else
-	{
-		require( 'modules/movies.php' );
-
-		$movies = new Movies;
-		$movies->renderHtml();
-
-		exit;
 	}
 }
 
@@ -133,9 +127,9 @@ if( !isset( $_SESSION['logged_in'] ) ||
 	login();
 }
 
-require_once( 'modules/user-movies.php' );
+require_once( 'modules/movies.php' );
 
-$user_movies = new UserMovies;
-$user_movies->renderHtml();
+$movies = new Movies;
+$movies->renderHtml();
 
 ?>

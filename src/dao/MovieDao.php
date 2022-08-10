@@ -54,7 +54,7 @@ class MovieDao
             $count = '';
             $left_join = '';
             $where = '';
-            $order_by = 'movies.creation_date';
+            $order_by = 'movies.creation_date DESC';
 
             if( isset( $obj['action'] ) )
             {
@@ -64,26 +64,34 @@ class MovieDao
                         $where .= 'WHERE movies.title LIKE :searchtext OR movies.description LIKE :searchtext OR users.username LIKE :searchtext';
 
                         break;
+                    case 'sort_by_title':
+                        $order_by = 'movies.title ASC';
+
+                        break;
                     case 'sort_by_likes':
                         $count .= 'COUNT( movie_votes.movieid ) AS total_likes,';
                         $left_join .= 'LEFT JOIN movie_votes ON movies.movieid = movie_votes.movieid AND movie_votes.vote_like IS TRUE';
-                        $order_by = 'total_likes';
+                        $order_by = 'total_likes DESC';
 
                         break;
                     case 'sort_by_hates':
                         $count .= 'COUNT( movie_votes.movieid ) AS total_hates,';
                         $left_join .= 'LEFT JOIN movie_votes ON movies.movieid = movie_votes.movieid AND movie_votes.vote_hate IS TRUE';
-                        $order_by = 'total_hates';
+                        $order_by = 'total_hates DESC';
     
                         break;
                     case 'sort_by_comments':
                         $count .= 'COUNT( movie_comments.movieid ) AS total_comments,';
                         $left_join .= 'LEFT JOIN movie_comments ON movies.movieid = movie_comments.movieid';
-                        $order_by = 'total_comments';
+                        $order_by = 'total_comments DESC';
         
                         break;
-                    case 'sort_by_date':
-                        $order_by = 'movies.creation_date';
+                    case 'sort_by_author':
+                        $order_by = 'users.username ASC, movies.creation_date DESC';
+
+                        break;
+                    case 'sort_by_date_oldest':
+                        $order_by = 'movies.creation_date ASC';
         
                         break;
                 }
@@ -96,7 +104,7 @@ class MovieDao
                       LEFT JOIN users ON movies.userid = users.userid
                       $where
                       GROUP BY movies.movieid
-                      ORDER BY $order_by DESC";
+                      ORDER BY $order_by";
 
             $stmt = $conn->prepare( $query );
             if( isset( $obj['action'] ) )

@@ -11,6 +11,7 @@ class Profile extends Page
 
     function head()
     {
+        echo "<link rel=\"stylesheet\" href=\"/css/main.css\">\n";
         echo "<link rel=\"stylesheet\" href=\"/css/action.css\">\n";
     }
 
@@ -28,9 +29,9 @@ class Profile extends Page
         echo "<form action=\"\" method=\"POST\">\n";
         echo "<div class=\"action\">Profile</div>\n";
         echo "<div class=\"movies\"><a href='/'>Movies</a></div>\n";
-        echo "<div class=\"field\"><input type=\"text\" name=\"username\" placeholder=\"Username\" value=\"$username\"/></div>\n";
+        echo "<div class=\"field\"><input type=\"text\" name=\"username\" autocomplete=\"off\" placeholder=\"Username\" value=\"$username\"/></div>\n";
         echo "<div class=\"field\"><input type=\"password\" name=\"password\" placeholder=\"Password\"></div>\n";
-        echo "<div class=\"field\"><input type=\"text\" name=\"email\" placeholder=\"Email Address\" value=\"$email\"></div>\n";
+        echo "<div class=\"field\"><input type=\"text\" name=\"email\" autocomplete=\"off\" placeholder=\"Email Address\" value=\"$email\"></div>\n";
         echo "<div class=\"field\"><input type=\"submit\" name=\"submit\" value=\"Save\"></div>\n";
         echo "</form>\n";
 

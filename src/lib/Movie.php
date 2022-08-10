@@ -259,14 +259,14 @@ class Movie
 
         // Movie Data
         echo "<div id=\"movie_{$movieid}\" class=\"movie_data\">\n";
-        echo "<div class=\"movie_header\">\n";
+        echo "<div class=\"movie_data_top\">\n";
         echo "<span class=\"movie_title\">$title</span>\n";
         echo "<span class=\"movie_posted\">Posted $posted</span>\n"; 
         echo "</div>\n";           
-        echo "<div class=\"movie_content\">\n";
+        echo "<div class=\"movie_data_middle\">\n";
         echo "<span>$description</span>\n";
         echo "</div>\n";
-        echo "<div class=\"movie_footer\">\n";
+        echo "<div class=\"movie_data_bottom\">\n";
         // Num of Likes | Hates
         $this->renderVotesNum();
         // Num of comments
@@ -282,7 +282,7 @@ class Movie
         // Edit | Delete
         if( $can_edit_or_delete ) 
         {
-            echo "<div class=\"movie_actions_per_movie\">\n";                                    
+            echo "<div class=\"movie_data_actions\">\n";                                    
 
             // Edit movie
             $obj = array();

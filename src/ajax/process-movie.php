@@ -5,7 +5,6 @@ set_include_path( get_include_path() . PATH_SEPARATOR . "../" );
 require('database/db.php');
 
 require('lib/Movie.php');
-require('lib/MovieSort.php');
 
 require('dao/MovieDao.php');
 require('dao/MovieVoteDao.php');
@@ -130,28 +129,23 @@ case 'hate':
 
     break;
 case 'sort_by_text':
+case 'sort_by_title':
 case 'sort_by_likes':
 case 'sort_by_hates':
 case 'sort_by_comments':
-case 'sort_by_date':
+case 'sort_by_author':
+case 'sort_by_date_most_recent':
+case 'sort_by_date_oldest':
     $movies = array();
     $movie_dao = new MovieDao;
 
     $movie_dao->getAll( $movies, $_POST );
-
-    // Movie List
-    echo "<div class=\"movie_list\">";
     
     foreach( $movies as $data )
     {
         $movie = new Movie( $data );
         $movie->renderHtml();
     }
-
-    echo "</div>";
-
-    $movie_sort = new MovieSort;
-    $movie_sort->renderHtml();
 
     break;
 }

@@ -1,54 +1,48 @@
-.movie_container {  
-    display: flex; 
+.found_movies {
+    font-size: 20px;
+    padding: 10px 0px 10px 0px;
 }
 
-.movie_list, .movie_actions { 
-    flex: 1; 
+.movie_container {  
+    margin: 145px 392px 55px 392px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
 }
 
 .movie_actions {
     padding: 0px 0px 0px 10px;
 }
 
-.movie_list { 
-    margin-right: 20px; 
-}
-
 .movie_data { 
-    display: inline-block;
+    display: grid;
     margin-bottom: 5px; 
     padding: 10px; 
     border: 1px solid; 
     border-radius: 5px;
-    background-color: #eee;
-    width: 100%;
+    background-color: #f6f6f6;
 }
 
-.movie_header,
-.movie_content,
-.movie_footer,
-.movie_actions_per_movie {
+.movie_data_top,
+.movie_data_middle,
+.movie_data_bottom,
+.movie_data_actions {
     clear: both;
 }
 
-.movie_header,
-.movie_footer {
+.movie_data_top,
+.movie_data_bottom {
     line-height: 30px;
 }
 
-.movie_content {
+.movie_data_middle {
     padding: 10px 0px 10px 0px;
-    overflow: auto;
-    max-height: 300px;
-    -ms-overflow-style: none;  /* Hide scrollbar IE and Edge */
-    scrollbar-width: none;  /* Hide scrollbar Firefox */
 }
 
-.movie_footer {
+.movie_data_bottom {
     text-align: center;
 }
 
-.movie_actions_per_movie {
+.movie_data_actions {
     text-align: right;
     padding-top: 10px;
 }
@@ -77,30 +71,6 @@
 
 .movie_posted_by_user { 
     color: deepskyblue; 
-}
-
-.movie_add { 
-    margin-bottom: 10px; 
-}
-
-#new_movie {
-    border: 1px solid #484848;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-#new_movie:hover {
-    background-color: green;
-    color: #ffffff;
-}
-
-.movie_sort { 
-    text-align: center; 
-    border: 1px solid; 
-    border-radius: 5px;
-    padding: 5px; 
-    width: fit-content; 
-    background-color: #eee; 
 }
 
 .separator {    
@@ -163,7 +133,7 @@ table.list {
 }
 
 table.list th {
-    background: #eee;
+    background: #f6f6f6;
     color: deepskyblue;
     height: auto;
     padding: 0px 0px 0px 3px;
@@ -177,7 +147,7 @@ table.list th {
 }
 
 table.list tr.even {
-    background-color: #fff;
+    background-color: #ffffff;
     color: #333;
 }
 
@@ -236,7 +206,6 @@ table.list td.single_item {
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.movie_content::-webkit-scrollbar,
 .items_list::-webkit-scrollbar {
     display: none;
 }

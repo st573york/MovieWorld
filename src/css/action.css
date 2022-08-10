@@ -36,16 +36,6 @@ input[type=submit]:hover {
     padding: 5px;
 }
 
-a {
-    background: transparent;
-    color: deepskyblue;
-    text-decoration: none;
-}
-
-a:hover {
-    color: darkblue;
-}
-
 .action_message {
     padding: 10px 5px 5px 5px;
 }

@@ -1,3 +1,7 @@
+.ui-front {
+    z-index: 1000;
+}
+
 .ui-dialog-title { 
     color: #ffffff !important; 
 }
