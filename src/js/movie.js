@@ -45,8 +45,11 @@ $( document ).ready( function() {
 
     // Highlight sort by option
     $( '.movie_actions_panel .dropdown-menu li' ).click( function() {
-        $( this ).parent().find( 'li' ).removeClass( 'active' );
-        $( this ).addClass( 'active' );
+        if( this.id != 'sort_by' )
+        {
+            $( this ).parent().find( 'li' ).removeClass( 'active' );
+            $( this ).addClass( 'active' );
+        }
     });
         
     // Hide items list when clicked outside of div
