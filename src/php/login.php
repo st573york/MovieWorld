@@ -16,7 +16,7 @@ class Login extends Page
     function head()
     {
         echo "<link rel=\"stylesheet\" href=\"/css/main.css\">\n";
-        echo "<link rel=\"stylesheet\" href=\"/css/action.css\">\n";
+        echo "<link rel=\"stylesheet\" href=\"/css/user.css\">\n";
     }
 
     function body()
