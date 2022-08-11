@@ -205,6 +205,23 @@ class MovieDao
     
         try
         {            
+            // Delete votes
+            $query = "DELETE FROM movie_votes
+                      WHERE movieid = :movieid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT ); 
+            $stmt->execute();
+
+            // Delete comments
+            $query = "DELETE FROM movie_comments
+                      WHERE movieid = :movieid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT ); 
+            $stmt->execute();
+
+            // Delete movie
             $query = "DELETE FROM {$this->table}
                       WHERE movieid = :movieid";
     

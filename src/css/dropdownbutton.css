@@ -55,6 +55,8 @@ button {
 	position: absolute;
 	z-index: 1000;
 	width: max-content;
+	max-height: 300px;
+	overflow: auto;
 	padding: 5px 0px 5px 0px;
 	margin: 1px 0 0;
 	text-align: left;
@@ -66,6 +68,13 @@ button {
 	-webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
 	-moz-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
 	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.13);
+	-ms-overflow-style: none;  /* Hide scrollbar IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.dropdown-menu::-webkit-scrollbar {
+    display: none;
 }
 
 .dropdown-menu .divider {
