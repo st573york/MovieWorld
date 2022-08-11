@@ -27,6 +27,6 @@ The list of movies can also be sorted by title, number of likes / hates / commen
 
 In addition, authorized users are able to:
   - Search/filter any movie by using the search bar.
-  - Edit their own profiles i.e. username, email etc by clicking on their username.
+  - Edit or delete their own profiles by clicking on their username.
   - Add, edit or delete their own movies and express their opinion for other movies by either liking, hating or by retracting their vote. Voting is performed by clicking on the respective links that are displayed for each movie.
   - Add a comment for other movies. Commenting is performed by clicking on the respective link that is displayed for each movie.
