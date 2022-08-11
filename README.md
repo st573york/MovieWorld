@@ -9,7 +9,7 @@ Files and Directories
 ---------------------
 
 index.php
-* Handles user session, login/register/profile requests etc
+* Handles user session, login/register/profile/movie requests etc
 
 ajax/***
 * AJAX pages
@@ -23,14 +23,8 @@ css/***
 dao/***
 * Data access objects 
 
-database/db-create.sql
-* Database schema
-
-database/db-data.sql
-* Database data
-
-database/db.php
-* Database connection management
+database/***
+* Database schema, data, connection management
 
 images/***
 * Custom images
