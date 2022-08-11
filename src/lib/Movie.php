@@ -13,43 +13,6 @@ class Movie
         $this->setComment();
     }
 
-    static function getCommentDialogHtml()
-    {
-        $html = '';
-        $html .= '<div class="popup-dialog-container">';
-        $html .= '<form id="popup-dialog-form">';
-        $html .= '<div class="field"><textarea id="comment" name="comment" placeholder="Comment" rows="5" cols="30"></textarea></div>';
-        $html .= '<div class="error_message"></div>';
-        $html .= '</form>';
-        $html .= '</div>';
-
-        return $html;
-    }
-
-    static function getMovieDialogHtml( $title = '', $description = '' )
-    {
-        $html = '';
-        $html .= '<div class="popup-dialog-container">';
-        $html .= '<form id="popup-dialog-form">';
-        $html .= '<div class="field"><input type="text" id="title" name="title" placeholder="Title" value="'.$title.'"/></div>';
-        $html .= '<div class="field"><textarea id="description" name="description" placeholder="Description" rows="5" cols="30">'.$description.'</textarea></div>';
-        $html .= '<div class="error_message"></div>';
-        $html .= '</form>';
-        $html .= '</div>';
-
-        return $html;
-    }
-
-    static function getConfirmDialogHtml( $msg )
-    {
-        $html = '';
-        $html .= '<div class="popup-dialog-container">';
-        $html .= '<div class="confirm_message">'.$msg.'</div>';
-        $html .= '</div>';
-
-        return $html;
-    }
-
     function setLike()
     {
         $movie_vote_values = array();
@@ -98,9 +61,9 @@ class Movie
         $obj['movieid'] = $this->data['movieid'];
         $obj['action'] = $obj['type'] = 'comment';
         $obj['title'] = 'Add Comment';  
-        $obj['html'] = $this->getCommentDialogHtml();      
+        $obj['html'] = Dialog::getCommentDialogHtml();      
 
-        $this->data['comment'] = 'showDialog( '.json_encode( $obj ).' );';
+        $this->data['comment'] = 'showMovieDialog( '.json_encode( $obj ).' );';
     }
 
     function renderTable( $data, $header = array() )
@@ -290,16 +253,17 @@ class Movie
             $obj['action'] = 'edit';
             $obj['type'] = 'movie';
             $obj['title'] = 'Edit Movie';
-            $obj['html'] = $this->getMovieDialogHtml( $title, $description );
+            $obj['html'] = Dialog::getMovieDialogHtml( $title, $description );
 
-            $onedit = 'javascript:showDialog( '.json_encode( $obj ).' );';
+            $onedit = 'javascript:showMovieDialog( '.json_encode( $obj ).' );';
             
             // Delete movie            
             $obj = array();
             $obj['movieid'] = $movieid;
             $obj['action'] = 'delete';
+            $obj['type'] = 'movie';
             $obj['title'] = 'Delete Movie';
-            $obj['html'] = $this->getConfirmDialogHtml( "Movie '$title' will be deleted. Are you sure?" ); 
+            $obj['html'] = Dialog::getConfirmDialogHtml( "Movie '$title' will be deleted. Are you sure?" ); 
             
             $ondelete = 'javascript:confirmDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
             

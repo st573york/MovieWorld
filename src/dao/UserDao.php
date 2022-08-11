@@ -208,6 +208,53 @@ class UserDao
 			return FALSE;
 		}
 	}	
+
+	function delete( $userid )
+    {
+        global $conn;
+    
+        try
+        {            
+            // Delete votes
+            $query = "DELETE FROM movie_votes
+                      WHERE userid = :userid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':userid', $userid, PDO::PARAM_INT ); 
+            $stmt->execute();
+
+            // Delete comments
+            $query = "DELETE FROM movie_comments
+                      WHERE userid = :userid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':userid', $userid, PDO::PARAM_INT ); 
+            $stmt->execute();
+
+            // Delete movies
+            $query = "DELETE FROM movies
+                      WHERE userid = :userid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':userid', $userid, PDO::PARAM_INT ); 
+            $stmt->execute();
+
+			// Delete user
+            $query = "DELETE FROM {$this->table}
+                      WHERE userid = :userid";
+    
+            $stmt = $conn->prepare( $query );
+            $stmt->bindParam( ':userid', $userid, PDO::PARAM_INT ); 
+            $stmt->execute();
+    
+            return TRUE;
+        }
+        catch( PDOException $e )
+        {
+            echo $e->getMessage();
+            return FALSE;
+        }
+    }
 }
 
 ?>

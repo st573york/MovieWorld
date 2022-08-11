@@ -3,55 +3,9 @@
  */
 
 var sort_by = 'sort_by_date_most_recent';
-var requestTimer = false;
-var loader = false;
 
-$( document ).ready( function() {
+$( document ).ready( function() { 
 
-    // Highlight default date most recent sort by option
-    $( '.movie_actions_panel .dropdown-menu' ).find( 'li#date_most_recent' ).addClass( 'active' );
-
-    // Show loader when ajax request begins
-    $( this ).ajaxStart( function() {
-        if( loader ) { 
-            $( '#loader' ).show();
-        }
-    });
-
-    // Hide loader when ajax request has completed
-    $( this ).ajaxStop( function() { 
-        if( loader ) 
-        { 
-            $( '#loader' ).hide();
-            
-            loader = false;
-        }
-    });
-
-    // Trigger ajax on search input change                                                                                                                                                                               
-    $( 'input#searchtext' ).on( 'input propertychange', function() {
-        if( requestTimer )
-        {
-            window.clearTimeout( requestTimer );
-            requestTimer = false;
-        }
-
-        var obj = {};
-        obj['action'] = 'sort_by_text';
-        obj['searchtext'] = this.value;
-
-        requestTimer = setTimeout( function () { loader = true; sortMovies( obj ); }, 500 );
-    });
-
-    // Highlight sort by option
-    $( '.movie_actions_panel .dropdown-menu li' ).click( function() {
-        if( this.id != 'sort_by' )
-        {
-            $( this ).parent().find( 'li' ).removeClass( 'active' );
-            $( this ).addClass( 'active' );
-        }
-    });
-        
     // Hide items list when clicked outside of div
     $( this ).on( 'click', function( e ) {
         if( $( e.target ).closest( '.items_list' ).length === 0 ) {
@@ -112,30 +66,7 @@ $( document ).ready( function() {
 
 } );
 
-function validateDialog( obj )
-{
-    $.ajax({
-		type: "POST",
-		url: "/ajax/process-movie.php",
-		data: {
-				'action': 'validate',
-                'type': obj.type,
-				'popupDialogData': obj.popupDialogData
-        },
-		cache: false,
-		success: function( data )
-		{
-			if( data.indexOf( 'ERROR' ) == -1 ) {
-                processMovie( obj );
-            }
-            else {
-                $( '.popup-dialog-container .error_message' ).html( 'All the fields are required!' );
-            }
-		}
-    });
-}
-
-function showDialog( obj )
+function showMovieDialog( obj )
 {
     var buttons = 
     [ 
@@ -144,7 +75,7 @@ function showDialog( obj )
 		  	{
                 obj.popupDialogData = $( '#popup-dialog-form' ).serialize();
 
-                validateDialog( obj );
+                validateMovieDialog( obj );
             },
         },
         {   'text': 'Cancel',
@@ -168,35 +99,27 @@ function showDialog( obj )
     } );
 }
 
-function confirmDeletion( obj)
+function validateMovieDialog( obj )
 {
-    var buttons = 
-    [ 
-        {   'text': 'OK',
-            'click': function ()
-		  	{
-                processMovie( obj );
-            },
+    $.ajax({
+		type: "POST",
+		url: "/ajax/process-movie.php",
+		data: {
+				'action': 'validate',
+                'type': obj.type,
+				'popupDialogData': obj.popupDialogData
         },
-        {   'text': 'Cancel',
-            'click': function () 
-            {			          
-                closePopupDialog( 'confirm' );
+		cache: false,
+		success: function( data )
+		{
+			if( data.indexOf( 'ERROR' ) == -1 ) {
+                processMovie( obj );
             }
-        }
-    ];
-
-    $( '#' + popupDialogPrefix + 'confirm' )
-        .closest( '.ui-dialog' )
-        .children( '.ui-dialog-titlebar')
-        .css( 'background', '#d92' );
-
-    popupDialog( {
-		'id': 'confirm',
-        'title': obj.title,
-        'html': obj.html,
-        'buttons': buttons
-    } );
+            else {
+                $( '.popup-dialog-container .error_message' ).html( 'All the fields are required!' );
+            }
+		}
+    });
 }
 
 function processMovie( obj )

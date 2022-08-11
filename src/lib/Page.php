@@ -15,7 +15,7 @@ class Page
     }
 
     /**                                                                                                                                                                                                     
-     * Set the page title                                                                                                                                                                                   
+     * Set Page Title                                                                                                                                                                                   
      */
     function setTitle( $title )
     {
@@ -57,14 +57,28 @@ class Page
         if( $_SESSION['logged_in'] ) 
         {
             echo "<div class=\"message_panel\">Welcome Back\n";
-            echo "<span class=\"loggedin_user\">";
+            echo "<div class=\"loggedin_user\">";
             if( $_SESSION['username'] == 'admin' ) {   
                 echo "<a href=\"\">".$_SESSION['username']."</a>";                
             }
-            else {
-                echo "<a href=\"/?profile\">".$_SESSION['username']."</a>";
+            else 
+            {
+                // Delete user            
+                $obj = array();
+                $obj['action'] = 'delete';
+                $obj['type'] = 'user';
+                $obj['title'] = 'Delete User';
+                $obj['html'] = Dialog::getConfirmDialogHtml( "User will be deleted. Are you sure?" ); 
+
+                $ondelete = 'javascript:confirmDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
+
+                echo "<a href=\"\" class=\"dropdown-link\" data-toggle=\"dropdown\">".$_SESSION['username']."&nbsp;<span class=\"caret\"></span></a>\n";
+                echo "<ul class=\"dropdown-menu\">";
+                echo "<li id=\"edit_profile\" title=\"Edit Profile\"><a href='/?profile'>Edit Profile</a></li>\n";
+                echo "<li id=\"delete_user\" class=\"red\" title=\"Delete User Account\"><a href='{$ondelete}'>Delete User</a></li>\n";
+                echo "</ul>\n";
             }
-            echo "</span>\n";
+            echo "</div>\n";
             echo "</div>\n";
             echo "<div class=\"logout_panel\"><a href=\"php/logout.php\">Logout</a></div>\n";
         }
@@ -86,9 +100,9 @@ class Page
             $obj['action'] = 'add';
             $obj['type'] = 'movie';
             $obj['title'] = 'Add Movie';
-            $obj['html'] = Movie::getMovieDialogHtml();
+            $obj['html'] = Dialog::getMovieDialogHtml();
 
-            $onclick = 'this.blur(); showDialog( '.json_encode( $obj ).' );';
+            $onclick = 'this.blur(); showMovieDialog( '.json_encode( $obj ).' );';
 
             echo "<div class=\"dropdown\">\n";
             echo "<button class=\"dropdown-btn\" type=\"button\" onclick='{$onclick}'>New Movie</button>\n";

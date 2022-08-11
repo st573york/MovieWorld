@@ -1,6 +1,7 @@
 <?php
 
 require_once('lib/Page.php');
+require_once('lib/Dialog.php');
 require_once('lib/Movie.php');
     
 require_once('dao/MovieDao.php');
@@ -24,9 +25,11 @@ class Movies extends Page
     {
         echo "<link rel=\"stylesheet\" href=\"/css/main.css\">\n";
         echo "<link rel=\"stylesheet\" href=\"/css/movie.css\">\n";
-        echo "<link rel=\"stylesheet\" href=\"/css/dropdownbutton.css\">\n"; 
+        echo "<link rel=\"stylesheet\" href=\"/css/dropdown.css\">\n"; 
 
+        echo "<script type=\"text/javascript\" src=\"/js/main.js\"></script>\n";
         echo "<script type=\"text/javascript\" src=\"/js/movie.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"/js/user.js\"></script>\n";
     }
 
     function body()

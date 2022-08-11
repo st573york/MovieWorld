@@ -44,6 +44,10 @@ button {
 	box-shadow: none;
 }
 
+.dropdown-link:focus {
+	color: darkblue;
+}
+
 .dropdown {
 	display: inline-block;
 	position: relative;	
@@ -76,11 +80,9 @@ button {
     display: none;
 }
 
-.dropdown-menu .divider {
-	height: 1px;
-	margin: 5px 0;
-	overflow: hidden;
-	background-color: #ccc;
+.dropdown-menu > li.red > a,
+.dropdown-menu > li.red > a:hover {
+    color: red;
 }
 
 .dropdown-menu > .disabled,

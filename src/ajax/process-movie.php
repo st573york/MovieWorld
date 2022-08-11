@@ -4,6 +4,7 @@ set_include_path( get_include_path() . PATH_SEPARATOR . "../" );
 
 require('database/db.php');
 
+require('lib/Dialog.php');
 require('lib/Movie.php');
 
 require('dao/MovieDao.php');
