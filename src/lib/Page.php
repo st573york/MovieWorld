@@ -51,6 +51,7 @@ class Page
         echo "<div class=\"fixed_right_panel\"></div>\n";
         // Top panel
         echo "<div class=\"fixed_top_panel\">\n";
+        echo "<img src=\"images/movies-icon.jpeg\"/>\n";
         echo "<div class=\"title_panel\">$product_name</div>\n";
         echo "<div class=\"searchtext_panel\"><input type=\"text\" id=\"searchtext\" name=\"searchtext\" autocomplete=\"off\" placeholder=\"Search...\"/></div>\n";
         if( $_SESSION['logged_in'] ) 
