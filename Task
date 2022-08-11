@@ -23,10 +23,10 @@ Each movie contains the following information:
 The number of votes is a link that, when clicked, it shows list of users who have voted a movie.
 The number of comments is a link that, when clicked, it shows list of users who have commented a movie.
 
-The list of movies can also be sorted by title, number of likes, number of hates, number of comments, author, most recent publication date or oldest publication date.
+The list of movies can also be sorted by title, number of likes / hates / comments, author or most recent / oldest publication date.
 
 In addition, authorized users are able to:
   - Search/filter any movie by using the search bar.
   - Edit their own profiles i.e. username, email etc by clicking on their username.
-  - Add, edit or delete their own movies and express their opinion for other movies by either liking, hating a movie or by retracting their vote. Voting is performed by clicking on the respective links that are displayed for each movie.
-  - Add a comment for other movies. Commenting is performed by clicking on the respective links that are displayed for each movie.
+  - Add, edit or delete their own movies and express their opinion for other movies by either liking, hating or by retracting their vote. Voting is performed by clicking on the respective links that are displayed for each movie.
+  - Add a comment for other movies. Commenting is performed by clicking on the respective link that is displayed for each movie.
