@@ -230,15 +230,19 @@ class Movie
         echo "<span>$description</span>\n";
         echo "</div>\n";
         echo "<div class=\"movie_data_bottom\">\n";
+        echo "<div class=\"movie_num_container\">\n";
         // Num of Likes | Hates
         $this->renderVotesNum();
         // Num of comments
         $this->renderCommentsNum();
+        echo "</div>\n";
         // Like | Hate | Comment      
         if( $can_vote_comment ) 
         {
+            echo "<div class=\"movie_btn_container\">\n";
             $this->renderVotesBtn();
             $this->renderCommentBtn();
+            echo "</div>\n";
         }
         echo "<div class=\"movie_posted_by\">Posted by <span class=\"movie_posted_by_user\">$posted_by</div>\n";
         echo "</div>\n";
