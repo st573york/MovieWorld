@@ -16,7 +16,7 @@ class Movies extends Page
         parent::__construct( _( $product_name ) );
 
         if( $_SESSION['logged_in'] ) {
-            $this->setPopupDialogs( array( 'process_movie', 'confirm' ) );
+            $this->setPopupDialogs( array( 'process_movie', 'process_comment', 'confirm' ) );
         }
         $this->setBootstrap();
     }
@@ -28,8 +28,11 @@ class Movies extends Page
         echo "<link rel=\"stylesheet\" href=\"/css/dropdown.css\">\n"; 
 
         echo "<script type=\"text/javascript\" src=\"/js/main.js\"></script>\n";
-        echo "<script type=\"text/javascript\" src=\"/js/movie.js\"></script>\n";
         echo "<script type=\"text/javascript\" src=\"/js/user.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"/js/sort.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"/js/movie.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"/js/vote.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"/js/comment.js\"></script>\n";
     }
 
     function body()

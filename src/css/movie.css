@@ -4,7 +4,7 @@
 }
 
 .movie_container {  
-    margin: 145px 392px 55px 392px;
+    margin: 112px 342px 62px 342px;
     border-top: 1px solid;
     border-bottom: 1px solid;
 }
@@ -15,7 +15,7 @@
 
 .movie_data { 
     display: grid;
-    margin-bottom: 5px; 
+    margin: 0px 0px 5px 0px; 
     padding: 10px; 
     border: 1px solid; 
     border-radius: 5px;
@@ -44,7 +44,7 @@
 
 .movie_data_actions {
     text-align: right;
-    padding-top: 10px;
+    padding: 10px 0px 0px 0px;
 }
 
 .movie_title {
@@ -73,8 +73,12 @@
     color: deepskyblue; 
 }
 
-.separator {    
+.num_separator,
+.btn_separator {    
     float: inherit;
+}
+
+.num_separator {    
     padding: 0px 5px 0px 5px; 
 }
 
@@ -176,9 +180,13 @@ table.list td.single_item {
     border: none;
 }
 
+.like_btn span, 
+.hate_btn span {
+    padding: 5px;
+}
+
 .like_btn a:hover, 
-.hate_btn a:hover,
-.sort_btn a:hover {
+.hate_btn a:hover {
     color: darkblue;
 }
 
@@ -187,7 +195,7 @@ table.list td.single_item {
     height: 16px;
     width: 16px;
     cursor: pointer;
-    margin-top: 8px;
+    margin: 8px 0px 0px 10px;
     background-image: url('/images/comment-deepskyblue.png');
 }
 
@@ -206,6 +214,6 @@ table.list td.single_item {
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.items_list::-webkit-scrollbar {
+.items_list::-webkit-scrollbar{    
     display: none;
 }

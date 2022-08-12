@@ -18,6 +18,7 @@
 .field,
 .error_message { 
     padding: 3px;
+    color: red;
 }
 
 .confirm_message {

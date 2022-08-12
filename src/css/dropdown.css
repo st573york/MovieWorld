@@ -1,6 +1,5 @@
 button {
 	display: inline-block;
-	margin-bottom: 0;
 	cursor: pointer;
 	border: 1px solid transparent;
 	line-height: 1.42;
@@ -23,7 +22,7 @@ button {
 }
 
 .dropdown-btn .caret {
-	margin-left: 5px;
+	margin: 0px 0px 0px 5px;
 }
 
 .caret {
@@ -78,6 +77,18 @@ button {
 /* Hide scrollbar for Chrome, Safari and Opera */
 .dropdown-menu::-webkit-scrollbar {
     display: none;
+}
+
+.dropdown-menu > li.divider_before {
+	padding: 0px 0px 5px 0px;
+}
+
+.dropdown-menu > li.divider_after {
+	padding: 5px 0px 0px 0px;
+}
+
+.dropdown-menu > li.divider {
+	border-top: 1px solid #ccc;
 }
 
 .dropdown-menu > li.red > a,

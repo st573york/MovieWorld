@@ -58,29 +58,32 @@ class Page
         {
             echo "<div class=\"message_panel\">Welcome Back\n";
             echo "<div class=\"loggedin_user\">";
-            if( $_SESSION['username'] == 'admin' ) {   
-                echo "<a href=\"\">".$_SESSION['username']."</a>";                
+            if( $_SESSION['username'] == 'admin' ) 
+            {   
+                echo "<a href=\"\" class=\"dropdown-link\" data-toggle=\"dropdown\">".$_SESSION['username']."&nbsp;<span class=\"caret\"></span></a>\n";
+                echo "<ul class=\"dropdown-menu\">";
+                echo "<li id=\"logout_user\" title=\"Logout User\"><a href=\"php/logout.php\">Logout</a></li>\n";
+                echo "</ul>\n";
             }
             else 
             {
                 // Delete user            
                 $obj = array();
                 $obj['action'] = 'delete';
-                $obj['type'] = 'user';
-                $obj['title'] = 'Delete User';
                 $obj['html'] = Dialog::getConfirmDialogHtml( "User will be deleted. Are you sure?" ); 
 
-                $ondelete = 'javascript:confirmDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
+                $ondelete = 'javascript:confirmUserDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
 
                 echo "<a href=\"\" class=\"dropdown-link\" data-toggle=\"dropdown\">".$_SESSION['username']."&nbsp;<span class=\"caret\"></span></a>\n";
                 echo "<ul class=\"dropdown-menu\">";
-                echo "<li id=\"edit_profile\" title=\"Edit Profile\"><a href='/?profile'>Edit Profile</a></li>\n";
-                echo "<li id=\"delete_user\" class=\"red\" title=\"Delete User Account\"><a href='{$ondelete}'>Delete User</a></li>\n";
+                echo "<li id=\"edit_profile\" title=\"Edit Profile\"><a href='/?profile'>Edit</a></li>\n";
+                echo "<li id=\"delete_user\" class=\"red divider_before\" title=\"Delete User Account\"><a href='{$ondelete}'>Delete</a></li>\n";
+                echo "<li class=\"divider\"></li>\n";
+                echo "<li id=\"logout_user\" class=\"divider_after\" title=\"Logout User\"><a href=\"php/logout.php\">Logout</a></li>\n";
                 echo "</ul>\n";
             }
             echo "</div>\n";
             echo "</div>\n";
-            echo "<div class=\"logout_panel\"><a href=\"php/logout.php\">Logout</a></div>\n";
         }
         else
         {
@@ -89,7 +92,6 @@ class Page
             echo "<span class=\"user_actions_panel_separator\">or</span>\n";
             echo "<span class=\"register_link\"><a href=\"/?register\">Sign up</a></span>\n";
             echo "</div>\n";
-            echo "<div class=\"empty_panel\">&nbsp;</div>\n";
         }
         echo "<div class=\"movie_actions_panel\">";
         if( $_SESSION['logged_in'] && 
@@ -98,7 +100,6 @@ class Page
             // Add new movie
             $obj = array();
             $obj['action'] = 'add';
-            $obj['type'] = 'movie';
             $obj['title'] = 'Add Movie';
             $obj['html'] = Dialog::getMovieDialogHtml();
 

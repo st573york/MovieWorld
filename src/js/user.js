@@ -2,24 +2,49 @@
  * User events, functions
  */
 
+function confirmUserDeletion( obj)
+{
+    var buttons = 
+    [ 
+        {   'text': 'OK',
+            'click': function ()
+            {
+                processUser( obj );
+            },
+        },
+        {   'text': 'Cancel',
+            'click': function () 
+            {			          
+                closePopupDialog( 'confirm' );
+            }
+        }
+    ];
+ 
+    $( '#' + popupDialogPrefix + 'confirm' )
+        .closest( '.ui-dialog' )
+        .children( '.ui-dialog-titlebar')
+        .css( 'background', '#d92' );
+ 
+    popupDialog( {
+        'id': 'confirm',
+        'title': 'Delete User',
+        'html': obj.html,
+        'buttons': buttons
+    } );
+}
+
 function processUser( obj )
 {		
     $.ajax({
         type: "POST",
-        url: "/ajax/process-user.php",
+        url: "/ajax/user.php",
         data: obj,
         cache: false,
         success: function( data )
         {                              
-            if( data.indexOf( 'ERROR' ) == -1 )
-            {
-                closePopupDialog( 'confirm' );
+            closePopupDialog( 'confirm' );
 
-                window.location = 'php/logout.php';
-            }
-            else {
-                alert( data );
-            }
+            window.location = 'php/logout.php';
         },
         error: function( e, jqxhr )
         {

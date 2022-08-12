@@ -30,7 +30,7 @@ class Movie
         $obj['action'] = 'like';
         $obj['movieid'] = $this->data['movieid'];
 
-        $href = 'javascript:processMovie( '.json_encode( $obj ).' );';
+        $href = 'javascript:processVote( '.json_encode( $obj ).' );';
         $this->data['like'] = "<span class=\"$class\"><a href='{$href}'>Like</a></span>";
     }
 
@@ -51,7 +51,7 @@ class Movie
         $obj['action'] = 'hate';
         $obj['movieid'] = $this->data['movieid'];
 
-        $href = 'javascript:processMovie( '.json_encode( $obj ).' );';
+        $href = 'javascript:processVote( '.json_encode( $obj ).' );';
         $this->data['hate'] = "<span class=\"$class\"><a href='{$href}'>Hate</a></span>";
     }
 
@@ -59,11 +59,11 @@ class Movie
     {
         $obj = array();
         $obj['movieid'] = $this->data['movieid'];
-        $obj['action'] = $obj['type'] = 'comment';
-        $obj['title'] = 'Add Comment';  
+        $obj['action'] = 'add';
+        $obj['title'] = 'Add Comment';
         $obj['html'] = Dialog::getCommentDialogHtml();      
 
-        $this->data['comment'] = 'showMovieDialog( '.json_encode( $obj ).' );';
+        $this->data['comment'] = 'showCommentDialog( '.json_encode( $obj ).' );';
     }
 
     function renderTable( $data, $header = array() )
@@ -127,13 +127,13 @@ class Movie
         echo "</div>\n";
         if( $users_list )
         {
-            echo "<div id=\"users_like_{$movieid}\" class=\"items_list\">\n";
+            echo "<div id=\"users_like_{$movieid}\" class=\"items_list users_list\">\n";
             $this->renderTable( $values );
             echo "</div>\n";
         }
         echo "</div>\n";
 
-        echo "<div class=\"separator\">|</div>\n";
+        echo "<div class=\"num_separator\">|</div>\n";
 
         $values = array();
         $movie_vote_dao->getUsersByHate( $movieid, $values );
@@ -149,7 +149,7 @@ class Movie
         echo "</div>\n";        
         if( $users_list )
         {
-            echo "<div id=\"users_hate_{$movieid}\" class=\"items_list\">\n";
+            echo "<div id=\"users_hate_{$movieid}\" class=\"items_list users_list\">\n";
             $this->renderTable( $values );
             echo "</div>\n";
         }
@@ -164,7 +164,7 @@ class Movie
 
         echo "<div id=\"movie_comments_num_{$movieid}\" class=\"movie_comments_num\">\n";
 
-        echo "<div class=\"separator\">|</div>\n";
+        echo "<div class=\"num_separator\">|</div>\n";
 
         $values = array();
         $movie_comment_dao = new MovieCommentDao;
@@ -181,7 +181,7 @@ class Movie
         echo "</div>\n";        
         if( $comments_list )
         {
-            echo "<div id=\"comments_{$movieid}\" class=\"items_list\">\n";
+            echo "<div id=\"comments_{$movieid}\" class=\"items_list comments_list\">\n";
             $this->renderTable( $values, array( 'Time', 'User', 'Comment' ) );
             echo "</div>\n";
         }
@@ -194,7 +194,7 @@ class Movie
     {
         echo "<div id=\"movie_votes_btn_".$this->data['movieid']."\" class=\"movie_votes_btn\">\n"; 
         echo "<span id=\"like_btn_".$this->data['movieid']."\" class=\"like_btn\">".$this->data['like']."</span>\n";
-        echo "<span class=\"separator\">|</span>\n";
+        echo "<span class=\"btn_separator\">|</span>\n";
         echo "<span id=\"hate_btn_".$this->data['movieid']."\" class=\"hate_btn\">".$this->data['hate']."</span>\n";
         echo "</div>\n";
     }
@@ -202,7 +202,7 @@ class Movie
     function renderCommentBtn()
     {
         echo "<div id=\"movie_comment_btn_".$this->data['movieid']."\" class=\"movie_comment_btn\">\n"; 
-        echo "<span class=\"separator\">|</span>\n";
+        echo "<span class=\"btn_separator\">|</span>\n";
         echo "<span id=\"comment_btn_".$this->data['movieid']."\" class=\"comment_btn\" onclick='".$this->data['comment']."' title=\"Add Comment\"></span>\n";
         echo "</div>\n";
     }
@@ -251,7 +251,6 @@ class Movie
             $obj = array();
             $obj['movieid'] = $movieid;
             $obj['action'] = 'edit';
-            $obj['type'] = 'movie';
             $obj['title'] = 'Edit Movie';
             $obj['html'] = Dialog::getMovieDialogHtml( $title, $description );
 
@@ -261,11 +260,9 @@ class Movie
             $obj = array();
             $obj['movieid'] = $movieid;
             $obj['action'] = 'delete';
-            $obj['type'] = 'movie';
-            $obj['title'] = 'Delete Movie';
             $obj['html'] = Dialog::getConfirmDialogHtml( "Movie '$title' will be deleted. Are you sure?" ); 
             
-            $ondelete = 'javascript:confirmDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
+            $ondelete = 'javascript:confirmMovieDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
             
             echo "<div class=\"dropdown\">\n";
             echo "<button class=\"dropdown-btn\" type=\"button\" data-toggle=\"dropdown\">Actions";

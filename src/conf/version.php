@@ -14,7 +14,7 @@ function getVersion()
 {   
     global $author, $product_name, $product_version;
     
-    return "&copy; $author - $product_name v. {$product_version}." . getRevision();
+    return "&copy; $author - $product_name v. {$product_version}.".getRevision();
 }
 
 ?>
