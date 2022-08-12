@@ -17,13 +17,13 @@ open_db();
 $action = $_POST['action'];
 
 $movie_vote_values = array();
+$movie_vote_values['movieid'] = $_POST['movieid'];
+
 $movie_vote_dao = new MovieVoteDao;
 
 switch( $action )
 {
-case 'like':
-    $movie_vote_values['movieid'] = $_POST['movieid'];
-    
+case 'like':    
     // check if user has already voted 
     if( $movie_vote_dao->hasUserVoted( $movie_vote_values ) ) {
         // update vote        
@@ -37,9 +37,7 @@ case 'like':
     }
     
     break;
-case 'hate':
-    $movie_vote_values['movieid'] = $_POST['movieid'];
-                
+case 'hate':    
     // check if user has already voted
     if( $movie_vote_dao->hasUserVoted( $movie_vote_values ) ) {
         // update vote

@@ -209,11 +209,11 @@ table.list td.single_item {
     padding: 5px;
 }
 
-.movie_voted a{    
+.movie_voted a {    
     color: #ffffff;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.items_list::-webkit-scrollbar{    
+.items_list::-webkit-scrollbar {    
     display: none;
 }
