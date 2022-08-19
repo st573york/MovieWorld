@@ -97,7 +97,7 @@ class Registration extends Page
         if( !empty( $email_error ) ) {
             echo "<div class=\"invalid_message\">$email_error</div>\n";
         }
-        echo "<div class=\"field\">\n";
+        echo "<div class=\"button\">\n";
         echo "<button class=\"btn-primary\" type=\"submit\">Register</button>\n";
         echo "</div>\n";
         echo "</form>\n";

@@ -29,7 +29,7 @@ class Login extends Page
         echo "<div class=\"movies\"><a href='/'>Movies</a></div>\n";
         echo "<div class=\"field\"><input type=\"text\" name=\"username\" autocomplete=\"off\" placeholder=\"Username\"/></div>\n";
         echo "<div class=\"field\"><input type=\"password\" name=\"password\" placeholder=\"Password\"></div>\n";
-        echo "<div class=\"field\">\n";
+        echo "<div class=\"button\">\n";
         echo "<button class=\"btn-primary\" type=\"submit\">Login</button>\n";
         echo "</div>\n";
         echo "</form>\n";
