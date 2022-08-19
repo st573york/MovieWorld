@@ -20,10 +20,18 @@ $movie_dao = new MovieDao;
         
 $movie_dao->getAll( $movies, $_POST );
 
-foreach( $movies as $data )
+if( !empty( $movies ) )
 {
-    $movie = new Movie( $data );
-    $movie->renderHtml();
+    // Movie Content
+    echo "<div class=\"movie_content\">\n";
+
+    foreach( $movies as $data )
+    {
+        $movie = new Movie( $data );
+        $movie->renderHtml();
+    }
+
+    echo "</div>\n";
 }
     
 ?>

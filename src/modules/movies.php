@@ -50,19 +50,19 @@ class Movies extends Page
         $count = count( $movies );
         echo "<div class=\"found_movies\">Found <span class=\"found_movies_count\">$count</span> movies</div>\n";
 
-        // Movie Content
-        echo "<div class=\"movie_content\">\n";
-
         if( $count )
         {
+            // Movie Content
+            echo "<div class=\"movie_content\">\n";
+
             foreach( $movies as $data )
             {
                 $movie = new Movie( $data );
                 $movie->renderHtml();
             }
-        }
 
-        echo "</div>\n";
+            echo "</div>\n";
+        }
 
         echo "</div>\n";
     }

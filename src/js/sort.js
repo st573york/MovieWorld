@@ -30,7 +30,10 @@
         success: function( data )
         {          
             // Update movies
-            $( '.movie_content' ).empty().append( data );
+            $( '.movie_content' ).remove();
+            if( data ) {
+                $( '.movie_container' ).append( data );
+            }
             
             // Update found movies
             $( '.found_movies_count' ).html( $( '.movie_data' ).length );
