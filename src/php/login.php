@@ -10,6 +10,8 @@ class Login extends Page
     {
         parent::__construct( _("Login") );
 
+        $this->setBootstrap();
+
         $this->login_denied = $login_denied;
     }
 
@@ -27,21 +29,20 @@ class Login extends Page
         echo "<div class=\"movies\"><a href='/'>Movies</a></div>\n";
         echo "<div class=\"field\"><input type=\"text\" name=\"username\" autocomplete=\"off\" placeholder=\"Username\"/></div>\n";
         echo "<div class=\"field\"><input type=\"password\" name=\"password\" placeholder=\"Password\"></div>\n";
-        echo "<div class=\"field\"><input type=\"submit\" name=\"submit\" value=\"Login\"></div>\n";
+        echo "<div class=\"field\">\n";
+        echo "<button class=\"btn-primary\" type=\"submit\">Login</button>\n";
+        echo "</div>\n";
         echo "</form>\n";
-        
         $warning_msg = '';
         if( $this->login_denied ) {
             $warning_msg = "The credentials you entered were invalid<br />Please re-enter them and try again";
         }
-
         if( $warning_msg )
         {   
             echo "<div class=\"action_message\">";
-            echo "<span class='message'>$warning_msg</span>";
+            echo "<span class='error_message'>$warning_msg</span>";
             echo "</div>";
         }
-
         echo "</div>\n";
     }
 }

@@ -75,7 +75,7 @@ class UserDao
 		}
 	}
 
-	function getByUsername( $values )
+	function getByUsername( $username )
 	{
         global $conn;
         
@@ -90,7 +90,7 @@ class UserDao
 			if( $_SESSION['userid'] ) {
 				$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
 			}
-			$stmt->bindParam( ':username', $values['username'], PDO::PARAM_STR );
+			$stmt->bindParam( ':username', $username, PDO::PARAM_STR );
             $stmt->execute();				
 
 			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
@@ -106,7 +106,7 @@ class UserDao
 		}
 	}
 
-    function getByEmail( $values )
+    function getByEmail( $email )
 	{
         global $conn;
         
@@ -121,7 +121,7 @@ class UserDao
 			if( $_SESSION['userid'] ) {
 				$stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
 			}
-			$stmt->bindParam( ':email', $values['email'], PDO::PARAM_STR );
+			$stmt->bindParam( ':email', $email, PDO::PARAM_STR );
             $stmt->execute();				
 
 			if( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {				
@@ -223,8 +223,8 @@ class UserDao
             $stmt->bindParam( ':userid', $userid, PDO::PARAM_INT ); 
             $stmt->execute();
 
-            // Delete comments
-            $query = "DELETE FROM movie_comments
+            // Delete reviews
+            $query = "DELETE FROM movie_reviews
                       WHERE userid = :userid";
     
             $stmt = $conn->prepare( $query );

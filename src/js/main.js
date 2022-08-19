@@ -2,41 +2,46 @@
  * Generic events, functions
  */
 
- var requestTimer = false;
- var loader = false;
+var requestTimer = false;
+var loader = false;
  
- $( document ).ready( function() {
+$( document ).ready( function() {
  
-     // Show loader when ajax request begins
-     $( this ).ajaxStart( function() {
-         if( loader ) { 
-             $( '#loader' ).show();
-         }
-     });
+    // Show loader when ajax request begins
+    $( this ).ajaxStart( function() {
+        if( loader ) { 
+            $( '#loader' ).show();
+        }
+    });
  
-     // Hide loader when ajax request has completed
-     $( this ).ajaxStop( function() { 
-         if( loader ) 
-         { 
-             $( '#loader' ).hide();
+    // Hide loader when ajax request has completed
+    $( this ).ajaxStop( function() { 
+        if( loader ) 
+        { 
+            $( '#loader' ).hide();
              
-             loader = false;
-         }
-     });
+            loader = false;
+        }
+    });
  
-     // Trigger ajax on search input change                                                                                                                                                                               
-     $( 'input#searchtext' ).on( 'input propertychange', function() {
-         if( requestTimer )
-         {
-             window.clearTimeout( requestTimer );
-             requestTimer = false;
-         }
+    // Trigger ajax on search input change                                                                                                                                                                               
+    $( 'input#searchtext' ).on( 'input propertychange', function() {
+        if( requestTimer )
+        {
+            window.clearTimeout( requestTimer );
+            requestTimer = false;
+        }
  
-         var obj = {};
-         obj['action'] = 'sort_by_text';
-         obj['searchtext'] = this.value;
+        var obj = {};
+        obj['action'] = 'sort_by_text';
+        obj['searchtext'] = this.value;
  
-         requestTimer = setTimeout( function () { loader = true; sortMovies( obj ); }, 500 );
-     });
+        requestTimer = setTimeout( function () { loader = true; sortMovies( obj ); }, 500 );
+    });
 
- } );
+    // Scroll to top when dropdown menu is visible
+    $( '.dropdown-link, .dropdown-btn' ).on( 'click', function() {
+        $( '.dropdown-menu' ).animate( { scrollTop: 0 } );
+    });
+
+} );

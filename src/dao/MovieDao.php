@@ -80,10 +80,10 @@ class MovieDao
                         $order_by = 'total_hates DESC';
     
                         break;
-                    case 'sort_by_comments':
-                        $count .= 'COUNT( movie_comments.movieid ) AS total_comments,';
-                        $left_join .= 'LEFT JOIN movie_comments ON movies.movieid = movie_comments.movieid';
-                        $order_by = 'total_comments DESC';
+                    case 'sort_by_reviews':
+                        $count .= 'COUNT( movie_reviews.movieid ) AS total_reviews,';
+                        $left_join .= 'LEFT JOIN movie_reviews ON movies.movieid = movie_reviews.movieid';
+                        $order_by = 'total_reviews DESC';
         
                         break;
                     case 'sort_by_author':
@@ -213,8 +213,8 @@ class MovieDao
             $stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT ); 
             $stmt->execute();
 
-            // Delete comments
-            $query = "DELETE FROM movie_comments
+            // Delete reviews
+            $query = "DELETE FROM movie_reviews
                       WHERE movieid = :movieid";
     
             $stmt = $conn->prepare( $query );

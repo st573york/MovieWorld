@@ -15,12 +15,6 @@
     padding: 10px 0px 0px 0px;
 }
 
-.field,
-.error_message { 
-    padding: 3px;
-    color: red;
-}
-
 .confirm_message {
     max-width: 500px;
 }

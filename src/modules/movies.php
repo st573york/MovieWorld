@@ -1,12 +1,12 @@
 <?php
 
 require_once('lib/Page.php');
-require_once('lib/Dialog.php');
+require_once('lib/PopupDialog.php');
 require_once('lib/Movie.php');
     
 require_once('dao/MovieDao.php');
 require_once('dao/MovieVoteDao.php');
-require_once('dao/MovieCommentDao.php');
+require_once('dao/MovieReviewDao.php');
 
 class Movies extends Page
 {
@@ -16,7 +16,7 @@ class Movies extends Page
         parent::__construct( _( $product_name ) );
 
         if( $_SESSION['logged_in'] ) {
-            $this->setPopupDialogs( array( 'process_movie', 'process_comment', 'confirm' ) );
+            $this->setPopupDialogs( array( 'process_movie', 'process_review', 'confirm' ) );
         }
         $this->setBootstrap();
     }
@@ -25,14 +25,13 @@ class Movies extends Page
     {
         echo "<link rel=\"stylesheet\" href=\"/css/main.css\">\n";
         echo "<link rel=\"stylesheet\" href=\"/css/movie.css\">\n";
-        echo "<link rel=\"stylesheet\" href=\"/css/dropdown.css\">\n"; 
 
         echo "<script type=\"text/javascript\" src=\"/js/main.js\"></script>\n";
         echo "<script type=\"text/javascript\" src=\"/js/user.js\"></script>\n";
         echo "<script type=\"text/javascript\" src=\"/js/sort.js\"></script>\n";
         echo "<script type=\"text/javascript\" src=\"/js/movie.js\"></script>\n";
         echo "<script type=\"text/javascript\" src=\"/js/vote.js\"></script>\n";
-        echo "<script type=\"text/javascript\" src=\"/js/comment.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"/js/review.js\"></script>\n";
     }
 
     function body()
@@ -64,9 +63,6 @@ class Movies extends Page
         }
 
         echo "</div>\n";
-
-        // Movie Spacer
-        echo "<div>&nbsp;</div>\n";
 
         echo "</div>\n";
     }

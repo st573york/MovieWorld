@@ -10,7 +10,7 @@ class Movie
 
         $this->setLike();
         $this->setHate();
-        $this->setComment();
+        $this->setReview();
     }
 
     function setLike()
@@ -31,7 +31,7 @@ class Movie
         $obj['movieid'] = $this->data['movieid'];
 
         $href = 'javascript:processVote( '.json_encode( $obj ).' );';
-        $this->data['like'] = "<span class=\"$class\"><a href='{$href}'>Like</a></span>";
+        $this->data['like'] = "<span class=\"$class\"><a href='{$href}' class=\"vote\">Like</a></span>";
     }
 
     function setHate()
@@ -52,57 +52,71 @@ class Movie
         $obj['movieid'] = $this->data['movieid'];
 
         $href = 'javascript:processVote( '.json_encode( $obj ).' );';
-        $this->data['hate'] = "<span class=\"$class\"><a href='{$href}'>Hate</a></span>";
+        $this->data['hate'] = "<span class=\"$class\"><a href='{$href}' class=\"vote\">Hate</a></span>";
     }
 
-    function setComment()
+    function setReview()
     {
         $obj = array();
         $obj['movieid'] = $this->data['movieid'];
         $obj['action'] = 'add';
-        $obj['title'] = 'Add Comment';
-        $obj['html'] = Dialog::getCommentDialogHtml();      
+        $obj['title'] = 'Add Review';
+        $obj['html'] = PopupDialog::getReviewDialogHtml();      
 
-        $this->data['comment'] = 'showCommentDialog( '.json_encode( $obj ).' );';
+        $this->data['review'] = 'showReviewDialog( '.json_encode( $obj ).' );';
     }
 
-    function renderTable( $data, $header = array() )
+    function get_time_ago( $time )
     {
-        $has_header = ( !empty( $header ) );
-
-        echo "<table class=\"list\">\n";
-        echo "<thead>\n";
-        if( $has_header )
-        {
-            echo "<tr>\n";
-            foreach( $header as $th ) {
-                echo "<th>$th</th>\n";
-            }
-            echo "</tr>\n";
+        $diff = time() - $time;
+        
+        if( $diff < 1 ) { 
+            return 'less than 1 second ago'; 
         }
-        echo "</thead>\n";
-        echo "<tbody>\n";
-        $odd = false;
-        foreach( $data as $row ) 
+        
+        $time_rules = array( 12 * 30 * 24 * 60 * 60 =>  'year',
+                             30 * 24 * 60 * 60      =>  'month',
+                             24 * 60 * 60           =>  'day',
+                             60 * 60                =>  'hour',
+                             60                     =>  'minute',
+                             1                      =>  'second'
+        );
+
+        foreach( $time_rules as $secs => $str )
         {
-            $class = '';
-            if( $has_header ) {
-                $class = $odd? 'odd' : 'even';
+            $d = $diff / $secs;
+
+            if( $d >= 1 )
+            {   
+                $t = round( $d );
+                return 'about ' . $t . ' ' . $str . ( $t > 1 ? 's' : '' ) . ' ago';
             }
-
-            echo "<tr class=\"$class\">\n";
-            foreach( $row as $key => $val ) 
-            {
-                $class = ( !$has_header )? 'single_item' : '';
-
-                echo "<td class=\"$class\">$val</td>\n";
-            }
-            echo "</tr>\n";
-
-            $odd = !$odd;
         }
-        echo "</tbody>\n";
-        echo "</table>\n";
+    }
+
+    // Convert large number into short e.g. 1000 to 1K 10000 to 10K etc
+    function shortNumber( $num ) 
+    {
+        $units = [ '', 'K', 'M', 'B' ];
+        for( $i = 0; $num >= 1000; $i++ ) {
+            $num /= 1000;
+        }
+
+        return round( $num, 1 ) . $units[ $i ];
+    }
+
+    function renderVoteUsers( $values )
+    {
+        echo "<div class=\"dropdown-menu\">\n";
+        $last = end( $values );
+        foreach( $values as $key => $val ) 
+        {
+            $username = $val['username'];
+            
+            $class = ( $last == $val )? 'last' : '';
+            echo "<div class=\"user_vote_data $class\">$username</div>\n";
+        }
+        echo "</div>\n";
     }
 
     function renderVotesNum()
@@ -114,75 +128,80 @@ class Movie
         echo "<div id=\"movie_votes_num_{$movieid}\" class=\"movie_votes_num\">\n";
 
         $values = array();
+
         $movie_vote_dao->getUsersByLike( $movieid, $values );
+        $users_like_num = $this->shortNumber( $movie_vote_dao->getLikeVotesNum( $movieid ) );
 
         $users_list = ( !empty( $values ) && $_SESSION['logged_in'] );
 
         // Users who have liked a movie
-        echo "<div class=\"movie_likes\">\n"; 
         $class = ( $this->data['liked'] )? 'liked' : '';
-        echo "<div id=\"movie_likes_{$movieid}\" class=\"$class\">\n";
-        $class = ( $users_list )? 'movie_likes_text' : '';
-        echo "<span id=\"movie_likes_text_{$movieid}\" class=\"$class\">".$movie_vote_dao->getLikeVotesNum( $movieid )." likes</span>\n";
-        echo "</div>\n";
-        if( $users_list )
-        {
-            echo "<div id=\"users_like_{$movieid}\" class=\"items_list users_list\">\n";
-            $this->renderTable( $values );
-            echo "</div>\n";
+        echo "<div class=\"movie_likes $class\">";
+        echo ( $users_list )? 
+            "\n<a href=\"\" class=\"dropdown-link only-text\" data-toggle=\"dropdown\"><span class=\"movie_votes_text\">$users_like_num likes</span></a>\n" : "$users_like_num likes";
+        if( $users_list ) {
+            $this->renderVoteUsers( $values );
         }
         echo "</div>\n";
 
         echo "<div class=\"num_separator\">|</div>\n";
 
         $values = array();
+
         $movie_vote_dao->getUsersByHate( $movieid, $values );
+        $users_hate_num = $this->shortNumber( $movie_vote_dao->getHateVotesNum( $movieid ) );
 
         $users_list = ( !empty( $values ) && $_SESSION['logged_in'] );
 
         // Users who have hated a movie
-        echo "<div class=\"movie_hates\">\n";
         $class = ( $this->data['hated'] )? 'hated' : '';
-        echo "<div id=\"movie_hates_{$movieid}\" class=\"$class\">\n";
-        $class = ( $users_list )? 'movie_hates_text' : '';
-        echo "<span id=\"movie_hates_text_{$movieid}\" class=\"$class\">".$movie_vote_dao->getHateVotesNum( $movieid )." hates</span>\n";
-        echo "</div>\n";        
-        if( $users_list )
-        {
-            echo "<div id=\"users_hate_{$movieid}\" class=\"items_list users_list\">\n";
-            $this->renderTable( $values );
-            echo "</div>\n";
+        echo "<div class=\"movie_hates $class\">\n";
+        echo ( $users_list )? 
+            "\n<a href=\"\" class=\"dropdown-link only-text\" data-toggle=\"dropdown\"><span class=\"movie_votes_text\">$users_hate_num hates</span></a>\n" : "$users_hate_num hates";
+        if( $users_list ) {
+            $this->renderVoteUsers( $values );
         }
-        echo "</div>\n";
+        echo "</div>\n";                
 
         echo "</div>\n";
     }
 
-    function renderCommentsNum()
+    function renderReviewsNum()
     {
         $movieid = $this->data['movieid'];
 
-        echo "<div id=\"movie_comments_num_{$movieid}\" class=\"movie_comments_num\">\n";
+        echo "<div id=\"movie_reviews_num_{$movieid}\" class=\"movie_reviews_num\">\n";
 
         echo "<div class=\"num_separator\">|</div>\n";
 
         $values = array();
-        $movie_comment_dao = new MovieCommentDao;
+        $movie_review_dao = new MovieReviewDao;
 
-        $movie_comment_dao->getComments( $movieid, $values );
+        $movie_review_dao->getReviews( $movieid, $values );
+        $reviews_num = $this->shortNumber( $movie_review_dao->getReviewsNum( $movieid ) );
 
-        $comments_list = ( !empty( $values ) && $_SESSION['logged_in'] );
+        $reviews_list = ( !empty( $values ) && $_SESSION['logged_in'] );
 
-        // Users who have commented a movie
-        echo "<div class=\"movie_comments\">\n";
-        echo "<div id=\"movie_comments_{$movieid}\">\n";
-        $class = ( $comments_list )? 'movie_comments_text' : '';
-        echo "<span id=\"movie_comments_text_{$movieid}\" class=\"$class\">".$movie_comment_dao->getCommentsNum( $movieid )." comments</span>\n";
-        echo "</div>\n";        
-        if( $comments_list )
+        // Users who have added a review for a movie
+        echo "<div class=\"movie_reviews\">";
+        echo ( $reviews_list )? 
+            "\n<a href=\"\" class=\"dropdown-link only-text\" data-toggle=\"dropdown\">$reviews_num reviews</a>\n" : "$reviews_num reviews";    
+        if( $reviews_list )
         {
-            echo "<div id=\"comments_{$movieid}\" class=\"items_list comments_list\">\n";
-            $this->renderTable( $values, array( 'Time', 'User', 'Comment' ) );
+            echo "<div class=\"dropdown-menu\">\n";
+            $last = end( $values );
+            foreach( $values as $key => $val ) 
+            {
+                $creation_date = $this->get_time_ago( $val['creation_date'] );
+                $username = $val['username'];
+                $review = $val['review'];
+                
+                $class = ( $last == $val )? 'last' : '';
+                echo "<div class=\"review_data $class\">\n";
+                echo "<div class=\"top_panel\">By $username - $creation_date</div>\n";
+                echo "<div class=\"bottom_panel $class\">$review</div>\n";
+                echo "</div>\n";
+            }
             echo "</div>\n";
         }
         echo "</div>\n";
@@ -199,11 +218,11 @@ class Movie
         echo "</div>\n";
     }
 
-    function renderCommentBtn()
+    function renderReviewBtn()
     {
-        echo "<div id=\"movie_comment_btn_".$this->data['movieid']."\" class=\"movie_comment_btn\">\n"; 
+        echo "<div id=\"movie_review_btn_".$this->data['movieid']."\" class=\"movie_review_btn\">\n"; 
         echo "<span class=\"btn_separator\">|</span>\n";
-        echo "<span id=\"comment_btn_".$this->data['movieid']."\" class=\"comment_btn\" onclick='".$this->data['comment']."' title=\"Add Comment\"></span>\n";
+        echo "<span id=\"review_btn_".$this->data['movieid']."\" class=\"review_btn\" onclick='".$this->data['review']."' title=\"Add Review\"></span>\n";
         echo "</div>\n";
     }
 
@@ -217,7 +236,7 @@ class Movie
         $description = htmlspecialchars( $this->data['description'], ENT_QUOTES, 'UTF-8' );
         $posted_by = ( $myself )? "You" : $this->data['posted_by'];
 
-        $can_vote_comment = ( !$isadmin && !$myself && $_SESSION['logged_in'] );
+        $can_vote_review = ( !$isadmin && !$myself && $_SESSION['logged_in'] );
         $can_edit_or_delete = ( $isadmin || $myself );
 
         // Movie Data
@@ -233,15 +252,15 @@ class Movie
         echo "<div class=\"movie_num_container\">\n";
         // Num of Likes | Hates
         $this->renderVotesNum();
-        // Num of comments
-        $this->renderCommentsNum();
+        // Num of reviews
+        $this->renderReviewsNum();
         echo "</div>\n";
-        // Like | Hate | Comment      
-        if( $can_vote_comment ) 
+        // Like | Hate | Review      
+        if( $can_vote_review ) 
         {
             echo "<div class=\"movie_btn_container\">\n";
             $this->renderVotesBtn();
-            $this->renderCommentBtn();
+            $this->renderReviewBtn();
             echo "</div>\n";
         }
         echo "<div class=\"movie_posted_by\">Posted by <span class=\"movie_posted_by_user\">$posted_by</div>\n";
@@ -256,7 +275,7 @@ class Movie
             $obj['movieid'] = $movieid;
             $obj['action'] = 'edit';
             $obj['title'] = 'Edit Movie';
-            $obj['html'] = Dialog::getMovieDialogHtml( $title, $description );
+            $obj['html'] = PopupDialog::getMovieDialogHtml( $title, $description );
 
             $onedit = 'javascript:showMovieDialog( '.json_encode( $obj ).' );';
             
@@ -264,13 +283,13 @@ class Movie
             $obj = array();
             $obj['movieid'] = $movieid;
             $obj['action'] = 'delete';
-            $obj['html'] = Dialog::getConfirmDialogHtml( "Movie '$title' will be deleted. Are you sure?" ); 
+            $obj['html'] = PopupDialog::getConfirmDialogHtml( "Movie '$title' will be deleted. Are you sure?" ); 
             
             $ondelete = 'javascript:confirmMovieDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
             
             echo "<div class=\"dropdown\">\n";
             echo "<button class=\"dropdown-btn\" type=\"button\" data-toggle=\"dropdown\">Actions";
-            echo "<span class=\"caret\"></span>";
+            echo "<span class=\"caret-down\"></span>";
             echo "</button>\n";
             echo "<ul class=\"dropdown-menu\">\n";
             echo "<li id=\"edit\" title=\"Edit Movie\"><a href='{$onedit}'>Edit</a></li>\n";

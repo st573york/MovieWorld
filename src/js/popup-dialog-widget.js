@@ -33,6 +33,10 @@ function initPopupDialogs()
         {
             // Remove focus from dialog inputs
             $( this ).parent().focus();
+        },
+        close: function()
+        {
+            $( '.popup-dialog-container' ).remove();
         }
     });
 }
@@ -72,4 +76,10 @@ function closePopupDialog( id )
 function centerPopupDialogs()
 {   
     $( getPopupDialogs() ).dialog( 'option', 'position', { my: 'center', at: 'center', of: window } );
+}
+
+function resetErrors()
+{
+    $( '.popup-dialog-container' ).find( 'input, textarea' ).removeClass( 'invalid' );
+    $( '.popup-dialog-container .invalid_message' ).html( '' );
 }

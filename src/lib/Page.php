@@ -56,11 +56,11 @@ class Page
         echo "<div class=\"searchtext_panel\"><input type=\"text\" id=\"searchtext\" name=\"searchtext\" autocomplete=\"off\" placeholder=\"Search...\"/></div>\n";
         if( $_SESSION['logged_in'] ) 
         {
-            echo "<div class=\"message_panel\">Welcome Back\n";
-            echo "<div class=\"loggedin_user\">";
+            echo "<div class=\"user_panel\">Welcome Back\n";
+            echo "<div class=\"loggedin_user dropright\">";
             if( $_SESSION['username'] == 'admin' ) 
             {   
-                echo "<a href=\"\" class=\"dropdown-link\" data-toggle=\"dropdown\">".$_SESSION['username']."&nbsp;<span class=\"caret\"></span></a>\n";
+                echo "<a href=\"\" class=\"dropdown-link with-caret\" data-toggle=\"dropdown\">".$_SESSION['username']."<span class=\"caret-right\"></span></a>\n";
                 echo "<ul class=\"dropdown-menu\">";
                 echo "<li id=\"logout_user\" title=\"Logout User\"><a href=\"php/logout.php\">Logout</a></li>\n";
                 echo "</ul>\n";
@@ -70,11 +70,11 @@ class Page
                 // Delete user            
                 $obj = array();
                 $obj['action'] = 'delete';
-                $obj['html'] = Dialog::getConfirmDialogHtml( "User will be deleted. Are you sure?" ); 
+                $obj['html'] = PopupDialog::getConfirmDialogHtml( "User will be deleted. Are you sure?" ); 
 
                 $ondelete = 'javascript:confirmUserDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
 
-                echo "<a href=\"\" class=\"dropdown-link\" data-toggle=\"dropdown\">".$_SESSION['username']."&nbsp;<span class=\"caret\"></span></a>\n";
+                echo "<a href=\"\" class=\"dropdown-link with-caret\" data-toggle=\"dropdown\">".$_SESSION['username']."<span class=\"caret-right\"></span></a>\n";
                 echo "<ul class=\"dropdown-menu\">";
                 echo "<li id=\"edit_profile\" title=\"Edit Profile\"><a href='/?profile'>Edit</a></li>\n";
                 echo "<li id=\"delete_user\" class=\"red divider_before\" title=\"Delete User Account\"><a href='{$ondelete}'>Delete</a></li>\n";
@@ -90,7 +90,7 @@ class Page
             echo "<div class=\"user_actions_panel\">\n";
             echo "<span><a href=\"/?login\">Log in</a></span>\n";
             echo "<span class=\"user_actions_panel_separator\">or</span>\n";
-            echo "<span class=\"register_link\"><a href=\"/?register\">Sign up</a></span>\n";
+            echo "<button class=\"btn-primary\" type=\"button\" onclick=\"location.href='/?register'\">Sign up</button>\n";
             echo "</div>\n";
         }
         echo "<div class=\"movie_actions_panel\">";
@@ -100,18 +100,16 @@ class Page
             // Add new movie
             $obj = array();
             $obj['action'] = 'add';
-            $obj['title'] = 'Add Movie';
-            $obj['html'] = Dialog::getMovieDialogHtml();
+            $obj['title'] = 'New Movie';
+            $obj['html'] = PopupDialog::getMovieDialogHtml();
 
             $onclick = 'this.blur(); showMovieDialog( '.json_encode( $obj ).' );';
 
-            echo "<div class=\"dropdown\">\n";
-            echo "<button class=\"dropdown-btn\" type=\"button\" onclick='{$onclick}'>New Movie</button>\n";
-            echo "</div>\n";
+            echo "<button class=\"btn-success\" type=\"button\" onclick='{$onclick}'>New Movie</button>\n";
         }
         echo "<div class=\"dropdown\">\n";
         echo "<button class=\"dropdown-btn\" type=\"button\" data-toggle=\"dropdown\">Options";
-        echo "<span class=\"caret\"></span>";
+        echo "<span class=\"caret-down\"></span>";
         echo "</button>\n";
         echo "<ul class=\"dropdown-menu\">\n";
         echo "<li id=\"sort_by\" class=\"disabled\">Sort by</li>\n";
@@ -121,8 +119,8 @@ class Page
         echo "<li id=\"likes\" title=\"Sort by highest number of likes\"><a href='{$sort_by_likes}'>Likes</a></li>\n";
         $sort_by_hates = 'javascript:sortMovies( { "action": "sort_by_hates" } )';
         echo "<li id=\"hates\" title=\"Sort by highest number of hates\"><a href='{$sort_by_hates}'>Hates</a></li>\n";
-        $sort_by_comments = 'javascript:sortMovies( { "action": "sort_by_comments" } )';
-        echo "<li id=\"comments\" title=\"Sort by highest number of comments\"><a href='{$sort_by_comments}'>Comments</a></li>\n";
+        $sort_by_reviews = 'javascript:sortMovies( { "action": "sort_by_reviews" } )';
+        echo "<li id=\"reviews\" title=\"Sort by highest number of reviews\"><a href='{$sort_by_reviews}'>Reviews</a></li>\n";
         $sort_by_author = 'javascript:sortMovies( { "action": "sort_by_author" } )';
         echo "<li id=\"author\" title=\"Sort by author\"><a href='{$sort_by_author}'>Author</a></li>\n";
         $sort_by_date_most_recent = 'javascript:sortMovies( { "action": "sort_by_date_most_recent" } )';
@@ -151,12 +149,17 @@ class Page
         if( !empty( $this->popup_dialogs ) ) {
             echo "<link rel=\"stylesheet\" href=\"/css/popup-dialog.css\">\n";
         }
+        if( $this->bootstrap ) {
+            echo "<link rel=\"stylesheet\" href=\"/css/bootstrap.css\">\n"; 
+        }
         echo "<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js\"></script>\n";
         if( !empty( $this->popup_dialogs ) ) {
             echo "<script type=\"text/javascript\" src=\"/js/popup-dialog-widget.js\"></script>\n";
         }
-        if( $this->bootstrap ) {
-            echo "<script type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>\n";
+        if( $this->bootstrap ) 
+        {
+            echo "<script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js\"></script>\n";
+            echo "<script type=\"text/javascript\" src=\"https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js\"></script>\n";
         }
         echo "<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js\"></script>\n";
         echo "<script type=\"text/javascript\">\n";

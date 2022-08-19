@@ -1,8 +1,8 @@
 /**
- * Movie events, functions
+ * Review events, functions
  */
 
-function showMovieDialog( obj )
+function showReviewDialog( obj )
 {
     var buttons = 
     [ 
@@ -10,7 +10,7 @@ function showMovieDialog( obj )
             'class': 'btn-secondary',
             'click': function () 
             {			          
-                closePopupDialog( 'process_movie' );
+                closePopupDialog( 'process_review' );
             }
         },
         {   'text': 'OK',
@@ -20,29 +20,29 @@ function showMovieDialog( obj )
                 obj['popupDialogData'] = $( '#popup-dialog-form' ).serialize();
 
                 resetErrors();
-                validateMovieDialog( obj );
+                validateReviewDialog( obj );
             },
         }
     ];
 
-    $( '#' + popupDialogPrefix + 'process_movie' )
+    $( '#' + popupDialogPrefix + 'process_review' )
         .closest( '.ui-dialog' )
         .children( '.ui-dialog-titlebar')
         .css( 'background', 'limegreen' );
 
     popupDialog( {
-	    'id': 'process_movie',
+	    'id': 'process_review',
         'title': obj.title,
         'html': obj.html,
         'buttons': buttons
     } );
 }
 
-function validateMovieDialog( obj )
+function validateReviewDialog( obj )
 {
     $.ajax({
 		type: "POST",
-		url: "/ajax/movie.php",
+		url: "/ajax/review.php",
 		data: {
 				'action': 'validate',
 				'popupDialogData': obj.popupDialogData
@@ -51,8 +51,8 @@ function validateMovieDialog( obj )
 		cache: false,
 		success: function( data )
 		{
-			if( data.resp == 'success' ) {
-                processMovie( obj );
+            if( data.resp == 'success' ) {
+                processReview( obj );
             }
             else 
             {
@@ -68,56 +68,16 @@ function validateMovieDialog( obj )
     });
 }
 
-function confirmMovieDeletion( obj)
-{
-    var buttons = 
-    [ 
-        {   'text': 'Close',
-            'class': 'btn-secondary',
-            'click': function () 
-            {			          
-                closePopupDialog( 'confirm' );
-            }
-        },
-        {   'text': 'OK',
-            'class': 'btn-primary',
-            'click': function ()
-		  	{    
-                processMovie( obj );
-            },
-        }
-    ];
-
-    $( '#' + popupDialogPrefix + 'confirm' )
-        .closest( '.ui-dialog' )
-        .children( '.ui-dialog-titlebar')
-        .css( 'background', '#d92' );
-
-    popupDialog( {
-		'id': 'confirm',
-        'title': 'Delete Movie',
-        'html': obj.html,
-        'buttons': buttons
-    } );
-}
-
-function processMovie( obj )
+function processReview( obj )
 {		
     $.ajax({
         type: "POST",
-        url: "/ajax/movie.php",
+        url: "/ajax/review.php",
         data: obj,
         cache: false,
         success: function( data )
-        {                              
-            if( obj.action == 'add' || 
-                obj.action == 'edit' )
-            {
-                closePopupDialog( 'process_movie' );
-            }
-            else if( obj.action == 'delete' ) {
-                closePopupDialog( 'confirm' );                    
-            }
+        {                   
+            closePopupDialog( 'process_review' );
 
             sortMovies( { 'action': sort_by } );
         },

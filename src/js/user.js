@@ -6,17 +6,19 @@ function confirmUserDeletion( obj)
 {
     var buttons = 
     [ 
-        {   'text': 'OK',
-            'click': function ()
-            {
-                processUser( obj );
-            },
-        },
-        {   'text': 'Cancel',
+        {   'text': 'Close',
+            'class': 'btn-secondary',
             'click': function () 
             {			          
                 closePopupDialog( 'confirm' );
             }
+        },
+        {   'text': 'OK',
+            'class': 'btn-primary',
+            'click': function ()
+            {
+                processUser( obj );
+            },
         }
     ];
  

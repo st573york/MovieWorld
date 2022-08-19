@@ -8,7 +8,7 @@ CREATE DATABASE MovieWorld;
 CREATE TABLE users
 (
     userid     BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username   VARCHAR(40) NOT NULL,
+    username   VARCHAR(20) NOT NULL,
     password   VARCHAR(64) NOT NULL,
     email      VARCHAR(250) NOT NULL
 );
@@ -45,14 +45,14 @@ CREATE TABLE movie_votes
 );
 
 --
--- <table name="movie_comments">
---  <desc>Table stores list of movies that users have commented.</desc>
+-- <table name="movie_reviews">
+--  <desc>Table stores list of movies that users have added a review.</desc>
 -- </table>
 --
-CREATE TABLE movie_comments
+CREATE TABLE movie_reviews
 (
 	movieid         BIGINT NOT NULL REFERENCES movies( movieid ),
 	userid          BIGINT NOT NULL REFERENCES users( userid ),
-	comment         TEXT,
+	review          TEXT,
 	creation_date   TIMESTAMP NOT NULL DEFAULT NOW()
 );

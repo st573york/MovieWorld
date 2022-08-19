@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Data Access Object for movie comment data.
+ * Data Access Object for movie review data.
  */
 
-class MovieCommentDao
+class MovieReviewDao
 {
-	var $table = 'movie_comments';
+	var $table = 'movie_reviews';
 	var $data = array();
 
     static $defaults = array(
         'movieid' => '',
         'userid' => '',
-        'comment' => ''
+        'review' => ''
         );
 
-	function getCommentsNum( $movieid )
+	function getReviewsNum( $movieid )
 	{
         global $conn;
         
@@ -37,14 +37,14 @@ class MovieCommentDao
 		}
 	}
 
-	function getComments( $movieid, &$values )
+	function getReviews( $movieid, &$values )
 	{
         global $conn;
         
    		try 
 		{                
-			$query = "SELECT creation_date, username, comment FROM {$this->table}
-					  LEFT JOIN users ON movie_comments.userid = users.userid
+			$query = "SELECT UNIX_TIMESTAMP( creation_date ) AS creation_date, username, review FROM {$this->table}
+					  LEFT JOIN users ON movie_reviews.userid = users.userid
                       WHERE movieid = :movieid 
 					  ORDER BY creation_date";
 			
@@ -81,14 +81,14 @@ class MovieCommentDao
 	   		}
            
             $query = "INSERT INTO {$this->table}
-                      ( movieid, userid, comment )
+                      ( movieid, userid, review )
                       VALUES
-                      ( :movieid, :userid, :comment )";
+                      ( :movieid, :userid, :review )";
                         
 			$stmt = $conn->prepare( $query );
             $stmt->bindParam( ':movieid', $this->data['movieid'], PDO::PARAM_INT );
             $stmt->bindParam( ':userid', $_SESSION['userid'], PDO::PARAM_INT );
-            $stmt->bindParam( ':comment', $this->data['comment'], PDO::PARAM_STR );
+            $stmt->bindParam( ':review', $this->data['review'], PDO::PARAM_STR );
 			$stmt->execute();
             
 			return TRUE;
