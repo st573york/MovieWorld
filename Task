@@ -6,7 +6,7 @@ Each movie has a title and a small description as well as a date that correspond
 
 In addition it holds a reference to the user that submitted it.
 
-Users can also express their opinion by liking, hating or commenting a movie.
+Users can also express their opinion by liking, hating or reviewing a movie.
 
 When an unauthorized user visits the application, a list of movies that have been added to the database is displayed, as well as links for log in / sign up. User is able to search/filter any movie by using the search bar.
 
@@ -18,15 +18,15 @@ Each movie contains the following information:
 ● Date of publication 
 ● Number of likes
 ● Number of hates
-● Number of comments
+● Number of reviews
 
 The number of votes is a link that, when clicked, it shows list of users who have voted a movie.
-The number of comments is a link that, when clicked, it shows list of users who have commented a movie.
+The number of reviews is a link that, when clicked, it shows list of users who have reviewed a movie.
 
-The list of movies can also be sorted by title, number of likes / hates / comments, author or most recent / oldest publication date.
+The list of movies can also be sorted by title, number of likes / hates / reviews, author or most recent / oldest publication date.
 
 In addition, authorized users are able to:
   - Search/filter any movie by using the search bar.
   - Edit or delete their own accounts by clicking on their username.
   - Add, edit or delete their own movies and express their opinion for other movies by either liking, hating or by retracting their vote. Voting is performed by clicking on the respective links that are displayed for each movie.
-  - Add a comment for other movies. Commenting is performed by clicking on the respective link that is displayed for each movie.
+  - Add a review for other movies. Reviewing is performed by clicking on the respective link that is displayed for each movie.
