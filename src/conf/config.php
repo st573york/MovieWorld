@@ -15,7 +15,7 @@ $product_name = 'Movie World';
 /*                                                                                                                                                                                                        
  * The major version of the product                                                                                                               
  */
-$product_version = '1.0';
+$product_version = '2.0';
 
 /*                                                                                                                                                                                                        
  * Version information                                                                                                                                                                                    
