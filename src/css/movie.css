@@ -121,12 +121,12 @@
 }
 
 .user_vote_data {
-    margin: 10px 10px 0px 10px;
+    margin: 15px 15px 0px 15px;
     color: initial;
 }
 
 .user_vote_data.last {
-    margin: 10px;
+    margin: 15px;
 }
 
 .review_data {

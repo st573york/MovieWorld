@@ -46,7 +46,7 @@ class MovieReviewDao
 			$query = "SELECT UNIX_TIMESTAMP( creation_date ) AS creation_date, username, review FROM {$this->table}
 					  LEFT JOIN users ON movie_reviews.userid = users.userid
                       WHERE movieid = :movieid 
-					  ORDER BY creation_date";
+					  ORDER BY creation_date DESC";
 			
 			$stmt = $conn->prepare( $query );
 			$stmt->bindParam( ':movieid', $movieid, PDO::PARAM_INT );
