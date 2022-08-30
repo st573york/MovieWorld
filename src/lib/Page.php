@@ -70,7 +70,7 @@ class Page
                 // Delete user            
                 $obj = array();
                 $obj['action'] = 'delete';
-                $obj['html'] = PopupDialog::getConfirmDialogHtml( "User will be deleted. Are you sure?" ); 
+                $obj['html'] = getConfirmDialogHtml( "User will be deleted. Are you sure?" ); 
 
                 $ondelete = 'javascript:confirmUserDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
 
@@ -101,7 +101,7 @@ class Page
             $obj = array();
             $obj['action'] = 'add';
             $obj['title'] = 'New Movie';
-            $obj['html'] = PopupDialog::getMovieDialogHtml();
+            $obj['html'] = getMovieDialogHtml();
 
             $onclick = 'this.blur(); showMovieDialog( '.json_encode( $obj ).' );';
 
