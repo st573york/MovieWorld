@@ -2,7 +2,7 @@
 
 function getRevision()
 {
-    $status = @shell_exec( 'svnversion ' . dirname( __DIR__, 3 ) );
+    $status = @shell_exec( 'svnversion' );
     if( preg_match( '/(\d+)M/', $status, $matches ) ) {
         return $matches[1];
     }
