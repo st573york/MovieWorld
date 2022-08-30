@@ -2,6 +2,8 @@
 
 require_once('lib/Page.php');
 require_once('lib/PopupDialog.php');
+require_once('lib/Number.php');
+require_once('lib/Time.php');
 require_once('lib/Movie.php');
     
 require_once('dao/MovieDao.php');

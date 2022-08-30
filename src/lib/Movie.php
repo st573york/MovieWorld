@@ -61,48 +61,9 @@ class Movie
         $obj['movieid'] = $this->data['movieid'];
         $obj['action'] = 'add';
         $obj['title'] = 'Add Review';
-        $obj['html'] = PopupDialog::getReviewDialogHtml();      
+        $obj['html'] = getReviewDialogHtml();      
 
         $this->data['review'] = 'showReviewDialog( '.json_encode( $obj ).' );';
-    }
-
-    function get_time_ago( $time )
-    {
-        $diff = time() - $time;
-        
-        if( $diff < 1 ) { 
-            return 'less than 1 second ago'; 
-        }
-        
-        $time_rules = array( 12 * 30 * 24 * 60 * 60 =>  'year',
-                             30 * 24 * 60 * 60      =>  'month',
-                             24 * 60 * 60           =>  'day',
-                             60 * 60                =>  'hour',
-                             60                     =>  'minute',
-                             1                      =>  'second'
-        );
-
-        foreach( $time_rules as $secs => $str )
-        {
-            $d = $diff / $secs;
-
-            if( $d >= 1 )
-            {   
-                $t = round( $d );
-                return 'about ' . $t . ' ' . $str . ( $t > 1 ? 's' : '' ) . ' ago';
-            }
-        }
-    }
-
-    // Convert large number into short e.g. 1000 to 1K 10000 to 10K etc
-    function shortNumber( $num ) 
-    {
-        $units = [ '', 'K', 'M', 'B' ];
-        for( $i = 0; $num >= 1000; $i++ ) {
-            $num /= 1000;
-        }
-
-        return round( $num, 1 ) . $units[ $i ];
     }
 
     function renderVoteUsers( $values )
@@ -130,7 +91,7 @@ class Movie
         $values = array();
 
         $movie_vote_dao->getUsersByLike( $movieid, $values );
-        $users_like_num = $this->shortNumber( $movie_vote_dao->getLikeVotesNum( $movieid ) );
+        $users_like_num = short_number( $movie_vote_dao->getLikeVotesNum( $movieid ) );
 
         $users_list = ( !empty( $values ) && $_SESSION['logged_in'] );
 
@@ -149,7 +110,7 @@ class Movie
         $values = array();
 
         $movie_vote_dao->getUsersByHate( $movieid, $values );
-        $users_hate_num = $this->shortNumber( $movie_vote_dao->getHateVotesNum( $movieid ) );
+        $users_hate_num = short_number( $movie_vote_dao->getHateVotesNum( $movieid ) );
 
         $users_list = ( !empty( $values ) && $_SESSION['logged_in'] );
 
@@ -178,7 +139,7 @@ class Movie
         $movie_review_dao = new MovieReviewDao;
 
         $movie_review_dao->getReviews( $movieid, $values );
-        $reviews_num = $this->shortNumber( $movie_review_dao->getReviewsNum( $movieid ) );
+        $reviews_num = short_number( $movie_review_dao->getReviewsNum( $movieid ) );
 
         $reviews_list = ( !empty( $values ) && $_SESSION['logged_in'] );
 
@@ -192,7 +153,7 @@ class Movie
             $last = end( $values );
             foreach( $values as $key => $val ) 
             {
-                $creation_date = $this->get_time_ago( $val['creation_date'] );
+                $creation_date = get_time_ago( $val['creation_date'] );
                 $username = $val['username'];
                 $review = $val['review'];
                 
@@ -275,7 +236,7 @@ class Movie
             $obj['movieid'] = $movieid;
             $obj['action'] = 'edit';
             $obj['title'] = 'Edit Movie';
-            $obj['html'] = PopupDialog::getMovieDialogHtml( $title, $description );
+            $obj['html'] = getMovieDialogHtml( $title, $description );
 
             $onedit = 'javascript:showMovieDialog( '.json_encode( $obj ).' );';
             
@@ -283,7 +244,7 @@ class Movie
             $obj = array();
             $obj['movieid'] = $movieid;
             $obj['action'] = 'delete';
-            $obj['html'] = PopupDialog::getConfirmDialogHtml( "Movie '$title' will be deleted. Are you sure?" ); 
+            $obj['html'] = getConfirmDialogHtml( "Movie '$title' will be deleted. Are you sure?" ); 
             
             $ondelete = 'javascript:confirmMovieDeletion( '.htmlspecialchars( json_encode( $obj ), ENT_QUOTES, 'UTF-8' ).' );';
             
